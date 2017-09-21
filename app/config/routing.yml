@@ -1,3 +1,11 @@
+dev_tools_map:
+    resource: "@DevToolsMapBundle/Resources/config/routing.yml"
+    prefix:   /Map
+
+birds_observations:
+    resource: "@BirdsObservationsBundle/Resources/config/routing.yml"
+    prefix:   /Obs
+
 app:
-    resource: '@AppBundle/Controller/'
-    type: annotation
+    resource: '@AppBundle/Resources/config/routing.yml'
+    

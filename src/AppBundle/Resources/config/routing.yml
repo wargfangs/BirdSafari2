@@ -1,0 +1,7 @@
+app_home:
+        path:   /
+        defaults: { _controller: AppBundle:App:accueil }
+
+app_apropos:
+        path:   /A_propos
+        defaults: { _controller: AppBundle:App:aPropos }
