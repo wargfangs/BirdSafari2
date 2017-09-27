@@ -7,20 +7,20 @@
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
         <link href="{{ asset('css/mainStyle.css') }}" rel="stylesheet">
     {% endblock %}
-    <link rel="icon" type="image/x-icon" href="{{ asset('img/apple-touch-icon.png') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('web/img/apple-touch-icon.png') }}" />
 </head>
 <body>
 <div class="container-fluid">
 
-    <nav class="navbar navbar-default" role="navigation">
+    <nav class="row navbar navbar-default" role="navigation">
 
         <div class="navbar-header">
-            <p class="navbar-brand"><img src="apple-touch-icon.png" alt="Logo du site: Bird Safari"></p></div>
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menuPrincipal">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
+            <p class="navbar-brand"><img src="apple-touch-icon.png" alt="Logo du site: Bird Safari"></p></div>
         <div class="collapse navbar-collapse" id="menuPrincipal">
             <ul class="nav navbar-nav navbar-right">
 
@@ -29,28 +29,40 @@
                         <span class="glyphicon glyphicon-home"></span> Accueil
                     </a>
                 </li>
+                <li>
+                    <a href="{{ path('birds_observations') }}" class="text-center"> <!---->
+                        Observations
+                    </a>
+                </li>
 
 
 
 
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            Bienvenue {{ app.user.username }} <span class="caret"></span>
+                        <a class="dropdown-toggle text-center" data-toggle="dropdown" href="#">
+                            <span class="glyphicon glyphicon-user"></span> Bienvenue {{ app.user.username }} <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ path('fos_user_profile_show') }}">Profil</a></li>
-                            <li><a href="#obsOuNaturalisation">{% if not is_granted("ROLE_ADMIN") %}En attente{% endif %}</a></li>
-                            <li>{% if is_granted("ROLE_NATURALIST") %}Mes articles{% endif %}</li>
+                            <li><a href="{{ path('fos_user_profile_show') }}" class="text-right">Profil</a></li>
+                            {% if not is_granted("ROLE_ADMIN") %}<li><a href="#obsOuNaturalisation" class="text-right">En attente</a></li>{% endif %}
+                            {% if is_granted("ROLE_NATURALIST") %}<li><a href="#" class="text-right"> Mes articles</a></li>{% endif %}
+                            <li><a href="{{ path('fos_user_security_logout') }}" class="text-right">Déconnexion</a></li>
                         </ul>
                     </li>
                 {% else %}
                     <li>
-                        <a href="">
+                        <a href="{{ path('fos_user_security_login') }}" class="text-center">
                             Connexion
                         </a>
                     </li>
                 {% endif %}
+                <li>
+                    <a href="{{ path('mission') }}" class="text-center">
+                        Blog
+                    </a>
+                </li>
+
 
                 {% if is_granted("ROLE_ADMIN") %}
                 <li>

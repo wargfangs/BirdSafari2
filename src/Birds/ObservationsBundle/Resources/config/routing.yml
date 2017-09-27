@@ -1,11 +1,8 @@
-birds_observations_observations:
+birds_observations:
     path:     /observations
     defaults: { _controller: BirdsObservationsBundle:Observation:observations }
 
-birds_observations_observations:
+birds_observations_add:
     path:     /add
     defaults: { _controller: BirdsObservationsBundle:Observation:addObs }
 
-birds_observations_observations:
-    path:     /admin
-    defaults: { _controller: BirdsObservationsBundle:Observation:addObs }

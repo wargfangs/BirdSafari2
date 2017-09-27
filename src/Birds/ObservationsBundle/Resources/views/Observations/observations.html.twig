@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Observations</title>
-	<link rel="stylesheets" href="../../web/css/style.css"/>
-</head>
-<body>
-	<h1>Hello world</h1>
-	<h1>Ceci est la page des observations.</h1>
+{% extends "base.html.twig" %}
 
-</body>
-</html>
+{% block title %}{{ parent() }} - Observations{% endblock %}
+{% block css %}{{ parent() }}{% endblock %}
+{% block body %}
+	<h1 class="text-center">Toutes les observations se trouvent ici.</h1>
+{% endblock %}
+{% block foot %}{% endblock %}
+{% block js %}{{ parent() }}{% endblock %}
