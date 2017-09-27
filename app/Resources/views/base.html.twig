@@ -31,16 +31,27 @@
                 </li>
 
 
-                <li>
-                    <a href="#" class="text-center">
-                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                            {{ app.user.username }}<!--Liste déroulante-->
 
-                        {% else %}
+
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Bienvenue {{ app.user.username }} <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('fos_user_profile_show') }}">Profil</a></li>
+                            <li><a href="#obsOuNaturalisation">{% if not is_granted("ROLE_ADMIN") %}En attente{% endif %}</a></li>
+                            <li>{% if is_granted("ROLE_NATURALIST") %}Mes articles{% endif %}</li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="">
                             Connexion
-                        {% endif %}
-                    </a>
-                </li>
+                        </a>
+                    </li>
+                {% endif %}
+
                 {% if is_granted("ROLE_ADMIN") %}
                 <li>
                     <a href="#" class="text-center">
@@ -67,7 +78,7 @@
 </footer>
 
 {% block js %}
-    <script src="{{ asset('js/jquery/jquery-3.2.1.min.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 {% endblock %}
 

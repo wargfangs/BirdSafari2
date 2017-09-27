@@ -36,13 +36,20 @@ class User extends BaseUser
      */
     private $lastname;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="mail", type="string", length=255, unique=true)
+     */
+    private $mail;
 
 
     /**
      * @var string
      *
-     * @ORM\Column(name="institution", type="string", length=255, nullable=true)
+     * @ORM\Column(name="password", type="string", length=255)
      */
+
     private $institution;
 
     /**
@@ -73,7 +80,6 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
-        $this->confirmationStatus=false;
     }
 
 
@@ -141,6 +147,101 @@ class User extends BaseUser
         return $this->lastname;
     }
 
+    /**
+     * Set mail
+     *
+     * @param string $mail
+     *
+     * @return User
+     */
+    public function setMail($mail)
+    {
+        $this->mail = $mail;
+
+        return $this;
+    }
+
+    /**
+     * Get mail
+     *
+     * @return string
+     */
+    public function getMail()
+    {
+        return $this->mail;
+    }
+
+    /**
+     * Set pseudo
+     *
+     * @param string $pseudo
+     *
+     * @return User
+     */
+    public function setPseudo($pseudo)
+    {
+        $this->pseudo = $pseudo;
+
+        return $this;
+    }
+
+    /**
+     * Get pseudo
+     *
+     * @return string
+     */
+    public function getPseudo()
+    {
+        return $this->pseudo;
+    }
+
+    /**
+     * Set password
+     *
+     * @param string $password
+     *
+     * @return User
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get password
+     *
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * Set salt
+     *
+     * @param string $salt
+     *
+     * @return User
+     */
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+
+        return $this;
+    }
+
+    /**
+     * Get salt
+     *
+     * @return string
+     */
+    public function getSalt()
+    {
+        return $this->salt;
+    }
 
     /**
      * Set institution
@@ -191,50 +292,27 @@ class User extends BaseUser
     }
 
     /**
-     * Set confirmationStatus
+     * Set role
      *
-     * @param boolean $confirmationStatus
+     * @param string $role
      *
      * @return User
      */
-    public function setConfirmationStatus($confirmationStatus)
+    public function setRole($role)
     {
-        $this->confirmationStatus = $confirmationStatus;
+        $this->role = $role;
 
         return $this;
     }
 
     /**
-     * Get confirmationStatus
+     * Get role
      *
-     * @return boolean
+     * @return string
      */
-    public function getConfirmationStatus()
+    public function getRole()
     {
-        return $this->confirmationStatus;
-    }
-
-    /**
-     * Set image
-     *
-     * @param \Birds\ObservationsBundle\Entity\Image $image
-     *
-     * @return User
-     */
-    public function setImage(\Birds\ObservationsBundle\Entity\Image $image = null)
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    /**
-     * Get image
-     *
-     * @return \Birds\ObservationsBundle\Entity\Image
-     */
-    public function getImage()
-    {
-        return $this->image;
+        return $this->role;
     }
 }
+
