@@ -1,0 +1,9 @@
+Main layout: /app/Resources/views/MainLayout.html.twig
+	You need to add the following blocs in order to match the main layout.
+Sub layouts can inherit from the following blocs from MainLayout.html.twig:
+	title:		Where you can change the text in the navigator tab. Parent declares "BirdSafari". 
+	css:		Where you have to put any specific css for your page. E.G.: A map special css. Parent declares bootstrap.css and mainStyle.css
+	body:		Where you can write the body code. It is always underneath the main menu bar code.
+	foot:		Where you can add some footer content.
+	js:		Where you can put some more javascript content. Parent declares Jquery.js and bootstrap.js
+

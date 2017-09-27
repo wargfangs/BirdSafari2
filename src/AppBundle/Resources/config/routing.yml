@@ -1,7 +1,7 @@
-app_home:
+home:
         path:   /
         defaults: { _controller: AppBundle:App:accueil }
 
-app_apropos:
-        path:   /A_propos
+mission:
+        path:   /Mission
         defaults: { _controller: AppBundle:App:aPropos }
