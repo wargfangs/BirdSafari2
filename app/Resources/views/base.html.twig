@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}BirdSafari{% endblock %}</title>
     {% block css %}
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
@@ -48,8 +49,11 @@
                             {% if not is_granted("ROLE_ADMIN") %}<li><a href="#obsOuNaturalisation" class="text-right">En attente</a></li>{% endif %}
                             {% if is_granted("ROLE_NATURALIST") %}<li><a href="#" class="text-right"> Mes articles</a></li>{% endif %}
                             <li><a href="{{ path('fos_user_security_logout') }}" class="text-right">Déconnexion</a></li>
+                            {% if is_granted("ROLE_ADMIN") %} <li><a href="#" class="text-center">Administration</a></li> {% endif %}
                         </ul>
+
                     </li>
+
                 {% else %}
                     <li>
                         <a href="{{ path('fos_user_security_login') }}" class="text-center">
@@ -64,13 +68,7 @@
                 </li>
 
 
-                {% if is_granted("ROLE_ADMIN") %}
-                <li>
-                    <a href="#" class="text-center">
-                        Administration
-                    </a>
-                </li>
-                {% endif %}
+
                 <li>
                     <a href="{{ path('mission') }}" class="text-center">
                         Notre mission
@@ -81,13 +79,24 @@
         </div>
     </nav>
 </div>
+    {% for flashM in app.session.flashbag.get("success") %}
+        <p class="flash-success">
+            {{ flashM }}
+        </p>
+    {% endfor %}
+    {% for flashM in app.session.flashbag.get("error") %}
+        <p class="flash-error">
+            {{ flashM }}
+        </p>
+    {% endfor %}
 
-
+    <div id="content">
     {% block body %}{% endblock %}
-
-<footer>
-    {% block foot %}{% endblock %}
-</footer>
+    </div>
+    <footer class="container-fluid bg-foot">
+        <h2>piedPage</h2>
+        {% block foot %}{% endblock %}
+    </footer>
 
 {% block js %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

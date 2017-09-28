@@ -1,0 +1,93 @@
+group:
+    edit:
+        submit: 'Mettre à jour groupe'
+    show:
+        name: 'Nom du groupe'
+    new:
+        submit: 'Créer le groupe'
+    flash:
+        updated: 'Le groupe a bien été mis à jour.'
+        created: 'Le groupe a bien été créé.'
+        deleted: 'Le groupe a bien été supprimé.'
+
+security:
+    login:
+        username: Utilisateur
+        password: 'Mot de passe'
+        remember_me: 'Me mémoriser'
+        submit: 'Se connecter'
+
+profile:
+    show:
+        username: Utilisateur
+        email: Email
+    edit:
+        submit: 'Mettre à jour'
+    flash:
+        updated: 'Le profil a été mis à jour avec succès.'
+
+change_password:
+    submit: 'Changer mot de passe'
+    flash:
+        success: 'Le nouveau de mot de passe est maintenant pris en compte.'
+
+registration:
+    check_email: |
+        Un mail vous a été envoyé à l'adresse %email%. Il contient un lien d'activation sur lequel vous devez cliquer pour activer votre compte.
+    confirmed: 'Félicitation %username%, votre compte est maintenant activé.'
+    back: "Retour à la page d'origine."
+    submit: "S'inscrire"
+    flash:
+        user_created: 'Bienvenue à bord! Vous pouvez dès à présent saisir de nouvelles observations!'
+    email:
+        subject: 'Bienvenue %username%!'
+        message: |
+            Bonjour %username%!
+
+            Pour achever l'activation de votre compte, allez sur la page %confirmationUrl%
+
+            Ce lien ne peut-être utilisé qu'une seule fois pour valider votre compte.
+
+            À très vite,
+            BirdSafari.
+
+resetting:
+    check_email: |
+        Un mail vous a été envoyé. Il contient un lien sur lequel vous devez cliquer pour changer votre mot de passe;
+        Note: Vous ne pouvez demander un nouveau mot de passe que toutes les %tokenLifetime% heures.
+
+        Si vous ne recevez rien, regardez dans votre courrier indésirable ou réessayez.
+    request:
+        username: "Nom d'utilisateur ou adresse mail"
+        submit: 'Réinitialiser le mot de passe'
+    reset:
+        submit: 'Changer le mot de passe'
+    flash:
+        success: 'Le mot de passe a été changé avec succès.'
+    email:
+        subject: 'Réinitialisation de votre mot de passe'
+        message: |
+            Bonjour %username%!
+
+            Pour réinitialiser votre mot de passe, rendez-vous à cette adresse %confirmationUrl%
+            Si vous n'êtes pas à l'origine de cette demande, ignorez ce mail.
+
+            Cordialement,
+            BirdSafari.
+
+# Global strings
+layout:
+    logout: 'Déconnexion'
+    login: 'Connexion'
+    register: "S'inscrire"
+    logged_in_as: 'Connecté en tant que %username%'
+
+form:
+    group_name: 'Nom du groupe'
+    username: 'Utilisateur'
+    email: Email
+    current_password: 'Mot de passe actuel'
+    password: 'Mot de passe'
+    password_confirmation: 'Répetez le mot de passe'
+    new_password: 'Nouveau mot de passe'
+    new_password_confirmation: 'Répetez le nouveau mot de passe'

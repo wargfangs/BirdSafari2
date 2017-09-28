@@ -1,0 +1,37 @@
+.navbar {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border: 0;
+    border-radius: 0;
+    margin-bottom: 0;
+    font-size: 12px;
+    letter-spacing: 4px;
+
+}
+.navbar-nav li a:hover {
+    color: #1abc9c !important;
+}
+.navbar-nav li a {
+    color:black !important;
+}
+
+.flash-error
+{
+    background-color: #B0413E;
+    color: whitesmoke;
+}
+.flash-success
+{
+    background-color: #789339;
+    color: whitesmoke;
+}
+
+.bg-foot
+{
+    background-color: #313131;
+    color: floralwhite;
+}
+#content
+{
+    min-height: 1000px;
+}
