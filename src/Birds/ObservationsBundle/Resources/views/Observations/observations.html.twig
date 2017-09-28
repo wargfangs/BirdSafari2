@@ -4,6 +4,11 @@
 {% block css %}{{ parent() }}{% endblock %}
 {% block body %}
 	<h1 class="text-center">Toutes les observations se trouvent ici.</h1>
+	<div id="map"></div>
+
 {% endblock %}
 {% block foot %}{% endblock %}
-{% block js %}{{ parent() }}{% endblock %}
+{% block js %}{{ parent() }}
+	<script src="{{ asset('../web/js/mapGenerator.js') }}"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7OxaSU742N4m30QGtTnkwb7TSoBSCzrc&callback=initMap" async defer></script>
+{% endblock %}
