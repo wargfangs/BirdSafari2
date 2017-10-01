@@ -1,6 +1,7 @@
-dev_tools_map:
-    resource: "@DevToolsMapBundle/Resources/config/routing.yml"
-    prefix:   /Map
+dev_tools_blog:
+    resource: "@DevToolsBlogBundle/Resources/config/routing.yml"
+    prefix:   /Blog
+
 
 birds_observations:
     resource: "@BirdsObservationsBundle/Resources/config/routing.yml"

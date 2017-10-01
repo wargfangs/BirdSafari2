@@ -1,8 +1,26 @@
 birds_observations:
-    path:     /observations
+    path:     /
     defaults: { _controller: BirdsObservationsBundle:Observation:observations }
 
+birds_observation:
+    path:     /observation/{id}
+    defaults: { _controller: BirdsObservationsBundle:Observation:seeObservation }
+    requirements:
+        id : \d+
+
 birds_observations_add:
-    path:     /add
+    path:     /observation/create
     defaults: { _controller: BirdsObservationsBundle:Observation:addObs }
+
+birds_observations_remove:
+    path:     /observation/{id}/remove
+    defaults: { _controller: BirdsObservationsBundle:Observation:deleteObservation }
+    requirements:
+        id : \d+
+
+birds_observations_update:
+    path:     /observation/{id}/remove
+    defaults: { _controller: BirdsObservationsBundle:Observation:updateObservation }
+    requirements:
+        id : \d+
 

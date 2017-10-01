@@ -7,7 +7,7 @@
 
             "AppBundle\\": "src/AppBundle",
             "Birds\\": "src/Birds",
-            "DevTools\\":"src/DevTools",
+            "DevTools\\": "src/DevTools",
             "":"src"
 
         },

@@ -1,3 +1,0 @@
-dev_tools_map_homepage:
-    path:     /
-    defaults: { _controller: DevToolsMapBundle:Default:index }

@@ -7,3 +7,13 @@ Sub layouts can inherit from the following blocs from MainLayout.html.twig:
 	foot:		Where you can add some footer content.
 	js:		Where you can put some more javascript content. Parent declares Jquery.js and bootstrap.js
 
+
+Sub layouts of blogLayout.html.twig: All the above except body:
+    sider:      Left part of the site's blog.
+    content:    replace the body content in the blog.
+
+
+Sub layouts of observationLayout.html.twig: All the MainLayout blocks are usable, avoid body, except for overriding the following blocks
+    search:     Where the search bar should be placed.
+    result:     Where the result of the search should appear. (Or the observation text or form itself)
+    map:        Where the map should appear. Every pages of ObservationBundle require the map to work correctly. Defaults has the map initialized. use {{ parent()}} to keep the original block content while overriding.

@@ -1,6 +1,6 @@
 <?php
 
-namespace DevTools\MapBundle\Tests\Controller;
+namespace DevTools\BlogBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

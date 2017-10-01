@@ -1,4 +1,4 @@
 services:
-#    dev_tools_map.example:
-#        class: DevTools\MapBundle\Example
+#    dev_tools_blog.example:
+#        class: DevTools\BlogBundle\Example
 #        arguments: ["@service_id", "plain_value", "%parameter%"]

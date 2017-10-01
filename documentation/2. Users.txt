@@ -1,5 +1,7 @@
 In order to add new members try this:
-	CONSOLE:	php bin/console fos:user:create		then enter username, email and password. (password is hidden)
+	CONSOLE:
+	        php bin/console fos:user:create		then enter username, email and password. (password is hidden)
+	               use registration page instead. (this will still work)
 			php bin/console fos:user:promote	then enter the username and the new role: ROLE_ADMIN or ROLE_NATURALIST default is ROLE_USER
 
 
@@ -10,5 +12,6 @@ In order to add new members try this:
 
 
 Quev's database:
-	QuevynR or r.quevyn@live.fr	pass	ROLE_USER
-	admin or admin@birdsafari.com	admin	ROLE_USER, ROLE_NATURALIST, ROLE_ADMIN 
+	QuevynR or r.quevyn@live.fr	    pass	ROLE_USER
+	admin or admin@birdsafari.com	admin	ROLE_USER, ROLE_NATURALIST, ROLE_ADMIN
+	pika or pikachu@live.fr         pika    ROLE_USER
