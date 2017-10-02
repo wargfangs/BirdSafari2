@@ -48,6 +48,20 @@ class Observation
      * @ORM\Column(name="longitude", type="float")
      */
     private $longitude;
+	
+	/**
+     * One Observation has One User.
+     * @ORM\OneToOne(targetEntity="User")
+	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $user;
+	
+	 /**
+     * @var Image
+     *
+     * @ORM\OneToOne(targetEntity="Birds\ObservationsBundle\Entity\Image", cascade={"persist", "remove"})
+     */
+    private $image;
 
 
     /**
@@ -154,6 +168,53 @@ class Observation
     public function getLongitude()
     {
         return $this->longitude;
+    }
+	/**
+     * Set user
+     *
+     * @param int $user
+     *
+     * @return User
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return int
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+	
+	/**
+     * Set image
+     *
+     * @param \Birds\ObservationsBundle\Entity\Image $image
+     *
+     * @return User
+     */
+    public function setImage(\Birds\ObservationsBundle\Entity\Image $image = null)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return \Birds\ObservationsBundle\Entity\Image
+     */
+    public function getImage()
+    {
+        return $this->image;
     }
 }
 
