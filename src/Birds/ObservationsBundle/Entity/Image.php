@@ -34,7 +34,8 @@ class Image
      * @ORM\Column(name="alt", type="string", length=255, nullable=true)
      */
     private $alt;
-
+	
+	
 
     /**
      * Get id
@@ -93,5 +94,7 @@ class Image
     {
         return $this->alt;
     }
+	
+	
 }
 
