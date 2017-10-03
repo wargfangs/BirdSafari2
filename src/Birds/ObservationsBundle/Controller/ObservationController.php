@@ -18,7 +18,22 @@ class ObservationController extends Controller
     	//Traitement?
 
     	//Affichage
-        return $this->render('BirdsObservationsBundle:Observations:lireObservation.html.twig');
+        return $this->render('BirdsObservationsBundle:Observations:observations.html.twig');
+    }
+
+
+    /**
+     * Action récupérant les observations de l'utilisateur
+     *
+     */
+    public function myObservationsAction()
+    {
+        //Récupération
+
+        //Traitement?
+
+        //Affichage
+        return $this->render('BirdsObservationsBundle:Observations:mesObservations.html.twig');
     }
 
     public function seeObservationAction()
@@ -28,7 +43,7 @@ class ObservationController extends Controller
         //Traitement?
 
         //Affichage
-        return $this->render('BirdsObservationsBundle:Observations:observations.html.twig');
+        return $this->render('BirdsObservationsBundle:Observations:lireObservation.html.twig');
     }
     public function addObsAction()
     {
@@ -37,7 +52,7 @@ class ObservationController extends Controller
         //Traitement?
 
         //Affichage
-        return $this->render('BirdsObservationsBundle:Observations:observations.html.twig');
+        return $this->render('BirdsObservationsBundle:Observations:creerObservation.html.twig');
 
     }
 

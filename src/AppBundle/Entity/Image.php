@@ -1,6 +1,6 @@
 <?php
 
-namespace Birds\ObservationsBundle\Entity;
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Image
  *
  * @ORM\Table(name="image")
- * @ORM\Entity(repositoryClass="Birds\ObservationsBundle\Repository\ImageRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ImageRepository")
  */
 class Image
 {

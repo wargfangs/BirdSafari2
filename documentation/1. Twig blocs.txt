@@ -15,5 +15,5 @@ Sub layouts of blogLayout.html.twig: All the above except body:
 
 Sub layouts of observationLayout.html.twig: All the MainLayout blocks are usable, avoid body, except for overriding the following blocks
     search:     Where the search bar should be placed.
-    result:     Where the result of the search should appear. (Or the observation text or form itself)
-    map:        Where the map should appear. Every pages of ObservationBundle require the map to work correctly. Defaults has the map initialized. use {{ parent()}} to keep the original block content while overriding.
+    sideMenu:   Where the result of the search should appear. (Or the observation text or form itself)
+    content:    Where the map and results should appear. Every pages of ObservationBundle require the map to work correctly. Defaults has the map initialized. use {{ parent()}} to keep the original block content while overriding.

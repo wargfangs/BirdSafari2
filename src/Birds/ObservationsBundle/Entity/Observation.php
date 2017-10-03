@@ -2,6 +2,8 @@
 
 namespace Birds\ObservationsBundle\Entity;
 
+use AppBundle\Entity\Image;
+use AppBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -51,7 +53,7 @@ class Observation
 	
 	/**
      * One Observation has One User.
-     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\OneToOne(targetEntity="\AppBundle\Entity\User")
 	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
@@ -172,11 +174,11 @@ class Observation
 	/**
      * Set user
      *
-     * @param int $user
+     * @param \AppBundle\Entity\User $user
      *
-     * @return User
+     * @return Observation
      */
-    public function setUser($user)
+    public function setUser(\AppBundle\Entity\User $user)
     {
         $this->user = $user;
 
@@ -186,7 +188,7 @@ class Observation
     /**
      * Get user
      *
-     * @return int
+     * @return \AppBundle\Entity\User
      */
     public function getUser()
     {
@@ -196,11 +198,11 @@ class Observation
 	/**
      * Set image
      *
-     * @param \Birds\ObservationsBundle\Entity\Image $image
+     * @param \AppBundle\Entity\Image $image
      *
-     * @return User
+     * @return Image
      */
-    public function setImage(\Birds\ObservationsBundle\Entity\Image $image = null)
+    public function setImage(\AppBundle\Entity\Image $image = null)
     {
         $this->image = $image;
 

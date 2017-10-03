@@ -5,18 +5,39 @@
 {% block body %}
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-sm-12">
-				{% block search %}{% endblock %}
+			<div class="col-sm-12 bg-observation-search">
+				{% block search %}
+					<h1 class="text-center">ICI SE TROUVERA LA BARRE DE RECHERCHE</h1>
+				{% endblock %}
 			</div>
-			<div class="col-sm-4" id="observation">
-                {% block result %}{% endblock %}
+			<div class="col-sm-3 bg-observation-side">
+                {% block sideMenu %}
+
+					<div class="panel panel-info">
+						<div class="panel-heading text-center">
+							Menu des observations
+						</div>
+						<div class="panel-body ">
+
+
+							<ul class="nav nav-pills text-center">
+
+								<li class="active col-sm-12 col-xs-4" id="allObs"><a href={{ path("birds_observations") }}>{{ "Les voir toutes"|trans }}</a></li>
+								<li class="col-sm-12 col-xs-4" id="addObs"><a href={{ path("birds_observations_add") }}>{{ "En faire une"|trans }}</a></li>
+								<li class="col-sm-12 col-xs-3" id="myObs"><a href={{ path("birds_my_observations") }}>{{ "Voir les miennes"|trans }}</a></li>
+							</ul>
+						</div>
+					</div>
+				{% endblock %}
 			</div>
-			<div class="col-sm-8">
-                {% block map %}
+			<div class="col-sm-9 bg-observation-main" >
+                {% block content %}
 					<div id="map"></div>
 				{% endblock %}
 
 			</div>
+		</div>
+	</div>
 
 {% endblock %}
 {% block foot %}{% endblock %}

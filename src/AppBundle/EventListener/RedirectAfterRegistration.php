@@ -1,6 +1,6 @@
 <?php
 
-namespace Birds\ObservationsBundle\EventListener;
+namespace AppBundle\EventListener;
 
 use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\FOSUserEvents;

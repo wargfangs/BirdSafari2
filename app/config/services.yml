@@ -34,8 +34,8 @@ services:
     #     arguments:
     #         $someArgument: 'some_value'
     app.form.registration:
-        class: Birds\ObservationsBundle\Form\RegistrationFormType
+        class: AppBundle\Form\RegistrationFormType
 
     birdsObservation.redirect_after_registration_subscribe:
-        class: Birds\ObservationsBundle\EventListener\RedirectAfterRegistration
+        class: AppBundle\EventListener\RedirectAfterRegistration
         autowire: true

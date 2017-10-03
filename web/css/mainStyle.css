@@ -56,10 +56,27 @@
 {
     background-color: #666666;
     height:  1000px;
+
 }
 
-#observation
+.bg-observation-search
 {
-    background-color: #EEEEEE;
-    height:  1000px;
+    background-color: #1abc9c;
+    color: #EEEEEE;
+    font-family: "Adobe Garamond Pro";
+}
+
+.bg-observation-side
+{
+    background-color: #FFFFFF;
+}
+
+.bg-observation-main
+{
+    height: 1000px;
+}
+
+.panel
+{
+    margin-top: 20px;
 }

@@ -2,8 +2,8 @@
 
 namespace DevTools\BlogBundle\Entity;
 
-use Birds\ObservationsBundle\Entity\Image;
-use Birds\ObservationsBundle\Entity\User;
+use AppBundle\Entity\Image;
+use AppBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -54,14 +54,14 @@ class Article
     /**
      * @var Image
      *
-     * @ORM\OneToOne(targetEntity="Birds\ObservationsBundle\Entity\Image", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="\AppBundle\Entity\Image", cascade={"persist", "remove"})
      */
     private $image;
 
     /**
      * @var User
      *
-     * @ORM\OneToOne(targetEntity="Birds\ObservationsBundle\Entity\User", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="\AppBundle\Entity\User", cascade={"persist"})
      */
     private $author;
 
@@ -179,11 +179,11 @@ class Article
     /**
      * Set image
      *
-     * @param \Birds\ObservationsBundle\Entity\Image $image
+     * @param \AppBundle\Entity\Image $image
      *
      * @return Article
      */
-    public function setImage(\Birds\ObservationsBundle\Entity\Image $image = null)
+    public function setImage(\AppBundle\Entity\Image $image = null)
     {
         $this->image = $image;
 
@@ -193,7 +193,7 @@ class Article
     /**
      * Get image
      *
-     * @return \Birds\ObservationsBundle\Entity\Image
+     * @return \AppBundle\Entity\Image
      */
     public function getImage()
     {
@@ -204,11 +204,11 @@ class Article
     /**
      * Set author
      *
-     * @param \Birds\ObservationsBundle\Entity\User $author
+     * @param \AppBundle\Entity\User $author
      *
      * @return Article
      */
-    public function setAuthor(\Birds\ObservationsBundle\Entity\User $author = null)
+    public function setAuthor(\AppBundle\Entity\User $author = null)
     {
         $this->author = $author;
 
@@ -218,7 +218,7 @@ class Article
     /**
      * Get author
      *
-     * @return \Birds\ObservationsBundle\Entity\User
+     * @return \AppBundle\Entity\User
      */
     public function getAuthor()
     {

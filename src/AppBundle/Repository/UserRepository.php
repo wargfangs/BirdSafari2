@@ -1,6 +1,6 @@
 <?php
 
-namespace Birds\ObservationsBundle\Repository;
+namespace AppBundle\Repository;
 
 /**
  * UserRepository

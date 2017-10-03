@@ -1,6 +1,6 @@
 <?php
 
-namespace Birds\ObservationsBundle\Entity;
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
@@ -9,7 +9,7 @@ use FOS\UserBundle\Model\User as BaseUser;
  * User
  *
  * @ORM\Table(name="user")
- * @ORM\Entity(repositoryClass="Birds\ObservationsBundle\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  */
 class User extends BaseUser
 {
@@ -62,7 +62,7 @@ class User extends BaseUser
     /**
      * @var Image
      *
-     * @ORM\OneToOne(targetEntity="Birds\ObservationsBundle\Entity\Image", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="\AppBundle\Entity\Image", cascade={"persist", "remove"})
      */
     private $image;
 
@@ -217,11 +217,11 @@ class User extends BaseUser
     /**
      * Set image
      *
-     * @param \Birds\ObservationsBundle\Entity\Image $image
+     * @param \AppBundle\Entity\Image $image
      *
      * @return User
      */
-    public function setImage(\Birds\ObservationsBundle\Entity\Image $image = null)
+    public function setImage(\AppBundle\Entity\Image $image = null)
     {
         $this->image = $image;
 
@@ -231,7 +231,7 @@ class User extends BaseUser
     /**
      * Get image
      *
-     * @return \Birds\ObservationsBundle\Entity\Image
+     * @return \AppBundle\Entity\Image
      */
     public function getImage()
     {

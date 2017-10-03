@@ -2,7 +2,7 @@
 
 namespace DevTools\BlogBundle\Entity;
 
-use Birds\ObservationsBundle\Entity\User;
+use AppBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -39,7 +39,7 @@ class Comment
     /**
      * @var User
      *
-     * @ORM\OneToOne(targetEntity="Birds\ObservationsBundle\Entity\User", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="\AppBundle\Entity\User", cascade={"persist"})
      */
     private $author;
 
@@ -135,11 +135,11 @@ class Comment
     /**
      * Set author
      *
-     * @param \Birds\ObservationsBundle\Entity\User $author
+     * @param \AppBundle\Entity\User $author
      *
      * @return Comment
      */
-    public function setAuthor(\Birds\ObservationsBundle\Entity\User $author = null)
+    public function setAuthor(\AppBundle\Entity\User $author = null)
     {
         $this->author = $author;
 
@@ -149,7 +149,7 @@ class Comment
     /**
      * Get author
      *
-     * @return \Birds\ObservationsBundle\Entity\User
+     * @return \AppBundle\Entity\User
      */
     public function getAuthor()
     {

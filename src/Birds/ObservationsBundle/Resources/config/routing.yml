@@ -24,3 +24,6 @@ birds_observations_update:
     requirements:
         id : \d+
 
+birds_my_observations:
+    path:     /observation/me
+    defaults: { _controller: BirdsObservationsBundle:Observation:myObservations }
