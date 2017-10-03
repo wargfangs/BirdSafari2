@@ -2,7 +2,10 @@
 
 namespace Birds\ObservationsBundle\Controller;
 
+use Birds\ObservationsBundle\Entity\Observation;
+use Birds\ObservationsBundle\Form\ObservationFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class ObservationController extends Controller
 {
@@ -45,14 +48,17 @@ class ObservationController extends Controller
         //Affichage
         return $this->render('BirdsObservationsBundle:Observations:lireObservation.html.twig');
     }
-    public function addObsAction()
+    public function addObsAction(Request $request)
     {
         //Récupération
-
+        $observation= new Observation();
+        $form = $this->get('form.factory')->create(ObservationFormType::class, $observation);
         //Traitement?
 
         //Affichage
-        return $this->render('BirdsObservationsBundle:Observations:creerObservation.html.twig');
+        return $this->render('BirdsObservationsBundle:Observations:creerObservation.html.twig', array(
+            'form'=>$form->createView()
+        ));
 
     }
 
