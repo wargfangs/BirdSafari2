@@ -5,3 +5,27 @@ home:
 mission:
         path:   /Mission
         defaults: { _controller: AppBundle:App:aPropos }
+
+admin:
+        path: /admin
+        defaults: { _controller: AppBundle:App:adminHome }
+
+admin:
+        path: /admin/users
+        defaults: { _controller: AppBundle:App:adminUsers }
+
+admin:
+        path: /admin/articles
+        defaults: { _controller: AppBundle:App:adminArticles }
+
+admin:
+        path: /admin/statistiques
+        defaults: { _controller: AppBundle:App:adminStats }
+
+admin:
+        path: /admin/videos
+        defaults: { _controller: AppBundle:App:adminVideos }
+
+admin:
+        path: /admin/images
+        defaults: { _controller: AppBundle:App:adminImages }

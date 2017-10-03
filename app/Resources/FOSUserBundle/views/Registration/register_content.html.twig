@@ -7,14 +7,19 @@
     {{ form_row(form.username) }}
     {{ form_row(form.plainPassword) }}
 
-    <label for="nat">{{ "Demander à être un Naturaliste"|trans }}</label><input id="nat" name="nat" type="checkbox" class=""/>
-    {{ form_row(form.firstName) }}
-    {{ form_row(form.lastName) }}
-    {{ form_row(form.birth) }}
-    {{ form_row(form.institution) }}
+    <label for="nat">{{ "Demander à être un naturaliste"|trans }}</label> <input id="nat" name="nat" type="checkbox" class=""/>
+    <div class="form-group" id="champsNat">
+
+        {{ form_row(form.firstName) }}
+        {{ form_row(form.lastName) }}
+        {{ form_row(form.birth) }}
+        {{ form_row(form.institution) }}
+        {{ form_rest(form) }}
+    </div>
     <div class="g-recaptcha" data-sitekey="6LeivjIUAAAAANwUBcnp6aM0tsjlua6jPsYoJPZn"></div>
 <div>
     <input type="submit" value="{{ 'registration.submit'|trans }}" class="btn btn-default"/>
 </div>
 {{ form_end(form) }}
+
 
