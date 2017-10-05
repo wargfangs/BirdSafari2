@@ -80,3 +80,29 @@
 {
     margin-top: 20px;
 }
+
+.observationCointainer
+{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    height: 50px;
+    color: white;
+
+    background-color: #666666;
+}
+
+.observationCointainer :hover
+{
+
+    color: white;
+
+    background-color: #999999;
+}
+#logoDuSite
+{
+    margin-top: -20px;
+    width: 90px;
+    height: 90px;
+
+}
+

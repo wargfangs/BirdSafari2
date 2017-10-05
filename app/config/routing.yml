@@ -2,7 +2,6 @@ dev_tools_blog:
     resource: "@DevToolsBlogBundle/Resources/config/routing.yml"
     prefix:   /Blog
 
-
 birds_observations:
     resource: "@BirdsObservationsBundle/Resources/config/routing.yml"
     prefix:   /Obs

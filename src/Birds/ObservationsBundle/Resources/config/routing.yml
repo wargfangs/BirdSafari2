@@ -1,3 +1,4 @@
+
 birds_observations:
     path:     /
     defaults: { _controller: BirdsObservationsBundle:Observation:observations }
@@ -19,7 +20,7 @@ birds_observations_remove:
         id : \d+
 
 birds_observations_update:
-    path:     /observation/{id}/remove
+    path:     /observation/{id}/modify
     defaults: { _controller: BirdsObservationsBundle:Observation:updateObservation }
     requirements:
         id : \d+

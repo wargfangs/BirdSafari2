@@ -21,12 +21,13 @@ class ObservationController extends Controller
 	 */
     public function observationsAction()
     {
-    	//Récupération
+        $em = $this->getDoctrine()->getManager();
+        //Récupérer les 5 dernières observations valides.
+        $observations = $em->getRepository('BirdsObservationsBundle:Observation')->findLastValid(5);
 
-    	//Traitement?
-
-    	//Affichage
-        return $this->render('BirdsObservationsBundle:Observations:observations.html.twig');
+        return $this->render('BirdsObservationsBundle:Observations:observations.html.twig', array(
+            'observations' => $observations
+            ));
     }
 
 
@@ -74,13 +75,14 @@ class ObservationController extends Controller
         //Traitement
         if($request->isMethod("POST") && $form->handleRequest($request)->isValid())
         {
-            if(!$this->get('security.authorization_checker')->isGranted('ROLE_NATURALiST'))
+            if($this->get('security.authorization_checker')->isGranted('ROLE_NATURALIST'))
             {
                 $observation->setValid(true);
                 $request->getSession()->getFlashBag()->add('success', 'Félicitation, Vous avez enregistré une nouvelle observation!!!' );
             }
             else
             {
+                $observation->setValid(false);
                 $request->getSession()->getFlashBag()->add('success', 'Félicitation, Vous avez enregistré une nouvelle observation!!! Après validation par un professionel, vous pourrez la voir sur la carte.' );
             }
             $observation->setUser($this->getUser());

@@ -43,5 +43,5 @@
 {% block foot %}{% endblock %}
 {% block js %}{{ parent() }}
 	<script src="{{ asset('js/mapGenerator.js') }}"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7OxaSU742N4m30QGtTnkwb7TSoBSCzrc&callback=initMap&libraries=drawing," async defer></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7OxaSU742N4m30QGtTnkwb7TSoBSCzrc&callback=initMap&libraries=drawing,geometry" async defer></script>
 {% endblock %}

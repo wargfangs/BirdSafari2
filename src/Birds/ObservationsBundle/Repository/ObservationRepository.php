@@ -10,4 +10,18 @@ namespace Birds\ObservationsBundle\Repository;
  */
 class ObservationRepository extends \Doctrine\ORM\EntityRepository
 {
+
+
+    public function findLastValid($number)
+    {
+        $qb = $this->_em->createQueryBuilder()
+            ->select('o')
+            ->from('BirdsObservationsBundle:Observation','o')
+            ->where('o.valid = :val')
+            ->setParameter('val',true)
+            ->orderBy('o.id','DESC')
+            ->setMaxResults($number);
+        return $qb->getQuery()->getResult();
+
+    }
 }
