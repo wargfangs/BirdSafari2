@@ -1,8 +1,50 @@
 {% extends "@BirdsObservations/observationLayout.html.twig" %}
+{% block search %}
+	<h1 class="text-center">Barre de recherche</h1>
+
+{% endblock %}
 
 {% block content %}
-	{{ parent()}}
-	<h1 class="text-center">Liste de mes observations</h1>
+	<div class="row">
+		<h1>Toutes mes observations</h1>
 
+        {{ parent() }}
+		<h3>Résultat en texte:</h3>
+
+	</div>
+
+	{% if not is_granted('ROLE_NATURALIST') %}
+		<div class="row"><h6>Vos observations en attente de validation</h6></div>
+		{%  for obs in observationsAttente %}
+			<div class="observationCointainer row" >
+				<p class="col-sm-8">{{ obs.birdname }}</p>
+				<p class="col-sm-2">{{ obs.user.username }}</p>
+				<p class="col-sm-2">{{ obs.date | date('d-m-Y',"Europe/Paris") }}</p>
+				<div class="coords" hidden>{{ obs.latitude }};{{ obs.longitude }}</div>
+			</div>
+		{% else %}
+			Pas d'observations en attente de validation.
+		{% endfor %}
+	{% endif %}
+
+
+	<div class="row"><h6>Vos observations valides:</h6></div>
+    {%  for obs in observations %}
+		<div class="observationCointainer row" >
+			<p class="col-sm-8">{{ obs.birdname }}</p>
+			<p class="col-sm-2">{{ obs.user.username }}</p>
+			<p class="col-sm-2">{{ obs.date | date('d-m-Y',"Europe/Paris") }}</p>
+			<div class="coords" hidden>{{ obs.latitude }};{{ obs.longitude }}</div>
+		</div>
+    {% else %}
+		Vous n'avez soumis aucune observation.
+    {% endfor %}
+
+{% endblock %}
+
+{% block js %}
+	<script>var page="my"</script>
+    {{ parent() }}
+	<script src="{{ asset('js/observations/MapDispatcher.js') }}"></script>
 
 {% endblock %}

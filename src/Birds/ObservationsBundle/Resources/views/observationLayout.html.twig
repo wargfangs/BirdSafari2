@@ -22,12 +22,25 @@
 
 							<ul class="nav nav-pills text-center">
 
-								<li class="active col-sm-12 col-xs-4" id="allObs"><a href={{ path("birds_observations") }}>{{ "Les voir toutes"|trans }}</a></li>
+								<li class="col-sm-12 col-xs-4" id="allObs"><a href={{ path("birds_observations") }}>{{ "Les voir toutes"|trans }}</a></li>
 								<li class="col-sm-12 col-xs-4" id="addObs"><a href={{ path("birds_observations_add") }}>{{ "En faire une"|trans }}</a></li>
 								<li class="col-sm-12 col-xs-3" id="myObs"><a href={{ path("birds_my_observations") }}>{{ "Voir les miennes"|trans }}</a></li>
 							</ul>
 						</div>
 					</div>
+
+					{% if is_granted("ROLE_NATURALIST") %}
+					<div class="panel panel-info">
+						<div class="panel-heading text-center">
+							Naturaliste
+						</div>
+						<div class="panel-body ">
+							<ul class="nav nav-pills text-center">
+								<li class="col-sm-12 col-xs-12" id="waitingObs"><a href={{ path("birds_en_attente") }}>{{ "Observations en attente de validation"|trans }}</a></li>
+							</ul>
+						</div>
+					</div>
+					{% endif  %}
 				{% endblock %}
 			</div>
 			<div class="col-sm-9 bg-observation-main" >
@@ -43,5 +56,6 @@
 {% block foot %}{% endblock %}
 {% block js %}{{ parent() }}
 	<script src="{{ asset('js/mapGenerator.js') }}"></script>
+	<script src="{{ asset('js/observations/mainObservationLayout.js') }}"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7OxaSU742N4m30QGtTnkwb7TSoBSCzrc&callback=initMap&libraries=drawing,geometry" async defer></script>
 {% endblock %}

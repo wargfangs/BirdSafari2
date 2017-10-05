@@ -29,6 +29,10 @@ birds_my_observations:
     path:     /observation/me
     defaults: { _controller: BirdsObservationsBundle:Observation:myObservations }
 
+birds_en_attente:
+    path:     /OnHold
+    defaults: { _controller: BirdsObservationsBundle:Observation:onHold }
+
 
 API_birdname:
     path:     /API/birds

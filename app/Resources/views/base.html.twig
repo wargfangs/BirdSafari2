@@ -22,7 +22,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-                <p class="navbar-brand"><img id="logoDuSite" src="{{ asset('img/fake_logo.svg') }}" alt = "Logo du site: Bird Safari"> </p>
+                <p class="navbar-brand"><img id="logoDuSite" src="{{ asset('img/fake_logo.svg') }}" alt = "Logo du site: Bird Safari">  </p>
         </div>
         <div class="collapse navbar-collapse" id="menuPrincipal">
             <ul class="nav navbar-nav navbar-right">
@@ -39,23 +39,18 @@
                 </li>
 
 
-
-
-
                 <li>
                     <a href="{{ path('blog_home') }}" class="text-center">
                         Blog
                     </a>
                 </li>
 
-
-
                 <li>
                     <a href="{{ path('mission') }}" class="text-center">
                         Notre mission
                     </a>
                 </li>
-                
+
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     <li class="dropdown">
                         <a class="dropdown-toggle text-center" data-toggle="dropdown" href="#">
@@ -63,10 +58,10 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ path('fos_user_profile_show') }}" class="text-right">Profil</a></li>
-                            {% if not is_granted("ROLE_ADMIN") %}<li><a href="#obsOuNaturalisation" class="text-right">En attente</a></li>{% endif %}
+                            {% if not is_granted("ROLE_ADMIN") %}<li><a href="{{ path('birds_en_attente') }}" class="text-right">En attente</a></li>{% endif %}
                             {% if is_granted("ROLE_NATURALIST") %}<li><a href="#" class="text-right"> Mes articles</a></li>{% endif %}
                             <li><a href="{{ path('fos_user_security_logout') }}" class="text-right">Déconnexion</a></li>
-                            {% if is_granted("ROLE_ADMIN") %} <li><a href="#" class="text-center">Administration</a></li> {% endif %}
+                            {% if is_granted("ROLE_ADMIN") %} <li><a href="{{ path('admin') }}" class="text-center">Administration</a></li> {% endif %}
                         </ul>
 
                     </li>

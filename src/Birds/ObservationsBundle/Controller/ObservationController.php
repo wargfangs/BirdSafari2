@@ -35,16 +35,37 @@ class ObservationController extends Controller
      * Action récupérant les observations de l'utilisateur
      *
      */
-    public function myObservationsAction()
+    public function myObservationsAction(Request $request)
     {
-        //Récupération
 
-        //Traitement?
+        if(!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            $request->getSession()->getFlashBag()->set("error","Vous devez être connecté pour accéder à vos observations.");
+            return $this->redirectToRoute('fos_user_security_login');
+        }
 
-        //Affichage
-        return $this->render('BirdsObservationsBundle:Observations:mesObservations.html.twig');
+        $em = $this->getDoctrine()->getManager();
+        //Récupérer les observations de cet utilisateur
+        $observationsW = $em->getRepository('BirdsObservationsBundle:Observation')->findByAuthorValid($this->getUser(),false);
+        $observationsV = $em->getRepository('BirdsObservationsBundle:Observation')->findByAuthorValid($this->getUser(),true);
+
+        return $this->render('BirdsObservationsBundle:Observations:mesObservations.html.twig', array(
+            'observations' => $observationsV,
+            'observationsAttente' => $observationsW
+        ));
+
     }
 
+    public function onHoldAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        //Récupérer les 5 dernières observations valides.
+        $observations = $em->getRepository('BirdsObservationsBundle:Observation')->findByValid(false);
+
+        return $this->render('BirdsObservationsBundle:Observations:onHold.html.twig', array(
+            'observations' => $observations
+        ));
+    }
     public function seeObservationAction()
     {
         //Récupération
