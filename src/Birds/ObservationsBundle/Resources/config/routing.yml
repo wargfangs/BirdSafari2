@@ -27,3 +27,8 @@ birds_observations_update:
 birds_my_observations:
     path:     /observation/me
     defaults: { _controller: BirdsObservationsBundle:Observation:myObservations }
+
+
+API_birdname:
+    path:     /API/birds
+    defaults: {_controller: BirdsObservationsBundle:Observation:birdsJson }

@@ -94,7 +94,9 @@ class Image
     {
         return $this->alt;
     }
-	
-	
+
+
+
+
 }
 

@@ -17,10 +17,7 @@ class RegistrationFormType extends AbstractType
 
 
     }
-    public function getParent()
-    {
-        return BaseReg::class;
-    }
+
 
 
 

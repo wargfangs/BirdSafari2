@@ -11,7 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="observation")
  * @ORM\Entity(repositoryClass="Birds\ObservationsBundle\Repository\ObservationRepository")
- * @ORM\HasLifecycleCallbacks()
  */
 class Observation
 {
@@ -60,17 +59,15 @@ class Observation
     private $valid;
 	/**
      * One Observation has One User.
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
-	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id", unique=false)
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User")
+	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
-
-
+	
 	 /**
      * @var Image
      * @ORM\Column(name="imageId",nullable=true)
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Image", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="image", referencedColumnName="id", nullable=true)
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Image", cascade={"persist", "remove"})
      */
     private $image;
 
@@ -78,7 +75,6 @@ class Observation
     public function __construct()
     {
         $this->valid=false;
-        $this->date = new \DateTime('now');
     }
 
     /**
@@ -237,11 +233,11 @@ class Observation
     /**
      * Set valid
      *
-     * @param \boolean $valid
+     * @param \bool $valid
      *
      * @return Observation
      */
-    public function setValid( $valid)
+    public function setValid(\bool $valid)
     {
         $this->valid = $valid;
 
@@ -251,25 +247,10 @@ class Observation
     /**
      * Get valid
      *
-     * @return \boolean
+     * @return \bool
      */
     public function getValid()
     {
         return $this->valid;
-    }
-
-    /**
-     *
-     * @ORM\PrePersist
-     */
-    public function convertBirdToString()
-    {
-
-        if($this->getBirdname() instanceof Birds)
-            $this->setBirdname($this->birdname->fetchResult());
-        if($this->getImage() != null)
-        {
-            $this->image = $this->getImage()->getId();
-        }
     }
 }
