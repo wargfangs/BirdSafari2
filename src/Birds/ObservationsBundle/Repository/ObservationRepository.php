@@ -1,6 +1,7 @@
 <?php
 
 namespace Birds\ObservationsBundle\Repository;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * ObservationRepository
@@ -28,6 +29,7 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
 
     }
 
+
     /**
      * @param $user Utilisateur dont il faut récupérer l
      * @param $valid boolean : true récupère les observations valides.
@@ -47,4 +49,49 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
     }
 
 
+
+    /** PARTIE RECHERCHE **/
+
+
+    /**
+     * @return QueryBuilder
+     */
+    public function createQuery()
+    {
+        $qb = $this->_em->createQueryBuilder()
+            ->select('o')
+            ->from('BirdsObservationsBundle:Observation','o');
+
+        return $qb;
+    }
+
+    /**
+     * @param $content : string
+     * Function that search within 3 fields the $content.
+     * @return QueryBuilder
+     */
+    public function searchForString($content, QueryBuilder $qb)
+    {
+        $qb->where($qb->expr()->orX(
+            $qb->expr()->like("o.birdname", "?1"),
+            $qb->expr()->like("o.title", "?2"),
+            $qb->expr()->like("o.description", "?3"))
+        )
+        ->setParameters(array(1 => "%".$content."%", 2 => "%".$content."%", 3 => "%".$content."%"));
+        return $qb;
+    }
+
+    /**
+     * @param QueryBuilder $qb
+     * @return array or null
+     */
+    public function sendQuery(QueryBuilder $qb)
+    {
+        return $qb->getQuery()->getResult();
+    }
+
 }
+
+
+
+

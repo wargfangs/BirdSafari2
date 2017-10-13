@@ -1,5 +1,5 @@
 var map;
-
+var searchMap;
 function initMap()
 {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -12,6 +12,20 @@ function initMap()
         navigator.geolocation.getCurrentPosition(function(position){
             map.setCenter(new google.maps.LatLng(position.coords.latitude,position.coords.longitude));
             map.setZoom(10);
+        });
+
+    }
+
+    searchMap = new google.maps.Map(document.getElementById('mapR'), {
+        center: {lat: 47.5, lng: 2.2},
+        zoom: 5
+    });
+
+    if(navigator.geolocation) //Si pas internet explorer, lol
+    {
+        navigator.geolocation.getCurrentPosition(function(position){
+            searchMap.setCenter(new google.maps.LatLng(position.coords.latitude,position.coords.longitude));
+            searchMap.setZoom(10);
         });
 
     }

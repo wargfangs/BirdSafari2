@@ -32,6 +32,12 @@ class Observation
     private $birdname;
 
     /**
+     * @var boolean
+     * @ORM\Column(name="notSure", type="boolean", length=255, nullable=true)
+     */
+    private $notSure;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="date", nullable=false)
@@ -51,6 +57,14 @@ class Observation
      * @ORM\Column(name="longitude", type="float", nullable=false)
      */
     private $longitude;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="place", type="string", nullable=true)
+     */
+    private $place;
+
 
     /**
      * @var boolean
@@ -74,6 +88,18 @@ class Observation
      */
     private $image;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=100, nullable=true)
+     */
+    private $title;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=255, nullable=true)
+     */
+    private $description;
 
     public function __construct()
     {
@@ -271,5 +297,77 @@ class Observation
         {
             $this->image = $this->getImage()->getId();
         }
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     *
+     * @return Observation
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Observation
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set notSure
+     *
+     * @param boolean $notSure
+     *
+     * @return Observation
+     */
+    public function setNotSure($notSure)
+    {
+        $this->notSure = $notSure;
+
+        return $this;
+    }
+
+    /**
+     * Get notSure
+     *
+     * @return boolean
+     */
+    public function getNotSure()
+    {
+        return $this->notSure;
     }
 }

@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Birds
  *
  * @ORM\Table(name="birds")
+ * @ORM\Entity(repositoryClass="Birds\ObservationsBundle\Repository\BirdsRepository")
  * @ORM\Entity
  */
 class Birds

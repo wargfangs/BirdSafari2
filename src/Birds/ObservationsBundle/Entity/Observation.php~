@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="observation")
  * @ORM\Entity(repositoryClass="Birds\ObservationsBundle\Repository\ObservationRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Observation
 {
@@ -29,6 +30,12 @@ class Observation
      * @ORM\Column(name="birdname", type="string", length=255, nullable=false)
      */
     private $birdname;
+
+    /**
+     * @var boolean
+     * @ORM\Column(name="notSure", type="boolean", length=255, nullable=false)
+     */
+    private $notSure;
 
     /**
      * @var \DateTime
@@ -59,22 +66,37 @@ class Observation
     private $valid;
 	/**
      * One Observation has One User.
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User")
-	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id", unique=false)
      */
     private $user;
-	
+
+
 	 /**
      * @var Image
      * @ORM\Column(name="imageId",nullable=true)
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Image", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Image", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="image", referencedColumnName="id", nullable=true)
      */
     private $image;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=100, nullable=true)
+     */
+    private $title;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=255, nullable=true)
+     */
+    private $description;
 
     public function __construct()
     {
         $this->valid=false;
+        $this->date = new \DateTime('now');
     }
 
     /**
@@ -233,11 +255,11 @@ class Observation
     /**
      * Set valid
      *
-     * @param \bool $valid
+     * @param \boolean $valid
      *
      * @return Observation
      */
-    public function setValid(\bool $valid)
+    public function setValid( $valid)
     {
         $this->valid = $valid;
 
@@ -247,10 +269,73 @@ class Observation
     /**
      * Get valid
      *
-     * @return \bool
+     * @return \boolean
      */
     public function getValid()
     {
         return $this->valid;
+    }
+
+    /**
+     *
+     * @ORM\PrePersist
+     */
+    public function convertBirdToString()
+    {
+
+        if($this->getBirdname() instanceof Birds)
+            $this->setBirdname($this->birdname->fetchResult());
+        if($this->getImage() != null)
+        {
+            $this->image = $this->getImage()->getId();
+        }
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     *
+     * @return Observation
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Observation
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
     }
 }

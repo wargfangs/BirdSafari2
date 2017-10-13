@@ -1,0 +1,55 @@
+{{ form_start(searchBar, {attr:{"class":"form-inline", "action":path("birds_observations")}}) }}
+<div class="row">
+    <div class="form-group form-inline">
+        {{ form_row(searchBar.searchBar,{label_attr:{"class":"hidden"}}) }}
+
+        <button class="btn btn-default form-control">Rechercher <span class="glyphicon glyphicon-search"></span></button>
+        {{ form_row(searchBar.parametreAvances) }}
+    </div>
+
+</div>
+
+<div id="paramAv" class="from-group ">
+
+    <div class="row col-xs-12 col-sm-12"> {{ form_row(searchBar.espece) }} </div>
+
+
+    <div class="row form-inline col-xs-12 col-sm-12">
+        <div class="row form-inline col-xs-12 col-sm-6">
+            <div class=""> Du {{ form_row(searchBar.DateDebut) }}</div>
+            <div class=""> Au {{ form_row(searchBar.DateFin) }}</div>
+        </div>
+
+        <div class="row form-inline col-xs-12 col-sm-6">
+            <div class="row form-inline col-xs-12 col-sm-6">
+                <div class=""> {{ form_row(searchBar.HeureDebut) }}</div>
+            </div>
+            <div class="row form-inline col-xs-12 col-sm-6">
+
+                <div class=""> {{ form_row(searchBar.HeureFin) }}</div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row col-sm-12 col-xs-12">
+        {{ form_row(searchBar.ActiverCarte) }}
+    </div>
+
+    <div id="mapSearch" class="from-group row col-sm-12 col-xs-12">
+        <div class="hidden">
+            {{ form_row(searchBar.latitude) }}
+            {{ form_row(searchBar.longitude) }}
+        </div>
+        <div class="row form-inline col-xs-12 col-sm-12">
+            <div class="col-xs-12 col-sm-8"> {{ form_row(searchBar.distanceDuCentre) }}</div>
+            <div class="col-xs-12 col-sm-4"> <input type="text" disabled id="distanceFromPoint"/><label for="distanceFromPoint"> mètres</label></div>
+            <div id="mapR"></div>
+        </div>
+
+    </div>
+
+</div>
+
+{{ form_rest(searchBar) }}
+{{ form_end(searchBar) }}

@@ -7,6 +7,8 @@ use Birds\ObservationsBundle\Entity\Birds;
 use AppBundle\Entity\Image;
 use Birds\ObservationsBundle\Entity\Observation;
 use Birds\ObservationsBundle\Form\ObservationFormType;
+use Birds\ObservationsBundle\Form\SearchBarFormType;
+use Doctrine\DBAL\Platforms\Keywords\OracleKeywords;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Cache\Simple\FilesystemCache;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,11 +21,74 @@ class ObservationController extends Controller
 	 * Action récupérant les observations et les affichant en liste et sur la carte.
 	 *
 	 */
-    public function observationsAction()
+    public function observationsAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        //Récupérer les 5 dernières observations valides.
-        $observations = $em->getRepository('BirdsObservationsBundle:Observation')->findLastValid(5);
+        $repoObs = $em->getRepository('BirdsObservationsBundle:Observation');
+        $search = array();
+        $searchForm = $this->get("form.factory")->create(SearchBarFormType::class,$search);
+        if($request->isMethod("POST"))
+        {
+            $searchForm->handleRequest($request);
+            $qb = $repoObs->createQuery();
+            $ask = $searchForm->getData();
+            //var_dump($ask);
+            if(isset($ask['searchBar']))
+            {
+                $qb = $repoObs->searchForString($ask['searchBar'], $qb);
+            }
+            if(isset($ask['parametresAvances']) && $ask['parametresAvances'])
+            {
+                if(isset($ask['espece'])) // species different from "all"
+                {
+                    //Add QueryBuilder
+                }
+                if(isset($ask['searchBar']))
+                {
+                    //Add QueryBuilder
+                }
+                if(isset($ask['ActiverCarte']) && $ask['ActiverCarte'])
+                {
+                    if(isset($ask['searchBar']))
+                    {
+                        //Add QueryBuilder
+                    }
+                    if(isset($ask['searchBar']))
+                    {
+                        //Add QueryBuilder
+                    }
+                    if(isset($ask['searchBar']))
+                    {
+                        //Add QueryBuilder
+                    }
+                    if(isset($ask['searchBar']))
+                    {
+                        //Add QueryBuilder
+                    }
+                    if(isset($ask['searchBar']))
+                    {
+                        //Add QueryBuilder
+                    }
+                    if(isset($ask['searchBar']))
+                    {
+                        //Add QueryBuilder
+                    }
+                }
+
+            }
+
+            //envoi de la requête avec les différentes demandes.
+            $observations = $repoObs->sendQuery($qb);
+        }
+        else
+        {
+            //Récupérer les 5 dernières observations valides.
+            $observations = $repoObs->findLastValid(5);
+        }
+
+
+
+
 
         return $this->render('BirdsObservationsBundle:Observations:observations.html.twig', array(
             'observations' => $observations
@@ -107,9 +172,15 @@ class ObservationController extends Controller
                 $request->getSession()->getFlashBag()->add('success', 'Félicitation, Vous avez enregistré une nouvelle observation!!! Après validation par un professionel, vous pourrez la voir sur la carte.' );
             }
             $observation->setUser($this->getUser());
+            if(is_array($observation->getBirdname()))
+            {
 
+                $observation->setBirdname($observation->getBirdname()['bird']->getlbNom());
+            }
 
             $em = $this->getDoctrine()->getEntityManager();
+
+            var_dump($observation);
 
             $em->persist($observation);
             $em->flush();
@@ -171,7 +242,17 @@ class ObservationController extends Controller
 
         $response->prepare($request);
         return $response;
+    }
 
 
+
+    public function searchBarAction(Request $request)
+    {
+        $searchArray = array();
+        
+        $searchForm = $this->get("form.factory")->create(SearchBarFormType::class,$searchArray);
+        return $this->render("BirdsObservationsBundle:Observations:search.html.twig", array(
+           'searchBar' => $searchForm->createView()
+        ));
     }
 }

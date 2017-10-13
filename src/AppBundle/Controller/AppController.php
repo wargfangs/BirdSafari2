@@ -34,7 +34,7 @@ class AppController extends Controller
      */
     public function adminHomeAction(Request $request)
     {
-        return $this->render('AppBundle::accueil.html.twig');
+        return $this->redirectToRoute("admin_user");
     }
 
     /**
