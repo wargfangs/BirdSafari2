@@ -77,7 +77,7 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
             $qb->expr()->like("o.title", "?2"),
             $qb->expr()->like("o.description", "?3"))
         )
-        ->setParameters(array(1 => "%".$content."%", 2 => "%".$content."%", 3 => "%".$content."%"));
+            ->setParameters(array(1 => "%".$content."%", 2 => "%".$content."%", 3 => "%".$content."%"));
         return $qb;
     }
 

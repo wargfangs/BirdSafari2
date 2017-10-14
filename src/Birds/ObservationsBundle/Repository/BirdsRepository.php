@@ -10,6 +10,19 @@ namespace Birds\ObservationsBundle\Repository;
  */
 class BirdsRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     *
+     * @return array
+     */
+    public function getAllByArray()
+    {
+        $br= $this->_em->createQueryBuilder()
+            ->select('b.lbNom')
+            ->from('BirdsObservationsBundle:Birds','b')
+            ->orderBy('b.lbNom','ASC');
 
+        return $br->getQuery()->getScalarResult();
+
+    }
 
 }

@@ -32,7 +32,7 @@ class ObservationController extends Controller
             $searchForm->handleRequest($request);
             $qb = $repoObs->createQuery();
             $ask = $searchForm->getData();
-            //var_dump($ask);
+
             if(isset($ask['searchBar']))
             {
                 $qb = $repoObs->searchForString($ask['searchBar'], $qb);
@@ -131,14 +131,15 @@ class ObservationController extends Controller
             'observations' => $observations
         ));
     }
-    public function seeObservationAction()
+
+    public function seeObservationAction($id)
     {
         //Récupération
-
-        //Traitement?
-
+        $observation = $this->getDoctrine()->getManager()->getRepository("BirdsObservationsBundle:Observation")->find($id);
         //Affichage
-        return $this->render('BirdsObservationsBundle:Observations:lireObservation.html.twig');
+        return $this->render('BirdsObservationsBundle:Observations:lireObservation.html.twig', array(
+            'obs'=>$observation
+        ));
     }
 
     /**
@@ -178,9 +179,9 @@ class ObservationController extends Controller
                 $observation->setBirdname($observation->getBirdname()['bird']->getlbNom());
             }
 
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
 
-            var_dump($observation);
+
 
             $em->persist($observation);
             $em->flush();
@@ -199,9 +200,25 @@ class ObservationController extends Controller
         return $this->render('BirdsObservationsBundle:Observations:observations.html.twig');
     }
 
-    public function updateObservationAction()
+    public function updateObservationAction(Request $request,$id)
     {
-        return $this->render('BirdsObservationsBundle:Observations:observations.html.twig');
+        //$em = $this->getDoctrine()->getManager();
+        //$birdRepo= $em->getRepository('BirdsObservationsBundle:Birds');
+        $observation = $this->getDoctrine()->getManager()->getRepository('BirdsObservationsBundle:Observation')->find($id);
+        //$observation->setBirdname($birdRepo->findByLbNom($observation->getBirdname()));
+        var_dump($observation);
+        $editForm = $this->createForm( ObservationFormType::class, $observation);
+        $editForm->handleRequest($request);
+
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('Obs_edit', array('id' => $observation->getId()));
+        }
+
+        return $this->render('BirdsObservationsBundle:Observations:modifierObservation.html.twig', array(
+            'form' => $editForm->createView(),
+        ));
     }
 
 
@@ -216,7 +233,7 @@ class ObservationController extends Controller
 
         if(!$cache->has('birds.names'))
         {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $repo = $em->getRepository('BirdsObservationsBundle:Birds');
             $result = $repo->findAll();
 
@@ -249,8 +266,8 @@ class ObservationController extends Controller
     public function searchBarAction(Request $request)
     {
         $searchArray = array();
-        
-        $searchForm = $this->get("form.factory")->create(SearchBarFormType::class,$searchArray);
+
+        $searchForm = $this->get("form.factory")->create(SearchBarFormType::class,$searchArray, array('entity_manager'=> $this->getDoctrine()->getManager()));
         return $this->render("BirdsObservationsBundle:Observations:search.html.twig", array(
            'searchBar' => $searchForm->createView()
         ));
