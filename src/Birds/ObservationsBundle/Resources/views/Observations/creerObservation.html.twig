@@ -23,9 +23,13 @@
 
 		<div class="row">
 			<div class="col-sm-4 col-sm-offset-2">
+				{{ form_row(form.place, {attr:{'id':'autocompleteAddress'}}) }}
+			</div>
+
+			<div class="col-sm-4 col-sm-offset-2" hidden>
                 {{ form_row(form.latitude) }}
 			</div>
-			<div class="col-sm-4">
+			<div class="col-sm-4" hidden>
                 {{ form_row(form.longitude)  }}
 			</div>
 

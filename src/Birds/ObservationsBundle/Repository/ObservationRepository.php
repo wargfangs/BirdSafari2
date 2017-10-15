@@ -1,6 +1,7 @@
 <?php
 
 namespace Birds\ObservationsBundle\Repository;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 
 /**
@@ -80,6 +81,84 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
             ->setParameters(array(1 => "%".$content."%", 2 => "%".$content."%", 3 => "%".$content."%"));
         return $qb;
     }
+
+
+    /**
+     * @param $min $max : DateTime
+     * Function that search observations within 2 dates
+     * @return QueryBuilder
+     */
+    public function searchWithinDates($min, $max, QueryBuilder $qb)
+    {
+        $max->setTime(23,59,59);
+        $qb->andWhere($qb->expr()->AndX(
+            $qb->expr()->gte("o.date", "?4"),
+            $qb->expr()->lte("o.date", "?5"))
+        )
+            ->setParameter("4", $min)
+            ->setParameter("5", $max);
+
+        return $qb;
+    }
+
+    /**
+     * @param $min $max : integer
+     * Function that search observations within 2 hours
+     * @return QueryBuilder
+     */
+    public function searchWithinHours($min, $max, QueryBuilder $qb)
+    {
+
+        $qb->andWhere($qb->expr()->between('o.hour', '?6','?7'))
+            ->setParameter("6", $min)
+            ->setParameter("7", $max);
+
+        return $qb;
+    }
+
+    /**
+     * @param $centerLat    : float latitude of center point on map
+     * @param $centerLong   : float longitude of center point on map
+     * @param $metersDist : float radius of the circle in meters
+     * @param QueryBuilder $qb
+     */
+    public function searchByDistanceFromPoint($centerLat,$centerLong,$metersDist, QueryBuilder $qb)
+    {
+
+        //On va tricher et chercher dans un carré. Par contrainte de temps. Sinon on aurait trouvé un moyen de faire une recherche dans un champs sphérique:
+        //https://en.wikipedia.org/wiki/Haversine_formula
+        // https://stackoverflow.com/questions/639695/how-to-convert-latitude-or-longitude-to-meters    //Trop long à implémenter, utilisation d'une abstraction pratique
+        $lngVal = 111111 - 111111 * cos($centerLat);
+        $radiusLat = $metersDist/ 111111;
+        var_dump($lngVal);
+        if($lngVal != 0)
+        {
+            $radiusLng = $metersDist/ $lngVal;
+            $left = $centerLong-$radiusLng;
+            $right = $centerLong+$radiusLng;
+            $top = $centerLat + $radiusLat;
+            $bottom = $centerLat - $radiusLat;
+            var_dump("Left ". $left);
+            var_dump("Right ". $right);
+            var_dump("Top ". $top);
+            var_dump("bottom ". $bottom);
+            $qb->andWhere($qb->expr()->AndX($qb->expr()->between('o.latitude','?8','?9'), $qb->expr()->between('o.longitude','?10','?11')))
+                ->setParameter("8", $bottom)
+                ->setParameter("9", $top)
+                ->setParameter("10", $left)
+                ->setParameter("11", $right);
+
+            return $qb;
+
+        }
+
+        return $qb;
+        //var_dump("Delta Lng ". $radiusLng);
+
+
+    }
+
+
 
     /**
      * @param QueryBuilder $qb

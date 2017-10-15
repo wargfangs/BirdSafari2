@@ -36,47 +36,26 @@ class ObservationController extends Controller
             if(isset($ask['searchBar']))
             {
                 $qb = $repoObs->searchForString($ask['searchBar'], $qb);
+
             }
-            if(isset($ask['parametresAvances']) && $ask['parametresAvances'])
+            if($ask['parametreAvances'] == true)
             {
-                if(isset($ask['espece'])) // species different from "all"
+
+                if(isset($ask['DateDebut']))
                 {
-                    //Add QueryBuilder
+
+                    $qb = $repoObs->searchWithinDates($ask['DateDebut'],$ask['DateFin'], $qb);
                 }
-                if(isset($ask['searchBar']))
+                if(isset($ask['HeureDebut']))
                 {
-                    //Add QueryBuilder
+
+                    $qb = $repoObs->searchWithinHours($ask['HeureDebut'],$ask['HeureFin'], $qb);
                 }
                 if(isset($ask['ActiverCarte']) && $ask['ActiverCarte'])
                 {
-                    if(isset($ask['searchBar']))
-                    {
-                        //Add QueryBuilder
-                    }
-                    if(isset($ask['searchBar']))
-                    {
-                        //Add QueryBuilder
-                    }
-                    if(isset($ask['searchBar']))
-                    {
-                        //Add QueryBuilder
-                    }
-                    if(isset($ask['searchBar']))
-                    {
-                        //Add QueryBuilder
-                    }
-                    if(isset($ask['searchBar']))
-                    {
-                        //Add QueryBuilder
-                    }
-                    if(isset($ask['searchBar']))
-                    {
-                        //Add QueryBuilder
-                    }
+                    $qb = $repoObs->searchByDistanceFromPoint($ask['latitude'],$ask['longitude'], $ask['distanceDuCentre'], $qb);
                 }
-
             }
-
             //envoi de la requête avec les différentes demandes.
             $observations = $repoObs->sendQuery($qb);
         }
@@ -85,10 +64,6 @@ class ObservationController extends Controller
             //Récupérer les 5 dernières observations valides.
             $observations = $repoObs->findLastValid(5);
         }
-
-
-
-
 
         return $this->render('BirdsObservationsBundle:Observations:observations.html.twig', array(
             'observations' => $observations
@@ -145,17 +120,19 @@ class ObservationController extends Controller
     /**
      * @param Request $request
      * @return Response
+     * Permet d'ajouter une observation en bdd
      * /Obs/observation/create
      */
     public function addObsAction(Request $request)
     {
-        //Récupération
+        //Si autorisé.
         if(!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY'))
         {
             $request->getSession()->getFlashBag()->add('error','Pour ajouter une observation, veuillez vous connecter!');
             return $this->redirectToRoute("fos_user_security_login");
         }
 
+        //Récup
         $observation= new Observation();
         $form = $this->get('form.factory')->create(ObservationFormType::class, $observation);
 
@@ -267,7 +244,7 @@ class ObservationController extends Controller
     {
         $searchArray = array();
 
-        $searchForm = $this->get("form.factory")->create(SearchBarFormType::class,$searchArray, array('entity_manager'=> $this->getDoctrine()->getManager()));
+        $searchForm = $this->get("form.factory")->create(SearchBarFormType::class,$searchArray);
         return $this->render("BirdsObservationsBundle:Observations:search.html.twig", array(
            'searchBar' => $searchForm->createView()
         ));

@@ -40,9 +40,15 @@ class Observation
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="date", nullable=false)
+     * @ORM\Column(name="date", type="datetime", nullable=false)
      */
     private $date;
+    /**
+     * @var \int
+     *
+     * @ORM\Column(name="hour", type="integer", nullable=false)
+     */
+    private $hour;
 
     /**
      * @var float
@@ -290,9 +296,11 @@ class Observation
      */
     public function convertBirdToString()
     {
-
+        $this->hour= $this->date->format('H');
         if($this->getBirdname() instanceof Birds)
             $this->setBirdname($this->birdname->fetchResult());
+
+
         if($this->getImage() != null)
         {
             $this->image = $this->getImage()->getId();
@@ -369,5 +377,53 @@ class Observation
     public function getNotSure()
     {
         return $this->notSure;
+    }
+
+    /**
+     * Set hour
+     *
+     * @param integer $hour
+     *
+     * @return Observation
+     */
+    public function setHour($hour)
+    {
+        $this->hour = $hour;
+
+        return $this;
+    }
+
+    /**
+     * Get hour
+     *
+     * @return integer
+     */
+    public function getHour()
+    {
+        return $this->hour;
+    }
+
+    /**
+     * Set place
+     *
+     * @param string $place
+     *
+     * @return Observation
+     */
+    public function setPlace($place)
+    {
+        $this->place = $place;
+
+        return $this;
+    }
+
+    /**
+     * Get place
+     *
+     * @return string
+     */
+    public function getPlace()
+    {
+        return $this->place;
     }
 }

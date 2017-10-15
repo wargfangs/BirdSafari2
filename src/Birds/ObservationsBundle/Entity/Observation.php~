@@ -33,16 +33,22 @@ class Observation
 
     /**
      * @var boolean
-     * @ORM\Column(name="notSure", type="boolean", length=255, nullable=false)
+     * @ORM\Column(name="notSure", type="boolean", length=255, nullable=true)
      */
     private $notSure;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="date", nullable=false)
+     * @ORM\Column(name="date", type="datetime", nullable=false)
      */
     private $date;
+    /**
+     * @var \int
+     *
+     * @ORM\Column(name="hour", type="integer", nullable=false)
+     */
+    private $hour;
 
     /**
      * @var float
@@ -57,6 +63,14 @@ class Observation
      * @ORM\Column(name="longitude", type="float", nullable=false)
      */
     private $longitude;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="place", type="string", nullable=true)
+     */
+    private $place;
+
 
     /**
      * @var boolean
@@ -282,9 +296,11 @@ class Observation
      */
     public function convertBirdToString()
     {
-
+        $this->hour= $this->date->format('H');
         if($this->getBirdname() instanceof Birds)
             $this->setBirdname($this->birdname->fetchResult());
+
+
         if($this->getImage() != null)
         {
             $this->image = $this->getImage()->getId();
@@ -337,5 +353,29 @@ class Observation
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set notSure
+     *
+     * @param boolean $notSure
+     *
+     * @return Observation
+     */
+    public function setNotSure($notSure)
+    {
+        $this->notSure = $notSure;
+
+        return $this;
+    }
+
+    /**
+     * Get notSure
+     *
+     * @return boolean
+     */
+    public function getNotSure()
+    {
+        return $this->notSure;
     }
 }

@@ -29,7 +29,7 @@
 							<ul class="nav nav-pills text-center">
 
 								<li class="col-sm-12 col-xs-4" id="allObs"><a href={{ path("birds_observations") }}>{{ "Toutes les observations"|trans }}</a></li>
-								<li class="col-sm-12 col-xs-4" id="addObs"><a href={{ path("birds_observations_add") }}>{{ "Nouvelle observation"|trans }}</a></li>
+								<li class="col-sm-12 col-xs-4" id="addObs"><a href={{ path("birds_observations_add") }}>{{ "Ajouter une observation"|trans }}</a></li>
 								<li class="col-sm-12 col-xs-3" id="myObs"><a href={{ path("birds_my_observations") }}>{{ "Mes Observations"|trans }}</a></li>
 							</ul>
 						</div>
@@ -63,7 +63,7 @@
 {% block js %}{{ parent() }}
 	<script src="{{ asset('js/observations/mapGenerator.js') }}"></script>
 	<script src="{{ asset('js/observations/mainObservationLayout.js') }}"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7OxaSU742N4m30QGtTnkwb7TSoBSCzrc&callback=initMap&libraries=drawing,geometry" async defer></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7OxaSU742N4m30QGtTnkwb7TSoBSCzrc&callback=initMap&libraries=drawing,geometry,places" async defer></script>
 	<script src="{{ asset('js/observations/searchBar.js') }}"></script>
 
 {% endblock %}

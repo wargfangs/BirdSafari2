@@ -6,7 +6,7 @@ function OnMapReady(map)
     $(function(){
        $('.coords').each(function(ind){
            var latLn = $(this).text().split(";");
-           console.log(latLn[0]);
+
 
 
 
@@ -21,7 +21,7 @@ function OnMapReady(map)
 function positionnerSurCarte(map,latitude,longitude)
 {
     var lat = new google.maps.LatLng(latitude,longitude);
-    console.log(latitude + " " + longitude);
+
 
     var marker = new google.maps.Marker({
         position: lat ,
