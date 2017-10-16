@@ -15,7 +15,7 @@ $(function(){
     $('.storing').click(function () {
         $(this).find('span').toggleClass('glyphicon-chevron-right');
         $(this).find('span').toggleClass('glyphicon-chevron-down');
-        $(this).next('div').slideToggle('fast',smartClose($(this)));
+        $(this).next('div').slideToggle('slow',smartClose($(this)));
 
     });
 
@@ -29,9 +29,12 @@ $(function(){
         console.log("Contient c6 "+ button.parent().hasClass("col-sm-6"));
         if(button.attr("id") === 'obsLayout')
         {
+            //écouter les événements de redimensionnement de la carte pour retirer le bug d'affichage.
+
 
             $('#mapLayout').parent().toggleClass("col-sm-6");
             $('#mapLayout').parent().toggleClass("col-sm-11");
+
         }
         else if(button.attr("id") === 'mapLayout')
         {

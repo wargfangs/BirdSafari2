@@ -1,16 +1,13 @@
 {% extends "@BirdsObservations/observationLayout.html.twig" %}
 
-{% block search %}
-	<h1 class="text-center">Barre de recherche</h1>
 
-{% endblock %}
 
 {% block content %}
 	<div class="row">
-		<h1>Toutes les observations</h1>
+		<h1>Validation</h1>
 
         {{ parent() }}
-		<h3>Résultat en texte:</h3>
+		<h3>Les observations à valider</h3>
 
 	</div>
     {%  for obs in observations %}

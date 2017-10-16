@@ -1,7 +1,31 @@
 
 birds_observations:
-    path:     /
-    defaults: { _controller: BirdsObservationsBundle:Observation:observations }
+    path:     /{page}/{limit}
+    defaults:
+        _controller: BirdsObservationsBundle:Observation:observations
+        page: 1
+        limit: 5
+    requirements:
+        page: \d*
+        limit: \d+
+
+birds_observations:
+    path:     /{page}/{limit}/{research}/{minDate}/{{maxDate}/maxHours}/{minHours}/{latitude}/{longitude}/{radius}
+    defaults:
+        _controller: BirdsObservationsBundle:Observation:observations
+        page: 1
+        limit: 5
+        minDate: "2017-09-01"
+        minHours: 0
+        maxHours: 23
+    requirements:
+        page: \d+
+        limit: \d+
+
+
+birds_treatsearch:
+    path:   /searching
+    defaults: {_controller: BirdsObservationsBundle:Observation:treatSearch }
 
 birds_observation:
     path:     /observation/{id}

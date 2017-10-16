@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Cache\Simple\FilesystemCache;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Constraints\Date;
 
 class ObservationController extends Controller
 {
@@ -21,8 +22,9 @@ class ObservationController extends Controller
 	 * Action récupérant les observations et les affichant en liste et sur la carte.
 	 *
 	 */
-    public function observationsAction(Request $request)
+    public function observationsAction(Request $request, $page, $limit=5, $research="nd", $minDate="nd", $maxDate="nd", $minHours="nd", $maxHours="nd", $latitude="nd", $longitude="nd", $radius="nd")
     {
+
         $em = $this->getDoctrine()->getManager();
         $repoObs = $em->getRepository('BirdsObservationsBundle:Observation');
         $search = array();
@@ -245,8 +247,62 @@ class ObservationController extends Controller
         $searchArray = array();
 
         $searchForm = $this->get("form.factory")->create(SearchBarFormType::class,$searchArray);
+
+        if($request->isMethod("POST"))
+        {
+            //Traiter les données du formulaire
+        }
+
         return $this->render("BirdsObservationsBundle:Observations:search.html.twig", array(
            'searchBar' => $searchForm->createView()
         ));
+    }
+
+    public function treatSearch(Request $request)
+    {
+        //retourner à la page toutes les obs si pas de post.
+        if (!$request->isMethod("POST")) {
+            return $this->redirectToRoute("birds_observations", array("page" => 1));
+        } else //Renvoyer à la page toutes les observations avec la bonne requete
+        {
+            $search = array();
+            $searchForm = $this->get("form.factory")->create(SearchBarFormType::class, $search);
+            $searchForm->handleRequest($request);
+            $ask = $searchForm->getData();
+
+            //Le formulaire est récupéré. Il faut maintenant parcourir chaque champs pour envoyer les bons paramètres.
+
+            $research = $ask['searchBar'];
+            $minDate= $ask['DateDebut'];
+            $maxDate= $ask['DateFin'];
+            $minHour= $ask['HeureDebut'];
+            $maxHour= $ask['HeureFin'];
+            $latitude = $ask['latitude'];
+            $longitude= $ask['longitude'];
+            $radius = $ask['distanceDuCentre'];
+
+            if ($ask['parametreAvances'])
+            {
+                if ($ask['ActiverCarte']) {
+
+                    //Route totale
+                    return $this->redirectToRoute("birds_observations", array("research"=>$research,
+                        "minHour"=> $minHour, "maxHour"=>$maxHour,
+                        "minDate"=> $minDate, "maxDate"=>$maxDate,
+                        "latitude"=> $latitude, "longitude"=>$longitude, "radius"=>$radius));
+
+                }
+                //route date heure et espèce si ajouté
+                return $this->redirectToRoute("birds_observations", array("research"=>$research,
+                    "minHour"=> $minHour, "maxHour"=>$maxHour,
+                    "minDate"=> $minDate, "maxDate"=>$maxDate
+                    ));
+            }
+            //route research simple.
+
+
+
+
+
     }
 }
