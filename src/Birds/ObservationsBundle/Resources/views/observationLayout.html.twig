@@ -17,6 +17,7 @@
 
 
 			<div class="col-sm-3 bg-observation-side">
+				<button class="btn btn-default"><span class="glyphicon glyphicon-chevron-right"></span> Menu</button>
                 {% block sideMenu %}
 
 					<div class="panel panel-info">
@@ -49,10 +50,23 @@
 					{% endif  %}
 				{% endblock %}
 			</div>
-			<div class="col-sm-9 bg-observation-main" >
-                {% block content %}
-					<div id="map"></div>
+			<div class="col-sm-9 bg-observation-main">
+				{% block overallContent %}
+					<div class="col-sm-6" id="obsLayout">
+						<button class="btn btn-default "><span class="glyphicon glyphicon-chevron-right"></span> Liste</button>
+						{% block content %}
+
+						{% endblock %}
+					</div>
+					<div class="col-sm-6" id="mapLayout">
+						<button class="btn btn-default"><span class="glyphicon glyphicon-chevron-right"></span> Carte</button>
+
+                        {% block map %}
+							<div id="map"></div>
+						{% endblock %}
+					</div>
 				{% endblock %}
+
 
 			</div>
 		</div>
