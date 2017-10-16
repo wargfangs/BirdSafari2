@@ -10,6 +10,34 @@ $(function(){
     if(page == "wait")
         $('#waitingObs').toggleClass("active");
 
+    console.log("Helo");
+    //Ajouter des événements d'ouverture et de fermeture au parent des boutons ayant la classe storing.
+    $('.storing').click(function () {
+        $(this).find('span').toggleClass('glyphicon-chevron-right');
+        $(this).find('span').toggleClass('glyphicon-chevron-down');
+        $(this).next('div').slideToggle('fast',smartClose($(this)));
+
+    });
+
 
 
 });
+
+    //button : jqueryObj bouton surlequel on a appuyé.
+    function smartClose(button)
+    {
+        console.log("Contient c6 "+ button.parent().hasClass("col-sm-6"));
+        if(button.attr("id") === 'obsLayout')
+        {
+
+            $('#mapLayout').parent().toggleClass("col-sm-6");
+            $('#mapLayout').parent().toggleClass("col-sm-11");
+        }
+        else if(button.attr("id") === 'mapLayout')
+        {
+
+            $('#obsLayout').parent().toggleClass("col-sm-6");
+            $('#obsLayout').parent().toggleClass("col-sm-11");
+        }
+
+    }
