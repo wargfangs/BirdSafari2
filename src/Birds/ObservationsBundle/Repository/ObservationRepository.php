@@ -65,6 +65,16 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
 
         return $qb;
     }
+    public function createCountQuery()
+    {
+        {
+            $qb = $this->_em->createQueryBuilder()
+                ->select('COUNT(o)')
+                ->from('BirdsObservationsBundle:Observation','o');
+
+            return $qb;
+        }
+    }
 
     /**
      * @param $content : string
@@ -81,6 +91,7 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
             ->setParameters(array(1 => "%".$content."%", 2 => "%".$content."%", 3 => "%".$content."%"));
         return $qb;
     }
+
 
 
     /**
@@ -130,7 +141,7 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
         // https://stackoverflow.com/questions/639695/how-to-convert-latitude-or-longitude-to-meters    //Trop long à implémenter, utilisation d'une abstraction pratique
         $lngVal = 111111 - 111111 * cos($centerLat);
         $radiusLat = $metersDist/ 111111;
-        var_dump($lngVal);
+        //var_dump($lngVal);
         if($lngVal != 0)
         {
             $radiusLng = $metersDist/ $lngVal;
@@ -138,10 +149,10 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
             $right = $centerLong+$radiusLng;
             $top = $centerLat + $radiusLat;
             $bottom = $centerLat - $radiusLat;
-            var_dump("Left ". $left);
+            /*var_dump("Left ". $left);
             var_dump("Right ". $right);
             var_dump("Top ". $top);
-            var_dump("bottom ". $bottom);
+            var_dump("bottom ". $bottom);*/
             $qb->andWhere($qb->expr()->AndX($qb->expr()->between('o.latitude','?8','?9'), $qb->expr()->between('o.longitude','?10','?11')))
                 ->setParameter("8", $bottom)
                 ->setParameter("9", $top)
@@ -158,6 +169,40 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
 
     }
 
+    /**
+     * @param $limit: integer
+     * Function that search observations within 2 hours
+     * @return QueryBuilder
+     */
+    public function limit($limit,QueryBuilder $qb)
+    {
+        $qb->setMaxResults($limit);
+        return $qb;
+    }
+
+    /**
+     * @param $limit: integer
+     * Function that search observations within 2 hours
+     * @return QueryBuilder
+     */
+    public function orderBy($orderBy,QueryBuilder $qb)
+    {
+        if($orderBy == 0) //Si + de temps, remplacer par une énumération.
+            $qb->orderBy('o.birdname',"ASC");
+        else if($orderBy == 1)
+            $qb->orderBy('o.date', "DESC");
+        else if($orderBy == 2)
+            $qb->orderBy('o.hour', "ASC");
+        else if($orderBy == 3)
+            $qb->orderBy('o.title', "ASC");
+        else if($orderBy == 4)
+            $qb->orderBy('o.place', "ASC");
+
+        return $qb;
+    }
+
+
+
 
 
     /**
@@ -167,6 +212,14 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
     public function sendQuery(QueryBuilder $qb)
     {
         return $qb->getQuery()->getResult();
+    }
+    /**
+     * @param QueryBuilder $qb
+     * @return array or null
+     */
+    public function sendCountQuery(QueryBuilder $qb)
+    {
+        return $qb->getQuery()->getSingleScalarResult();
     }
 
 }
