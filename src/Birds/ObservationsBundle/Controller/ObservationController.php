@@ -416,37 +416,86 @@ class ObservationController extends Controller
 
     }
 
-    public function deleteObservationAction()
+    /**
+     * @param $id
+     * @return Response
+     */
+    public function deleteObservationAction(Request $request, $id)
     {
-        return $this->render('BirdsObservationsBundle:Observations:observations.html.twig');
+        $observation =$this->getDoctrine()->getRepository("BirdsObservationsBundle:Observation")->find($id);
+        if($observation == null)
+        {
+            $request->getSession()->getFlashBag()->add("error","Vous avez été redirigé car vous essayiez d'accéder à une observation inconnue.");
+            return $this->redirectToRoute('birds_my_observations');
+        }
+        $authorizedCommand = false;
+        if($this->isGranted("IS_AUTHENTICATED_FULLY"))
+        {
+            if ($observation->getUser() == $this->getUser()) {
+                $authorizedCommand = true;
+            }
+            if ($this->isGranted("ROLE_ADMIN")) {
+                $authorizedCommand = true;
+            }
+            if ($this->isGranted("ROLE_NATURALIST", $observation->getUser())) {
+                $authorizedCommand = true;
+                if ($observation->getUser() != $this->getUser())
+                {
+                    if(!$this->isGranted("ROLE_ADMIN"))
+                    {
+                        $authorizedCommand = false;
+                        $request->getSession()->getFlashBag()->add("error","Vous ne pouvez pas supprimer les observations de vos collègues.");
+                    }
+                }
+            }
+
+        }
+        else
+        {
+            $authorizedCommand = false;
+            $request->getSession()->getFlashBag()->add("error","Vous ne pouvez pas supprimer vos observations si vous n'êtes pas connecté.");
+        }
+        if($authorizedCommand)
+        {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($observation);
+            $em->flush();
+
+        }
+
+        return $this->redirectToRoute('birds_my_observations');
     }
 
     public function updateObservationAction(Request $request,$id)
     {
-        //$em = $this->getDoctrine()->getManager();
-        //$birdRepo= $em->getRepository('BirdsObservationsBundle:Birds');
-        $observation = $this->getDoctrine()->getManager()->getRepository('BirdsObservationsBundle:Observation')->find($id);
+        $birdRepo= $this->getDoctrine()->getRepository('BirdsObservationsBundle:Observation');
+        $observation = $birdRepo->find($id);
         //$observation->setBirdname($birdRepo->findByLbNom($observation->getBirdname()));
         //var_dump($observation);
         $editForm = $this->createForm( ObservationFormType::class, $observation);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            if(!$this->isGranted("ROLE_NATURALIST"))
+                $observation->setValid(false);
 
-            return $this->redirectToRoute('Obs_edit', array('id' => $observation->getId()));
+
+            $this->getDoctrine()->getManager()->persist($observation);
+            $this->getDoctrine()->getManager()->flush();
+            $request->getSession()->getFlashBag()->add("success","Modification de l'observation n°".$observation->getId()." prise en compte. ");
+            return $this->redirectToRoute('birds_observation', array('id' => $observation->getId()));
         }
 
         return $this->render('BirdsObservationsBundle:Observations:modifierObservation.html.twig', array(
             'form' => $editForm->createView(),
+            'obs'=>$observation
         ));
     }
 
 
     /**
-     *
      * @param Request $request
-     * Obs/API/birds
+     * @return Response
      */
     public function birdsJsonAction(Request $request)
     {
@@ -608,8 +657,8 @@ class ObservationController extends Controller
     {
         //Page, limite et ordre
         $limit = intval($limit); $page = intval($page);
-        var_dump("page ". $page);
-        var_dump("limite ". $limit);
+        //var_dump("page ". $page);
+        //var_dump("limite ". $limit);
         if(!is_int($limit))
         {
             $limit = 5;
@@ -619,14 +668,14 @@ class ObservationController extends Controller
         if($limit > 100)
             $limit = 100;
 
-        var_dump(ceil($nombreDeResultats/$limit));
+       //var_dump(ceil($nombreDeResultats/$limit));
 
         if(ceil($nombreDeResultats/$limit) < $page)     //Si la page demandée est supérieure au nombre de pages possibles
             $page = ceil($nombreDeResultats/$limit);    //On lui attribue le max
         if($page<1)
             $page=1;
 
-        var_dump($page);
+        //var_dump($page);
         $qb = $repoObs->startAt(($page-1)*$limit,$qb);
         $qb = $repoObs->limit($limit,$qb);
         $param['limit']= $limit;

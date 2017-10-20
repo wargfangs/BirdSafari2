@@ -96,6 +96,7 @@
                                 "limit2": paramW.limit,
                                 "orderBy2": 0
                             }) }}">Espèce<span class="glyphicon glyphicon glyphicon-chevron-{% if paramW.orderBy == 0 %}down{% else %}right{% endif %}"></span></a></th>
+						<th>Actions</th>
 					</tr>
 					</thead>
 					<tbody>
@@ -105,7 +106,9 @@
 							<td>{{ obs.date | date('d m Y',"Europe/Paris") }}</td>
 							<td>{{ obs.hour }}h</td>
 							<td>{{ obs.title }}</td>
-							<td><a href={{ path("birds_observation", {"id": obs.id }) }}>{{ obs.birdname }} </a></td>
+							<td><a  href={{ path("birds_observation", {"id": obs.id }) }}>{{ obs.birdname }} </a></td>
+							<td><a class="btn btn-xs btn-info btn-block" href="{{ path("birds_observations_update", {"id": obs.id}) }}">Modifier</a>
+								<a class="btn btn-xs btn-warning btn-block" href="{{ path("birds_observations_remove", {"id" : obs.id }) }}">Supprimer</a></td>
 							<div class="coords" hidden>{{ obs.latitude }};{{ obs.longitude }}</div>
 						</tr>
                     {% endfor %}
@@ -288,6 +291,7 @@
 								"limit2": paramW.limit,
 								"orderBy2": paramW.orderBy
 							}) }}">Espèce<span class="glyphicon glyphicon glyphicon-chevron-{% if paramV.orderBy == 0 %}down{% else %}right{% endif %}"></span></a></th>
+						<th>Actions</th>
 					</tr>
 					</thead>
 					<tbody>
@@ -296,8 +300,14 @@
 							<td>{{ obs.place }}</td>
 							<td>{{ obs.date | date('d m Y',"Europe/Paris") }}</td>
 							<td>{{ obs.hour }}h</td>
-							<td>{{ obs.title }}</td>
+							<td >{{ obs.title }}</td>
 							<td><a href={{ path("birds_observation", {"id": obs.id }) }}>{{ obs.birdname }} </a></td>
+							<td>
+								<a class="btn btn-xs btn-info btn-block" href="{{ path("birds_observations_update", {"id": obs.id}) }}">Modifier</a>
+                                {% if is_granted('ROLE_NATURALIST') %}
+									<a class="btn btn-xs btn-warning btn-block" href="{{ path("birds_observations_remove", {"id" : obs.id }) }}">Supprimer</a>
+								{% endif %}
+							</td>
 							<div class="coords" hidden>{{ obs.latitude }};{{ obs.longitude }}</div>
 						</tr>
 					{% endfor %}

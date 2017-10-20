@@ -94,6 +94,7 @@ class ObservationController extends Controller
      */
     public function deleteAction(Request $request, Observation $observation)
     {
+        //Si lui appartient.
         $form = $this->createDeleteForm($observation);
         $form->handleRequest($request);
 

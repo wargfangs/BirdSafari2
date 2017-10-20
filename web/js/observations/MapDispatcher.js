@@ -63,11 +63,15 @@ function repositionnerCarte(map, lats,lngs)
     console.log(ecart);
     if(ecart < 0.03)
         map.setZoom(13);
-    else if(ecart >= 0.03 && ecart < 1)
+    else if(ecart >= 0.03 && ecart < 0.6)
         map.setZoom(10);
-    else if(ecart< 1.2 && ecart >= 1)
+    else if(ecart >= 0.6 && ecart < 1)
+        map.setZoom(9);
+    else if(ecart< 1.6 && ecart >= 1)
         map.setZoom(8);
-    else if(ecart >= 1.2 && ecart < 4 )
+    else if(ecart >= 1.6 && ecart < 2 )
+        map.setZoom(7);
+    else if(ecart >= 2 && ecart < 4 )
         map.setZoom(6);
     else if(ecart >= 4 && ecart < 10 )
         map.setZoom(5);
