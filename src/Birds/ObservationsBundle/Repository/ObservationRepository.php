@@ -189,6 +189,12 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
         return $qb;
     }
 
+    public function startAt($offset, QueryBuilder $qb)
+    {
+        $qb->setFirstResult($offset);
+        return $qb;
+    }
+
     /**
      * @param $limit: integer
      * Function that search observations within 2 hours
@@ -247,9 +253,11 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
     public function getParameters(QueryBuilder $qb)
     {
         $parameters= array();
+        $i = 1;
         foreach($qb->getQuery()->getParameters() as $param)
         {
-            $parameters []= $param->getValue();
+            $parameters['i'] = $param->getValue();
+            $i++;
         }
 
 

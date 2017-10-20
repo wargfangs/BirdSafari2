@@ -147,10 +147,8 @@ class ObservationController extends Controller
         if($limit > 100)
             $limit = 100;
 
-        /*if( $nombreDeResultats <= $limit*($page-1) )
-        {
-                        
-        }*/
+        
+        $qb = $repoObs->startAt(($page-1)*$limit,$qb);
         $qb = $repoObs->limit($limit,$qb);
         $param['limit']= $limit;
 
@@ -273,9 +271,9 @@ class ObservationController extends Controller
             $params = $obsRepo->getParameters($qb);
 
             //$request->getSession()->getFlashBag()->set("error",$sqlQuery." with params: ". implode($params));
-            var_dump($sqlQuery);
-            var_dump($params);
-            $iter = new DoctrineDBALConnectionSourceIterator($docDBC, $sqlQuery, $params->sk());
+           // var_dump($sqlQuery);
+            //var_dump($params);
+            $iter = new DoctrineDBALConnectionSourceIterator($docDBC, $sqlQuery, $params);
 
 
             if($format == "excell")
