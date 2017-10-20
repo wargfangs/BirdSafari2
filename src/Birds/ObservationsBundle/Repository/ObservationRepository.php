@@ -36,17 +36,15 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
      * @param $valid boolean : true récupère les observations valides.
      * @return array Les observations valides de l'utilisateur
      */
-    public function findByAuthorValid($user,$valid)
+    public function findByAuthorValid($user, QueryBuilder $qb,$valid=false)
     {
-        $qb = $this->_em->createQueryBuilder()
-            ->select('o')
-            ->from('BirdsObservationsBundle:Observation','o')
-            ->where('o.valid = :val')
-            ->setParameter('val',$valid)
-            ->andWhere('o.user = :user')
-            ->setParameter('user',$user);
+        $qb->andwhere($qb->expr()->AndX(
+            $qb->expr()->eq('o.valid',"?1"),
+            $qb->expr()->eq('o.user','?2')))
+            ->setParameter("1",$valid)
+            ->setParameter("2",$user);
 
-        return $qb->getQuery()->getResult();
+        return $qb;
     }
 
 

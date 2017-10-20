@@ -28,6 +28,7 @@
 					<div class="modal-body">
 						<p>
 							Choisissez le format vers lequel télécharger ces observations:
+						</p>
 							<select name="format">
 								<option value="json">JSON</option>
 								<option value="excell">Excell</option>
@@ -198,14 +199,14 @@
 						"orderBy": param.orderBy
 					}) }}>Première page</a></li>
 
-                {% if pageActuelle-2 > 1 %}
+                {% if param.page-2 > 1 %}
 					<li>...</li>
                 {% endif %}
 
-                {% if pageActuelle-2 > 0 %}
+                {% if param.page-2 > 0 %}
 						<li><a href={{ path("birds_observations", {
                                 "research" : param.research,
-                                "page" :pageActuelle-2,
+                                "page" :param.page-2,
                                 "limit":param.limit,
                                 "minDate":param.minDate,
                                 "maxDate":param.maxDate,
@@ -215,14 +216,14 @@
                                 "longitude": param.lng,
                                 "radius": param.rad,
 						"orderBy": param.orderBy
-                            }) }}>{{ pageActuelle - 2 }}</a></li>
+                            }) }}>{{ param.page - 2 }}</a></li>
 
                 {% endif %}
 
-                {% if pageActuelle-1 > 0 %}			<!--Page -1 -->
+                {% if param.page-1 > 0 %}			<!--Page -1 -->
 					<li><a href="{{ path("birds_observations", {
 							"research" : param.research,
-							"page" :pageActuelle-1,
+							"page" :param.page-1,
 							"limit":param.limit,
 							"minDate":param.minDate,
 							"maxDate":param.maxDate,
@@ -232,15 +233,15 @@
 							"longitude": param.lng,
 							"radius": param.rad,
 						"orderBy": param.orderBy
-						}) }}">	{{ pageActuelle - 1 }}</a></li>
+						}) }}">	{{ param.page - 1 }}</a></li>
                 {% endif %}
 
-				<li>{{ pageActuelle }}</li>			<!--Page actuelle -->
+				<li>{{ param.page }}</li>			<!--Page actuelle -->
 
-                {% if pageActuelle+1 <= nombrePage %} <!--Page +1 -->
+                {% if param.page+1 <= nombrePage %} <!--Page +1 -->
 					<li><a href="{{ path("birds_observations", {
                             "research" : param.research,
-                            "page" :pageActuelle+1,
+                            "page" :param.page+1,
                             "limit":param.limit,
                             "minDate":param.minDate,
                             "maxDate":param.maxDate,
@@ -250,13 +251,13 @@
                             "longitude": param.lng,
                             "radius": param.rad,
 						"orderBy": param.orderBy
-                        }) }}">{{ pageActuelle +1 }}</a></li>
+                        }) }}">{{ param.page +1 }}</a></li>
                 {% endif %}
 
-                {% if pageActuelle+2 <= nombrePage %} <!--Page +2 -->
+                {% if param.page+2 <= nombrePage %} <!--Page +2 -->
 					<li><a href={{ path("birds_observations", {
                             "research" : param.research,
-                            "page" :pageActuelle+2,
+                            "page" :param.page+2,
                             "limit":param.limit,
                             "minDate":param.minDate,
                             "maxDate":param.maxDate,
@@ -266,10 +267,10 @@
                             "longitude": param.lng,
                             "radius": param.rad,
 						"orderBy": param.orderBy
-                        }) }}>{{ pageActuelle +2 }}</a></li>
+                        }) }}>{{ param.page +2 }}</a></li>
                 {% endif %}
 
-                {% if pageActuelle+2 < nombrePage %} <!--Page ++ beyond -->
+                {% if param.page+2 < nombrePage %} <!--Page ++ beyond -->
 					<li>...</li>
                 {% endif %}
 

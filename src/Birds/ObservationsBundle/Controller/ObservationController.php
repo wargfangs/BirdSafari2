@@ -8,7 +8,9 @@ use AppBundle\Entity\Image;
 use Birds\ObservationsBundle\Entity\Observation;
 use Birds\ObservationsBundle\Form\ObservationFormType;
 use Birds\ObservationsBundle\Form\SearchBarFormType;
+use Birds\ObservationsBundle\Repository\ObservationRepository;
 use Doctrine\DBAL\Platforms\Keywords\OracleKeywords;
+use Doctrine\ORM\QueryBuilder;
 use Exporter\Handler;
 use Exporter\Source\DoctrineDBALConnectionSourceIterator;
 use Exporter\Writer\JsonWriter;
@@ -74,8 +76,7 @@ class ObservationController extends Controller
             $maxDate2 = $this->matchDate($maxDate);
             if($minDate2 && $maxDate2 )
             {
-                var_dump($minDate2);
-                var_dump($maxDate2);
+
                 $param['minDate'] = $minDate;
                 $param['maxDate'] = $maxDate;
                 $qb = $repoObs->searchWithinDates($minDate2,$maxDate2, $qb);
@@ -88,8 +89,6 @@ class ObservationController extends Controller
             //Test de valeur
             $minHours = $this->matchHours($minHours,0);
             $maxHours = $this->matchHours($maxHours,23);
-            var_dump($minHours);
-            var_dump($maxHours);
             if($maxHours < $minHours) //Inversion des variables min max.
             {
                 $temp = $maxHours;
@@ -121,31 +120,7 @@ class ObservationController extends Controller
         $nombreDeResultats = $repoObs->sendQuery($countQb)[0][1];
 
         //Page, limite et ordre
-        $limit = intval($limit); $page = intval($page);
-        if(!is_int($limit))
-        {
-            $limit = 5;
-            $page = 1;
-        }
-
-        if($limit > 100)
-            $limit = 100;
-
-
-        if(ceil($nombreDeResultats/$limit) < $page)     //Si la page demandée est supérieure au nombre de pages possibles
-            $page = ceil($nombreDeResultats/$limit);    //On lui attribue le max
-        if($page<1)
-            $page=1;
-
-        $qb = $repoObs->startAt(($page-1)*$limit,$qb);
-        $qb = $repoObs->limit($limit,$qb);
-        $param['limit']= $limit;
-
-        //Ordonner
-        if($orderBy > 4 || $orderBy < 0 ) //0 espèces, 1 date, 2 heures, 3 titre, 4 lieu
-            $orderBy = 0;
-        $qb = $repoObs->orderBy($orderBy,$qb);
-        $param['orderBy'] = $orderBy;
+        $param = array_merge($param, $this->matchPageLimitOrderBy($limit,$page, $orderBy, $nombreDeResultats, $repoObs,$qb));
 
 
 
@@ -308,7 +283,7 @@ class ObservationController extends Controller
 
 
     /**
-     * Action récupérant les observations de l'utilisateur
+     * Action récupérant les observations de l'utilisateur.
      *
      */
     public function myObservationsAction(Request $request, $page, $limit, $orderBy, $page2, $limit2, $orderBy2)
@@ -322,16 +297,44 @@ class ObservationController extends Controller
 
 
 
-        $em = $this->getDoctrine()->getManager();
+        $repo = $this->getDoctrine()->getManager()->getRepository('BirdsObservationsBundle:Observation');
+
+        $countQb1 = $repo->createCountQuery();
+        $countQb2 = $repo->createCountQuery();
+        $qb1 = $repo->createQuery();
+        $qb2 = $repo->createQuery();
+
+        $countQb1 = $repo->findByAuthorValid($this->getUser(),$countQb1,false);
+        $countQb2 = $repo->findByAuthorValid($this->getUser(),$countQb2,true);
+        $qb1 =  $repo->findByAuthorValid($this->getUser(),$qb1,false);
+        $qb2 =  $repo->findByAuthorValid($this->getUser(),$qb2,true);
+        $nbrResults1= $repo->sendCountQuery($countQb1);
+        $nbrResults2= $repo->sendCountQuery($countQb2);
+
+
+        $param1 = $this->matchPageLimitOrderBy($limit2,$page2, $orderBy2, $nbrResults1, $repo,$qb1);
+        $qb1 = $param1["query"];
+
+        $param2 = $this->matchPageLimitOrderBy($limit,$page, $orderBy, $nbrResults2, $repo,$qb2);
+        $qb2 = $param2["query"];
+
+        unset($param1["query"]);
+        unset($param2["query"]);
         //Récupérer les observations de cet utilisateur
-        $observationsW = $em->getRepository('BirdsObservationsBundle:Observation')->findByAuthorValid($this->getUser(),false);
-        $observationsV = $em->getRepository('BirdsObservationsBundle:Observation')->findByAuthorValid($this->getUser(),true);
+        $observationsW = $repo->sendQuery($qb1);
+        $observationsV = $repo->sendQuery($qb2);
 
 
 
         return $this->render('BirdsObservationsBundle:Observations:mesObservations.html.twig', array(
             'observations' => $observationsV,
             'observationsAttente' => $observationsW,
+            'paramW' => $param1,
+            'paramV' => $param2,
+            'nombrePage' => $page,
+            'pageActuelle' => $page,
+            'nombrePage' => $page2,
+            'pageActuelle' => $page,
 
         ));
 
@@ -408,7 +411,7 @@ class ObservationController extends Controller
 
         //Affichage
         return $this->render('BirdsObservationsBundle:Observations:creerObservation.html.twig', array(
-            'form'=>$form->createView()
+            'form' => $form->createView()
         ));
 
     }
@@ -589,6 +592,55 @@ class ObservationController extends Controller
 
         return $hour;
 
+    }
+
+
+    /**
+     * @param $limit :string | int
+     * @param $page : string | int
+     * @param $nombreDeResultats : string | int
+     * @param $orderBy : string | int
+     * @param ObservationRepository $repoObs
+     * @param QueryBuilder $qb
+     * @return mixed
+     */
+    function matchPageLimitOrderBy($limit, $page, $orderBy, $nombreDeResultats, ObservationRepository $repoObs, QueryBuilder $qb)
+    {
+        //Page, limite et ordre
+        $limit = intval($limit); $page = intval($page);
+        var_dump("page ". $page);
+        var_dump("limite ". $limit);
+        if(!is_int($limit))
+        {
+            $limit = 5;
+            $page = 1;
+        }
+
+        if($limit > 100)
+            $limit = 100;
+
+        var_dump(ceil($nombreDeResultats/$limit));
+
+        if(ceil($nombreDeResultats/$limit) < $page)     //Si la page demandée est supérieure au nombre de pages possibles
+            $page = ceil($nombreDeResultats/$limit);    //On lui attribue le max
+        if($page<1)
+            $page=1;
+
+        var_dump($page);
+        $qb = $repoObs->startAt(($page-1)*$limit,$qb);
+        $qb = $repoObs->limit($limit,$qb);
+        $param['limit']= $limit;
+
+        //Ordonner
+        if($orderBy > 4 || $orderBy < 0 ) //0 espèces, 1 date, 2 heures, 3 titre, 4 lieu
+            $orderBy = 0;
+        $qb = $repoObs->orderBy($orderBy,$qb);
+        $param['orderBy'] = $orderBy;
+        $param['page'] = $page;
+        $param['nPages'] = ceil($nombreDeResultats/$limit);
+        $param['nbrRes']=$nombreDeResultats;
+        $param['query'] = $qb;
+        return $param;
     }
 
 
