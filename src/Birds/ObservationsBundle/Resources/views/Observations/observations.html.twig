@@ -17,6 +17,7 @@
 	</div>
 
     {% if is_granted('ROLE_NATURALIST') %} <!-- Fenêtre modale pour le téléchargement des données -->
+        {% if resultsN > 0 %}
 		<div id="download" class="modal fade" role="dialog">
 			<div class="modal-dialog">
 				<form method="POST" action="{{ path('export_obs') }}">
@@ -52,10 +53,12 @@
 
 			</div>
 		</div>
+
+    	{% endif %}
     {% endif %}
 
 
-    {% if observations is defined %} <!--Tableau-->
+    {% if observations %} <!--Tableau-->
 
 		<div class="row text-right"> <!-- Limit -->
 			<ul class="list-inline ">
@@ -179,11 +182,7 @@
 
 		</div>
 
-    {% else %}
-		Pas de résultats pour cette recherche.
-    {% endif %}
 
-	{% if observations is defined %}<!--Pagination-->
 		<ul class="list-inline">
 				<li><a href={{ path("birds_observations", {
 						"research" : param.research,
@@ -292,7 +291,10 @@
 			</ul>
 
 		</ul>
-	{% endif %}
+    {% else %}
+		<p class="row">Pas d'oiseaux trouvés pour cette recherche. Essayez avec de nouveaux termes.</p>
+    {% endif %}
+
 
 {% endblock %}
 
