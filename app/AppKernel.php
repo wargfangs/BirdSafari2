@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new AppBundle\AppBundle(),
             new Birds\ObservationsBundle\BirdsObservationsBundle(),
             new DevTools\BlogBundle\DevToolsBlogBundle(),
+            new Exporter\Bridge\Symfony\Bundle\SonataExporterBundle()
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

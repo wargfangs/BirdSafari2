@@ -75,6 +75,14 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
             return $qb;
         }
     }
+    public function createDownloadQuery()
+    {
+        $qb = $this->_em->createQueryBuilder()
+            ->select('o.id, o.birdname, o.date, o.hour, o.latitude, o.longitude')
+            ->from('BirdsObservationsBundle:Observation','o');
+
+        return $qb;
+    }
 
     /**
      * @param $content : string
@@ -101,6 +109,7 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
      */
     public function searchWithinDates($min, $max, QueryBuilder $qb)
     {
+        $min->setTime(00,00,00);
         $max->setTime(23,59,59);
         $qb->andWhere($qb->expr()->AndX(
             $qb->expr()->gte("o.date", "?4"),
@@ -221,6 +230,33 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
     {
         return $qb->getQuery()->getSingleScalarResult();
     }
+
+    /**
+     * @param QueryBuilder $qb
+     * @return mixed
+     */
+    public function getQueryHasSQL(QueryBuilder $qb)
+    {
+        return $qb->getQuery()->getSQL();
+    }
+
+    /**
+     * @param QueryBuilder $qb
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getParameters(QueryBuilder $qb)
+    {
+        $parameters= array();
+        foreach($qb->getQuery()->getParameters() as $param)
+        {
+            $parameters []= $param->getValue();
+        }
+
+
+        return $parameters;
+    }
+
+
 
 }
 

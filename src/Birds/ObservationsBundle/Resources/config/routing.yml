@@ -19,6 +19,13 @@ birds_observations:
         limit: \d+
         orderBy: \d+
 
+
+export_obs:
+    path:     /export
+    defaults:
+        _controller: BirdsObservationsBundle:Observation:export
+
+
 birds_treatsearch:
     path:   /searching
     defaults: {_controller: BirdsObservationsBundle:Observation:treatSearch }

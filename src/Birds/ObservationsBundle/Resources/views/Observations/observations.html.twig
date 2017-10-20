@@ -7,9 +7,53 @@
 		<h1>{{ title }}</h1>
 
         {{ parent() }}
-		<p>{{ resultsN }} {% if resultsN == 1 %} observation trouvée {% else %} observations trouvées{% endif %}</p>
+		<p>{{ resultsN }} {% if resultsN == 1 %} observation trouvée{% else %} observations trouvées{% endif %}
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+				{% if resultsN != 0 %} - <button class="btn btn-info btn-xs" data-toggle="modal" data-target="#download">Télécharger les résultats <span class="glyphicon glyphicon-download"></span></button>{% endif %}
+			{% endif %}
+		</p>
+
 
 	</div>
+
+    {% if is_granted('ROLE_NATURALIST') %} <!-- Fenêtre modale pour le téléchargement des données -->
+		<div id="download" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<form method="POST" action="{{ path('export_obs') }}">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Exporter les résultats de recherche</h4>
+					</div>
+					<div class="modal-body">
+						<p>
+							Choisissez le format vers lequel télécharger ces observations:
+							<select name="format">
+								<option value="json">JSON</option>
+								<option value="excell">Excell</option>
+							</select>
+							<input name="dres" type="text" value="{{ param.research }}" hidden/>
+							<input name="dminD" type="text" value="{{ param.minDate}}" hidden/>
+							<input name="dmaxD" type="text" value="{{ param.maxDate }}" hidden/>
+							<input name="dminH" type="text" value="{{ param.minHours }}" hidden/>
+							<input name="dmaxH" type="text" value="{{ param.maxHours }}" hidden/>
+							<input name="dlat" type="text" value="{{ param.lat }}" hidden/>
+							<input name="dlng" type="text" value="{{ param.lng }}" hidden/>
+							<input name="drad" type="text" value="{{ param.rad }}" hidden/>
+
+						</input>
+					</div>
+					<div class="modal-footer">
+						<input type="submit" value="Télécharger" class="btn btn-info btn-sm"></input>
+					</div>
+				</div>
+				</form>
+
+			</div>
+		</div>
+    {% endif %}
+
+
     {% if observations is defined %} <!--Tableau-->
 
 		<div class="row text-right"> <!-- Limit -->

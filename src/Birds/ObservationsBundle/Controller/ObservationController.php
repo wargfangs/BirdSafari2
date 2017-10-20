@@ -9,10 +9,15 @@ use Birds\ObservationsBundle\Entity\Observation;
 use Birds\ObservationsBundle\Form\ObservationFormType;
 use Birds\ObservationsBundle\Form\SearchBarFormType;
 use Doctrine\DBAL\Platforms\Keywords\OracleKeywords;
+use Exporter\Handler;
+use Exporter\Source\DoctrineDBALConnectionSourceIterator;
+use Exporter\Writer\JsonWriter;
+use Exporter\Writer\XlsWriter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Cache\Simple\FilesystemCache;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Validator\Constraints\DateTime;
 
@@ -58,7 +63,7 @@ class ObservationController extends Controller
         if($research != "nd")
         {
             $pageTitle = "Résultat de la recherche";
-            $research = mysqli::escape_string($research);
+            //$research = \mysqli::escape_string($research);
             $qb = $repoObs->searchForString($research, $qb);
             $countQb = $repoObs->searchForString($research, $countQb);
             $param["research"] = $research;
@@ -83,6 +88,7 @@ class ObservationController extends Controller
         }
         if($minHours != "nd" && $maxHours != "nd")
         {
+            //Test de valeur
             $minHours = intval($minHours);
             $maxHours = intval($maxHours);
             if(!is_int($minHours))
@@ -95,9 +101,9 @@ class ObservationController extends Controller
             if($minHours > 23)
                 $minHours = 23;
             if($maxHours<0)
-                $minHours = 0;
+                $maxHours = 0;
             if($maxHours > 23)
-                $minHours = 23;
+                $maxHours = 23;
 
             if($maxHours < $minHours) //Inversion des variables min max.
             {
@@ -105,13 +111,16 @@ class ObservationController extends Controller
                 $maxHours = $minHours;
                 $minHours = $temp;
             }
+
+            //Pour les routes
             $param['minHours'] = $minHours;
             $param['maxHours'] = $maxHours;
 
-
+            //On ajoute cette requête
             $qb = $repoObs->searchWithinHours($minHours,$maxHours, $qb);
             $countQb = $repoObs->searchWithinHours($minHours,$maxHours, $countQb);
         }
+
         if($latitude != "nd")
         {
             $latitude = floatval($latitude); $longitude = floatval($longitude); $radius = floatval($radius);
@@ -125,17 +134,23 @@ class ObservationController extends Controller
             }
 
         }
-
+        $nombreDeResultats = $repoObs->sendQuery($countQb)[0][1];
         //Ajouter une limite.
         $limit = intval($limit);
+        $page = intval($page);
         if(!is_int($limit))
         {
-
             $limit = 5;
+            $page = 1;
         }
 
         if($limit > 100)
             $limit = 100;
+
+        /*if( $nombreDeResultats <= $limit*($page-1) )
+        {
+                        
+        }*/
         $qb = $repoObs->limit($limit,$qb);
         $param['limit']= $limit;
 
@@ -143,25 +158,164 @@ class ObservationController extends Controller
         if($orderBy > 4 || $orderBy < 0 ) //0 espèces, 1 date, 2 heures, 3 titre, 4 lieu
             $orderBy = 0;
         $qb = $repoObs->orderBy($orderBy,$qb);
-        $param['orderBy']= $orderBy;
+        $param['orderBy'] = $orderBy;
 
-        //envoi de la requête avec les différentes demandes.
+        //Envoi de la requête avec les différentes demandes.
         $observations = $repoObs->sendQuery($qb);
-        $nombreDeResultats = $repoObs->sendQuery($countQb);
+
         //var_dump($nombreDeResultats);
-        $pageN = $nombreDeResultats[0][1]/$limit;
+        $pageN = $nombreDeResultats/$limit;
         $pageN = ceil($pageN);
+
+        //
 
         return $this->render('BirdsObservationsBundle:Observations:observations.html.twig', array(
             'observations' => $observations,
             'nombrePage' => $pageN,
             'pageActuelle' => $page,
-            'resultsN' => $nombreDeResultats[0][1],
+            'resultsN' => $nombreDeResultats,
             'title' => $pageTitle,
             'param' => $param
 
             ));
     }
+
+    /**
+     * @param Request $request
+     * @param $format : string
+     * @return StreamedResponse
+     */
+    public function exportAction(Request $request)
+    {
+
+        if($this->isGranted("ROLE_NATURALIST") && $request->isMethod('POST'))
+        {
+
+            $format = $request->request->get('format');
+
+            $docDBC = $this->get("database_connection");
+
+            //Faire une requête presque identique à celle de la recherche pour récupérer les données recherchées sans limite de page.
+            $obsRepo= $this->getDoctrine()->getRepository("BirdsObservationsBundle:Observation");
+
+            $qb = $obsRepo->createDownloadQuery();
+            $research = $request->request->get('dres');
+            $minDate = $request->request->get('dminD');
+            $maxDate = $request->request->get('dmaxD');
+            $minHours = $request->request->get('dminH');
+            $maxHours = $request->request->get('dmaxH');
+            $latitude = $request->request->get('dlat');
+            $longitude = $request->request->get('dlng');
+            $radius = $request->request->get('drad');
+
+            //$request->getSession()->getFlashBag()->set("success", $research ." ". $minDate." ". $maxDate. " ". $minHours. " " . $maxHours. " ". $latitude. " " . $longitude. " ". $radius);
+
+
+            if($research != "nd")
+            {
+                //faille sql
+                $qb = $obsRepo->searchForString($research, $qb);
+            }
+            if($minDate != "nd" && $maxDate != "nd")
+            {
+                $pattern = '/^[0-9]{4}-[0-9]{2}-[0-9]{2}/';
+                $dateOkMin = preg_match($pattern, $minDate);
+                $dateOkMax = preg_match($pattern, $maxDate);
+                if($dateOkMax && $dateOkMin)
+                {
+                    $maxDate= \DateTime::createFromFormat("Y-m-d",$maxDate);
+                    $minDate= \DateTime::createFromFormat("Y-m-d",$minDate);
+                    $qb = $obsRepo->searchWithinDates($minDate,$maxDate, $qb,true);
+                }
+
+            }
+            if($minHours != "nd" && $maxHours != "nd")
+            {
+                //Test de valeur
+                $minHours = intval($minHours);$maxHours = intval($maxHours);
+                if(!is_int($minHours))
+                    $minHours=0;
+                if(!is_int($maxHours))
+                    $maxHours=23;
+
+                if($minHours<0)
+                    $minHours = 0;
+                if($minHours > 23)
+                    $minHours = 23;
+                if($maxHours<0)
+                    $maxHours = 0;
+                if($maxHours > 23)
+                    $maxHours = 23;
+
+                if($maxHours < $minHours) //Inversion des variables min max.
+                {
+                    $temp = $maxHours;
+                    $maxHours = $minHours;
+                    $minHours = $temp;
+                }
+
+                //On ajoute cette requête
+                $qb = $obsRepo->searchWithinHours($minHours,$maxHours, $qb,true);
+            }
+
+            if($latitude != "nd")
+            {
+                $latitude = floatval($latitude); $longitude = floatval($longitude); $radius = floatval($radius);
+                if(is_numeric($latitude) && is_numeric($longitude) && is_numeric($radius))
+                {
+                    $qb = $obsRepo->searchByDistanceFromPoint($latitude,$longitude, $radius, $qb,true);
+                }
+
+            }
+
+
+            $sqlQuery = $obsRepo->getQueryHasSQL($qb);
+            $params = $obsRepo->getParameters($qb);
+
+            //$request->getSession()->getFlashBag()->set("error",$sqlQuery." with params: ". implode($params));
+            var_dump($sqlQuery);
+            var_dump($params);
+            $iter = new DoctrineDBALConnectionSourceIterator($docDBC, $sqlQuery, $params->sk());
+
+
+            if($format == "excell")
+            {
+                $writer = new XlsWriter('php://output');
+            }
+            else if($format == "json")
+            {
+                $writer = new JsonWriter('php://output');
+            }
+            else
+            {
+                $request->getSession()->getFlashBag()->set("error","Le format de téléchargement ". $format ." entré n'est pas pris en charge.");
+                return $this->redirectToRoute("birds_observations");
+            }
+            $format = $writer->getFormat();
+            $contentType = $writer->getDefaultMimeType();
+
+            $filename = sprintf(
+
+                'observations_%s_' . time() . '.%s',
+                date('Y_m_d', strtotime('now')),
+                $format
+            ); //Semblable au C
+
+            $callback = function() use ($iter,$writer){
+                Handler::create($iter,$writer)->export();
+            };
+
+
+            return new StreamedResponse($callback, 200, array(
+                'Content-type'=> $contentType,
+                'Content-Disposition'=> sprintf('attachment; filename=%s', $filename)
+            ));
+        }
+        return $this->redirectToRoute("birds_observations");
+
+
+    }
+
 
 
     /**
