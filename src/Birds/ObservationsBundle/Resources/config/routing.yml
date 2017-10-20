@@ -53,13 +53,34 @@ birds_observations_update:
         id : \d+
 
 birds_my_observations:
-    path:     /observation/me
-    defaults: { _controller: BirdsObservationsBundle:Observation:myObservations }
+    path:     /observation/me/{page}/{limit}/{orderBy}/{page2}/{limit2}/{orderBy2}
+    defaults:
+        _controller: BirdsObservationsBundle:Observation:myObservations
+        page : 1
+        limit: 10
+        orderBy: 0
+        page2: 1
+        limit2: 10
+        orderBy2: 0
+    requirements:
+        page: \d+
+        limit: \d+
+        orderBy: \d+
+        page2: \d+
+        limit2: \d+
+        orderBy2: \d+
 
 birds_en_attente:
-    path:     /OnHold
-    defaults: { _controller: BirdsObservationsBundle:Observation:onHold }
-
+    path:     /OnHold/{page}/{limit}/{orderBy}
+    defaults:
+        _controller: BirdsObservationsBundle:Observation:onHold
+        page : 1
+        limit: 10
+        orderBy: 0
+    requirements:
+        page: \d+
+        limit: \d+
+        orderBy: \d+
 
 API_birdname:
     path:     /API/birds

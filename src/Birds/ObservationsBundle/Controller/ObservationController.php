@@ -70,53 +70,37 @@ class ObservationController extends Controller
         }
         if($maxDate != "nd" && $maxDate != "nd")
         {
-            $pageTitle = "Résultat de la recherche";
-            $pattern = '/^[0-9]{4}-[0-9]{2}-[0-9]{2}/';
-            $dateOkMin = preg_match($pattern, $minDate);
-            $dateOkMax = preg_match($pattern, $maxDate);
-            if($dateOkMax && $dateOkMin)
+            $minDate2 = $this->matchDate($minDate);
+            $maxDate2 = $this->matchDate($maxDate);
+            if($minDate2 && $maxDate2 )
             {
+                var_dump($minDate2);
+                var_dump($maxDate2);
                 $param['minDate'] = $minDate;
                 $param['maxDate'] = $maxDate;
-                $maxDate= \DateTime::createFromFormat("Y-m-d",$maxDate);
-                $minDate= \DateTime::createFromFormat("Y-m-d",$minDate);
-                $qb = $repoObs->searchWithinDates($minDate,$maxDate, $qb);
-                $countQb = $repoObs->searchWithinDates($minDate,$maxDate, $countQb);
-
+                $qb = $repoObs->searchWithinDates($minDate2,$maxDate2, $qb);
+                $countQb = $repoObs->searchWithinDates($minDate2,$maxDate2, $countQb);
             }
 
         }
         if($minHours != "nd" && $maxHours != "nd")
         {
             //Test de valeur
-            $minHours = intval($minHours);
-            $maxHours = intval($maxHours);
-            if(!is_int($minHours))
-                $minHours=0;
-            if(!is_int($maxHours))
-                $maxHours=23;
-
-            if($minHours<0)
-                $minHours = 0;
-            if($minHours > 23)
-                $minHours = 23;
-            if($maxHours<0)
-                $maxHours = 0;
-            if($maxHours > 23)
-                $maxHours = 23;
-
+            $minHours = $this->matchHours($minHours,0);
+            $maxHours = $this->matchHours($maxHours,23);
+            var_dump($minHours);
+            var_dump($maxHours);
             if($maxHours < $minHours) //Inversion des variables min max.
             {
                 $temp = $maxHours;
                 $maxHours = $minHours;
                 $minHours = $temp;
             }
-
             //Pour les routes
             $param['minHours'] = $minHours;
             $param['maxHours'] = $maxHours;
 
-            //On ajoute cette requête
+            //On ajoute cette requête à la search stack
             $qb = $repoObs->searchWithinHours($minHours,$maxHours, $qb);
             $countQb = $repoObs->searchWithinHours($minHours,$maxHours, $countQb);
         }
@@ -135,9 +119,9 @@ class ObservationController extends Controller
 
         }
         $nombreDeResultats = $repoObs->sendQuery($countQb)[0][1];
-        //Ajouter une limite.
-        $limit = intval($limit);
-        $page = intval($page);
+
+        //Page, limite et ordre
+        $limit = intval($limit); $page = intval($page);
         if(!is_int($limit))
         {
             $limit = 5;
@@ -147,7 +131,12 @@ class ObservationController extends Controller
         if($limit > 100)
             $limit = 100;
 
-        
+
+        if(ceil($nombreDeResultats/$limit) < $page)     //Si la page demandée est supérieure au nombre de pages possibles
+            $page = ceil($nombreDeResultats/$limit);    //On lui attribue le max
+        if($page<1)
+            $page=1;
+
         $qb = $repoObs->startAt(($page-1)*$limit,$qb);
         $qb = $repoObs->limit($limit,$qb);
         $param['limit']= $limit;
@@ -157,6 +146,8 @@ class ObservationController extends Controller
             $orderBy = 0;
         $qb = $repoObs->orderBy($orderBy,$qb);
         $param['orderBy'] = $orderBy;
+
+
 
         //Envoi de la requête avec les différentes demandes.
         $observations = $repoObs->sendQuery($qb);
@@ -320,7 +311,7 @@ class ObservationController extends Controller
      * Action récupérant les observations de l'utilisateur
      *
      */
-    public function myObservationsAction(Request $request)
+    public function myObservationsAction(Request $request, $page, $limit, $orderBy, $page2, $limit2, $orderBy2)
     {
 
         if(!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY'))
@@ -329,14 +320,19 @@ class ObservationController extends Controller
             return $this->redirectToRoute('fos_user_security_login');
         }
 
+
+
         $em = $this->getDoctrine()->getManager();
         //Récupérer les observations de cet utilisateur
         $observationsW = $em->getRepository('BirdsObservationsBundle:Observation')->findByAuthorValid($this->getUser(),false);
         $observationsV = $em->getRepository('BirdsObservationsBundle:Observation')->findByAuthorValid($this->getUser(),true);
 
+
+
         return $this->render('BirdsObservationsBundle:Observations:mesObservations.html.twig', array(
             'observations' => $observationsV,
-            'observationsAttente' => $observationsW
+            'observationsAttente' => $observationsW,
+
         ));
 
     }
@@ -556,4 +552,44 @@ class ObservationController extends Controller
 
         }
     }
+
+
+    /**
+     * @param $date
+     * @return bool|\DateTime|null
+     */
+    function matchDate($date)
+    {
+        $pattern = '/^[0-9]{4}-[0-9]{2}-[0-9]{2}/';
+        if(!preg_match($pattern, $date))
+            return null;
+        return \DateTime::createFromFormat("Y-m-d",$date);
+
+    }
+
+
+    /**
+     * @param $hour : string or int
+     * @param $default
+     * @return int
+     */
+    function matchHours($hour, $default)
+    {
+        //Test de valeur
+        $hour = intval($hour);
+
+        if(!is_int($hour))
+            $hour = $default;
+
+
+        if($hour<0)
+            $hour = 0;
+        if($hour > 23)
+            $hour = 23;
+
+        return $hour;
+
+    }
+
+
 }
