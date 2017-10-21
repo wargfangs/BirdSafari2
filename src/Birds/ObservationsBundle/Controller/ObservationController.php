@@ -340,15 +340,46 @@ class ObservationController extends Controller
 
     }
 
-    public function onHoldAction()
+    public function onHoldAction($page,$limit,$orderBy)
     {
         $em = $this->getDoctrine()->getManager();
         //Récupérer les 5 dernières observations valides.
-        $observations = $em->getRepository('BirdsObservationsBundle:Observation')->findByValid(false);
+        $R = $em->getRepository('BirdsObservationsBundle:Observation');
+        $qb= $R->createQuery();
+        $qb = $R->addNotValid($qb);
+
+        $cqb= $R->createCountQuery();
+        $cqb = $R->addNotValid($cqb);
+        $nbrResults = $R->sendCountQuery($cqb);
+
+
+        $param = $this->matchPageLimitOrderBy($limit,$page, $orderBy, $nbrResults, $R,$qb);
+        $qb= $param["query"];
+        $observations = $R->sendQuery($qb);
 
         return $this->render('BirdsObservationsBundle:Observations:onHold.html.twig', array(
-            'observations' => $observations
+            'observations' => $observations,
+            'param' => $param
         ));
+    }
+
+    /**
+     * @param Request $rq
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function validateAction(Request $rq, $id)
+    {
+        if($this->isGranted("ROLE_NATURALIST"))
+        {
+            $obs= $this->getDoctrine()->getRepository("BirdsObservationsBundle:Observation")->find($id);
+            $em = $this->getDoctrine()->getManager();
+            $obs->setValid(true);
+            $em->persist($obs);
+            $em->flush();
+            $rq->getSession()->getFlashBag()->set("success","Vous venez de valider l'observation n° ".$obs->getId().". Elle est désormais accessible à tous les utilisateurs.");
+        }
+        return $this->redirectToRoute("birds_en_attente");
     }
 
     public function seeObservationAction($id)
@@ -393,6 +424,8 @@ class ObservationController extends Controller
                 $observation->setValid(false);
                 $request->getSession()->getFlashBag()->add('success', 'Félicitation, Vous avez enregistré une nouvelle observation!!! Après validation par un professionel, vous pourrez la voir sur la carte.' );
             }
+
+            $request->getSession()->getFlashBag()->add("error",$observation->getImage()->getUploadRootDir());
             $observation->setUser($this->getUser());
             if(is_array($observation->getBirdname()))
             {

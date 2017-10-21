@@ -82,6 +82,13 @@ birds_en_attente:
         limit: \d+
         orderBy: \d+
 
+birds_validate:
+    path:     /observation/{id}/validate
+    defaults:
+        _controller: BirdsObservationsBundle:Observation:validate
+    requirements:
+        id: \d+
+
 API_birdname:
     path:     /API/birds
     defaults: {_controller: BirdsObservationsBundle:Observation:birdsJson }

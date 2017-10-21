@@ -117,10 +117,8 @@ class Image
 
         // On vérifie si on avait déjà un fichier pour cette entité
         if (null !== $this->src) {
-            // On sauvegarde l'extension du fichier pour le supprimer plus tard
-            $this->tempFilename = $this->src;
 
-            // On réinitialise les valeurs des attributs src et alt
+            $this->tempFilename = $this->src;
             $this->src = null;
             $this->alt = null;
         }
@@ -156,12 +154,13 @@ class Image
             return;
         }
 
-        // Si on avait un ancien fichier, on le supprime
+        // Supprimer toutes les versions d'image qu'on a créé associé à cette image.
         if (null !== $this->tempFilename) {
             $oldFile = $this->getUploadRootDir().'/'.$this->id.'.'.$this->tempFilename;
             if (file_exists($oldFile)) {
                 unlink($oldFile);
             }
+
         }
 
         // On déplace le fichier envoyé dans le répertoire de notre choix
@@ -195,12 +194,13 @@ class Image
     public function getUploadDir()
     {
         // On retourne le chemin relatif vers l'image pour un navigateur
-        return 'uploads/img';
+        return 'uploads/img/';
     }
 
-    protected function getUploadRootDir()
+    public function getUploadRootDir()
     {
         // On retourne le chemin relatif vers l'image pour notre code PHP
-        return __DIR__.'/../../../../web/'.$this->getUploadDir();
+
+        return __DIR__.'/../../../web/'.$this->getUploadDir();
     }
 }

@@ -30,6 +30,13 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
 
     }
 
+    public function addNotValid(QueryBuilder $qb)
+    {
+        $qb->andWhere($qb->expr()->eq('o.valid', "?1"))
+            ->setParameter("1",false);
+        return $qb;
+    }
+
 
     /**
      * @param $user Utilisateur dont il faut récupérer l
@@ -210,6 +217,8 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
             $qb->orderBy('o.title', "ASC");
         else if($orderBy == 4)
             $qb->orderBy('o.place', "ASC");
+        else if($orderBy == 5)
+            $qb->orderBy('o.user', "ASC");
 
         return $qb;
     }
