@@ -252,7 +252,7 @@ class Observation
     public function setImage(\AppBundle\Entity\Image $image = null)
     {
         $this->image = $image;
-
+        file_put_contents("image.txt", "Created instance: src:". $image->getSrc(). " alt:" . $image->getAlt(). " Id:" . $image->getId()  );
         return $this;
     }
 

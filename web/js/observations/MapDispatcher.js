@@ -76,5 +76,5 @@ function repositionnerCarte(map, lats,lngs)
     else if(ecart >= 4 && ecart < 10 )
         map.setZoom(5);
     else
-        map.setZoom(4);
+        map.setZoom(5);
 }

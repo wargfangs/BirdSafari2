@@ -4,6 +4,7 @@ namespace Birds\ObservationsBundle\Form;
 use AppBundle\Form\ImageType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -14,7 +15,16 @@ class ObservationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('birdname',TextType::class)
+        $builder->add('birdname',ChoiceType::class, array(
+            'attr'=>array("class"=>"birdnames"),
+            'choices'=>array('Pas d\'oiseau sélectionné'),
+            'choice_label' => function($value,$key,$index)
+                {
+                    return  $value;
+                },
+            'empty_data'=>""
+
+            ))
             ->add('notSure',CheckboxType::class, array('required'=>false))
             ->add('image',ImageType::class, array('required'=>false))
             ->add('date',DateTimeType::class)

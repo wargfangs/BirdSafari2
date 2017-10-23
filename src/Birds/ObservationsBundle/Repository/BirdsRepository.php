@@ -17,11 +17,13 @@ class BirdsRepository extends \Doctrine\ORM\EntityRepository
     public function getAllByArray()
     {
         $br= $this->_em->createQueryBuilder()
-            ->select('b.lbNom')
-            ->from('BirdsObservationsBundle:Birds','b')
-            ->orderBy('b.lbNom','ASC');
+            ->select('b.nomVern')
+            ->from('BirdsObservationsBundle:Birds','b');
+            $br->where($br->expr()->neq( 'b.nomVern' , '?1'))
+                ->setParameter("1","")
+                ->orderBy('b.nomVern','ASC');
 
-        return $br->getQuery()->getScalarResult();
+        return $br->getQuery()->getResult();
 
     }
 

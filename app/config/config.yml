@@ -82,3 +82,5 @@ fos_user:
         form:
             type: AppBundle\Form\RegistrationFormType
 
+fos_js_routing:
+    routes_to_expose: ["API_birdname"]

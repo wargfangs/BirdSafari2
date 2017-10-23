@@ -33,10 +33,17 @@ class Image
     /**
      * @var string
      *
-     * @ORM\Column(name="alt", type="string", length=255, nullable=true)
+     * @ORM\Column(name="alt", type="string", length=255)
      */
     private $alt;
 
+    //private $height;
+    //private $width;
+    //private $extension;
+    //private $size;
+    //private $small; //Image
+    //private $normal; //Image
+    //private $normal; //Image
 
     private $file;
     private $tempFilename;
@@ -122,25 +129,26 @@ class Image
             $this->src = null;
             $this->alt = null;
         }
+
+        $this->preUpload();
+
     }
 
     /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
+     *  PreUpdate ne sert à rien, l'objet est détruit après le persist de la classe possédante. Doit être fait avant.
+     *
      */
     public function preUpload()
     {
-        // Si jamais il n'y a pas de fichier (champ facultatif), on ne fait rien
         if (null === $this->file) {
             return;
         }
 
-        // Le nom du fichier est son id, on doit juste stocker également son extension
-        // Pour faire propre, on devrait renommer cet attribut en « extension », plutôt que « src »
         $this->src = $this->file->guessExtension();
-
-        // Et on génère l'attribut alt de la balise <img>, à la valeur du nom du fichier sur le PC de l'internaute
         $this->alt = $this->file->getClientOriginalName();
+
+        $this->file->move($this->getUploadRootDir(),$this->alt);
+        file_put_contents("log.txt", "src = ".$this->src . " ... alt = ". $this->alt);
     }
 
     /**
@@ -194,7 +202,7 @@ class Image
     public function getUploadDir()
     {
         // On retourne le chemin relatif vers l'image pour un navigateur
-        return 'uploads/img/';
+        return 'uploads/img';
     }
 
     public function getUploadRootDir()

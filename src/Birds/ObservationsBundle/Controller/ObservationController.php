@@ -435,10 +435,18 @@ class ObservationController extends Controller
 
             $em = $this->getDoctrine()->getManager();
 
+            $image = $observation->getImage();
 
+
+            file_put_contents("image.txt", "Created instance: src:". $image->getSrc(). " alt:" . $image->getAlt(). " Id:" . $image->getId(), FILE_APPEND);
 
             $em->persist($observation);
+            $image= $observation->getImage();
+            file_put_contents("image.txt", "Created instance: src:". $image->getSrc(). " alt:" . $image->getAlt(). " Id:" . $image->getId(), FILE_APPEND);
+
             $em->flush();
+            $image= $observation->getImage();
+            file_put_contents("image.txt", "Created instance: src:". $image->getSrc(). " alt:" . $image->getAlt(). " Id:" . $image->getId(), FILE_APPEND);
             return $this->redirectToRoute("birds_my_observations");
         }
 
@@ -533,17 +541,17 @@ class ObservationController extends Controller
     public function birdsJsonAction(Request $request)
     {
         $cache = new FilesystemCache();
-
+        $cache->delete('birds.names');
         if(!$cache->has('birds.names'))
         {
             $em = $this->getDoctrine()->getManager();
             $repo = $em->getRepository('BirdsObservationsBundle:Birds');
-            $result = $repo->findAll();
+            $result = $repo->getAllByArray();
 
             $array = array();
             foreach($result as $bird)
             {
-                $array []= ($bird->toArray());
+                $array []= $bird;
             }
             $birdsJSON = json_encode($array);
             $cache->set('birds.names',$birdsJSON);

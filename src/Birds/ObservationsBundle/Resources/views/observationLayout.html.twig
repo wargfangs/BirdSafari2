@@ -80,9 +80,13 @@
 {% endblock %}
 {% block foot %}{% endblock %}
 {% block js %}{{ parent() }}
+	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+	<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+	<script src="{{ asset('js/observations/birdAjax.js') }}"></script>
 	<script src="{{ asset('js/observations/mapGenerator.js') }}"></script>
 	<script src="{{ asset('js/observations/mainObservationLayout.js') }}"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7OxaSU742N4m30QGtTnkwb7TSoBSCzrc&callback=initMap&libraries=drawing,geometry,places" async defer></script>
 	<script src="{{ asset('js/observations/searchBar.js') }}"></script>
+
 
 {% endblock %}
