@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="observation")
  * @ORM\Entity(repositoryClass="Birds\ObservationsBundle\Repository\ObservationRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Observation
 {
@@ -26,45 +27,91 @@ class Observation
     /**
      * @var string
      *
-     * @ORM\Column(name="birdname", type="string", length=255)
+     * @ORM\Column(name="birdname", type="string", length=255, nullable=false)
      */
     private $birdname;
 
     /**
+     * @var boolean
+     * @ORM\Column(name="notSure", type="boolean", length=255, nullable=true)
+     */
+    private $notSure;
+
+    /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="date")
+     * @ORM\Column(name="date", type="datetime", nullable=false)
      */
     private $date;
+    /**
+     * @var \int
+     *
+     * @ORM\Column(name="hour", type="integer", nullable=false)
+     */
+    private $hour;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="latitude", type="float")
+     * @ORM\Column(name="latitude", type="float", nullable=false)
      */
     private $latitude;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="longitude", type="float")
+     * @ORM\Column(name="longitude", type="float", nullable=false)
      */
     private $longitude;
-	
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="place", type="string", nullable=true)
+     */
+    private $place;
+
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="valid", type="boolean",nullable =false)
+     */
+    private $valid;
 	/**
      * One Observation has One User.
-     * @ORM\OneToOne(targetEntity="\AppBundle\Entity\User")
-	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id", unique=false)
      */
     private $user;
-	
+
+
 	 /**
      * @var Image
-     *
-     * @ORM\OneToOne(targetEntity="Birds\ObservationsBundle\Entity\Image", cascade={"persist", "remove"})
+     * @ORM\Column(name="imageId",nullable=true)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Image", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="image", referencedColumnName="id", nullable=true)
      */
     private $image;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=100, nullable=true)
+     */
+    private $title;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=255, nullable=true)
+     */
+    private $description;
+
+    public function __construct()
+    {
+        $this->valid=false;
+        $this->date = new \DateTime('now');
+    }
 
     /**
      * Get id
@@ -205,18 +252,178 @@ class Observation
     public function setImage(\AppBundle\Entity\Image $image = null)
     {
         $this->image = $image;
-
+        file_put_contents("image.txt", "Created instance: src:". $image->getSrc(). " alt:" . $image->getAlt(). " Id:" . $image->getId()  );
         return $this;
     }
 
     /**
      * Get image
      *
-     * @return \Birds\ObservationsBundle\Entity\Image
+     * @return \AppBundle\Entity\Image
      */
     public function getImage()
     {
         return $this->image;
     }
-}
 
+    /**
+     * Set valid
+     *
+     * @param \boolean $valid
+     *
+     * @return Observation
+     */
+    public function setValid( $valid)
+    {
+        $this->valid = $valid;
+
+        return $this;
+    }
+
+    /**
+     * Get valid
+     *
+     * @return \boolean
+     */
+    public function getValid()
+    {
+        return $this->valid;
+    }
+
+    /**
+     *
+     * @ORM\PrePersist
+     */
+    public function convertBirdToString()
+    {
+        $this->hour= $this->date->format('H');
+        if($this->getBirdname() instanceof Birds)
+            $this->setBirdname($this->birdname->fetchResult());
+
+
+        if($this->getImage() != null)
+        {
+            $this->image = $this->getImage()->getId();
+        }
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     *
+     * @return Observation
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Observation
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set notSure
+     *
+     * @param boolean $notSure
+     *
+     * @return Observation
+     */
+    public function setNotSure($notSure)
+    {
+        $this->notSure = $notSure;
+
+        return $this;
+    }
+
+    /**
+     * Get notSure
+     *
+     * @return boolean
+     */
+    public function getNotSure()
+    {
+        return $this->notSure;
+    }
+
+    /**
+     * Set hour
+     *
+     * @param integer $hour
+     *
+     * @return Observation
+     */
+    public function setHour($hour)
+    {
+        $this->hour = $hour;
+
+        return $this;
+    }
+
+    /**
+     * Get hour
+     *
+     * @return integer
+     */
+    public function getHour()
+    {
+        return $this->hour;
+    }
+
+    /**
+     * Set place
+     *
+     * @param string $place
+     *
+     * @return Observation
+     */
+    public function setPlace($place)
+    {
+        $this->place = $place;
+
+        return $this;
+    }
+
+    /**
+     * Get place
+     *
+     * @return string
+     */
+    public function getPlace()
+    {
+        return $this->place;
+    }
+}

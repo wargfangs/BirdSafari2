@@ -1,7 +1,20 @@
 {% extends "@BirdsObservations/observationLayout.html.twig" %}
 
-{% block search %}
-	<h1 class="text-center">Voici une observation</h1>
+{% block overallContent %}
+    {{ obs.birdname  }} par {{ obs.user.username }}
+    {% if obs.date is defined %}
+		{{ obs.date|date("d-m-Y") }}
+	{% endif %}
+    {% if obs.title is defined %}
+        {{ obs.title }}
+    {% endif %}
+    {% if obs.description is defined %}
+        {{ obs.description  }}
+    {% endif %}
+
+	{% if obs.image is defined %}
+		{{ obs.image }}
+    {% endif %}
 
 
 {% endblock %}

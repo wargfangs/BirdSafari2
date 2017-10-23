@@ -33,10 +33,15 @@
 }
 #content
 {
-    min-height: 1000px;
+    min-height: 800px;
 }
 #map {
     height: 500px;
+}
+
+#mapR {
+    display: block;
+    height: 300px;
 }
 
 /*Accueil*/
@@ -79,4 +84,74 @@
 .panel
 {
     margin-top: 20px;
+}
+
+.observationCointainer
+{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    height: 50px;
+    color: white;
+
+    background-color: #666666;
+}
+
+.observationCointainer :hover
+{
+
+    color: white;
+
+    background-color: #999999;
+}
+#logoDuSite
+{
+    margin-top: -20px;
+    width: 90px;
+    height: 90px;
+
+}
+.slider{
+    -webkit-appearance: none;
+    width: 100%;
+    height: 24px;
+    background: #d3d3d3;
+    outline: none;
+    opacity:0.7;
+    -webkit-transition: opacity .15s ease-in-out;
+    transition: opacity .15s ease-in-out;
+}
+.slider:hover {
+    opacity:1;
+}
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    background: #4CAF50;
+    cursor: pointer;
+}
+.slider::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border: 0;
+    background: #4CAF50;
+    cursor: pointer;
+}
+
+#distanceFromPoint
+{
+    color:black;
+    font-size: larger;
+    text-align: right;
+
+}
+
+th
+{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-right: 3px;
+    padding-left: 3px;
+
 }

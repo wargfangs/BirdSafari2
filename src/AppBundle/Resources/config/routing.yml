@@ -10,22 +10,22 @@ admin:
         path: /admin
         defaults: { _controller: AppBundle:App:adminHome }
 
-admin:
+admin_user:
         path: /admin/users
         defaults: { _controller: AppBundle:App:adminUsers }
 
-admin:
+admin_articles:
         path: /admin/articles
         defaults: { _controller: AppBundle:App:adminArticles }
 
-admin:
+admin_stats:
         path: /admin/statistiques
         defaults: { _controller: AppBundle:App:adminStats }
 
-admin:
+admin_vids:
         path: /admin/videos
         defaults: { _controller: AppBundle:App:adminVideos }
 
-admin:
+admin_pics:
         path: /admin/images
         defaults: { _controller: AppBundle:App:adminImages }

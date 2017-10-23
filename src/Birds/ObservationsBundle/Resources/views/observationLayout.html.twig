@@ -5,12 +5,20 @@
 {% block body %}
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-sm-12 bg-observation-search">
+
+
+			<div class="col-sm-12 bg-observation-search text-center">
 				{% block search %}
-					<h1 class="text-center">ICI SE TROUVERA LA BARRE DE RECHERCHE</h1>
+					{{ render(controller("BirdsObservationsBundle:Observation:searchBar")) }}
 				{% endblock %}
 			</div>
+
+
+
+
 			<div class="col-sm-3 bg-observation-side">
+				<button class="btn btn-default storing" id="menuLayout"><span class="glyphicon glyphicon-chevron-down"></span> Menu</button>
+				<div>
                 {% block sideMenu %}
 
 					<div class="panel panel-info">
@@ -22,18 +30,48 @@
 
 							<ul class="nav nav-pills text-center">
 
-								<li class="active col-sm-12 col-xs-4" id="allObs"><a href={{ path("birds_observations") }}>{{ "Les voir toutes"|trans }}</a></li>
-								<li class="col-sm-12 col-xs-4" id="addObs"><a href={{ path("birds_observations_add") }}>{{ "En faire une"|trans }}</a></li>
-								<li class="col-sm-12 col-xs-3" id="myObs"><a href={{ path("birds_my_observations") }}>{{ "Voir les miennes"|trans }}</a></li>
+								<li class="col-sm-12 col-xs-4" id="allObs"><a href={{ path("birds_observations") }}>{{ "Toutes les observations"|trans }}</a></li>
+								<li class="col-sm-12 col-xs-4" id="addObs"><a href={{ path("birds_observations_add") }}>{{ "Ajouter une observation"|trans }}</a></li>
+								<li class="col-sm-12 col-xs-3" id="myObs"><a href={{ path("birds_my_observations") }}>{{ "Mes Observations"|trans }}</a></li>
 							</ul>
 						</div>
 					</div>
+
+					{% if is_granted("ROLE_NATURALIST") %}
+					<div class="panel panel-info">
+						<div class="panel-heading text-center">
+							Naturaliste
+						</div>
+						<div class="panel-body ">
+							<ul class="nav nav-pills text-center">
+								<li class="col-sm-12 col-xs-12" id="waitingObs"><a href={{ path("birds_en_attente") }}>{{ "Observations en attente de validation"|trans }}</a></li>
+							</ul>
+						</div>
+					</div>
+					{% endif  %}
 				{% endblock %}
+				</div>
 			</div>
-			<div class="col-sm-9 bg-observation-main" >
-                {% block content %}
-					<div id="map"></div>
+			<div class="col-sm-9 bg-observation-main">
+				{% block overallContent %}
+					<div class="col-sm-12 col-md-6" >
+						<button class="btn btn-default storing" id="obsLayout"><span class="glyphicon glyphicon-chevron-down"></span> Liste</button>
+						<div>
+						{% block content %}
+
+						{% endblock %}
+						</div>
+					</div>
+					<div class="col-sm-12 col-md-6">
+						<button class="btn btn-default storing" id="mapLayout"><span class="glyphicon glyphicon-chevron-down"></span> Carte</button>
+						<div>
+                        {% block map %}
+							<div id="map"></div>
+						{% endblock %}
+						</div>
+					</div>
 				{% endblock %}
+
 
 			</div>
 		</div>
@@ -42,6 +80,13 @@
 {% endblock %}
 {% block foot %}{% endblock %}
 {% block js %}{{ parent() }}
-	<script src="{{ asset('../web/js/mapGenerator.js') }}"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7OxaSU742N4m30QGtTnkwb7TSoBSCzrc&callback=initMap" async defer></script>
+	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+	<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+	<script src="{{ asset('js/observations/birdAjax.js') }}"></script>
+	<script src="{{ asset('js/observations/mapGenerator.js') }}"></script>
+	<script src="{{ asset('js/observations/mainObservationLayout.js') }}"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7OxaSU742N4m30QGtTnkwb7TSoBSCzrc&callback=initMap&libraries=drawing,geometry,places" async defer></script>
+	<script src="{{ asset('js/observations/searchBar.js') }}"></script>
+
+
 {% endblock %}

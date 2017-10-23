@@ -1,6 +1,8 @@
 <?php
 
 namespace Birds\ObservationsBundle\Repository;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * ObservationRepository
@@ -10,4 +12,269 @@ namespace Birds\ObservationsBundle\Repository;
  */
 class ObservationRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    /**
+     * @param $number Nombre de résultats à afficher
+     * @return array
+     */
+    public function findLastValid($number)
+    {
+        $qb = $this->_em->createQueryBuilder()
+            ->select('o')
+            ->from('BirdsObservationsBundle:Observation','o')
+            ->where('o.valid = :val')
+            ->setParameter('val',true)
+            ->orderBy('o.id','DESC')
+            ->setMaxResults($number);
+        return $qb->getQuery()->getResult();
+
+    }
+
+    public function addNotValid(QueryBuilder $qb)
+    {
+        $qb->andWhere($qb->expr()->eq('o.valid', "?1"))
+            ->setParameter("1",false);
+        return $qb;
+    }
+
+
+    /**
+     * @param $user Utilisateur dont il faut récupérer l
+     * @param $valid boolean : true récupère les observations valides.
+     * @return array Les observations valides de l'utilisateur
+     */
+    public function findByAuthorValid($user, QueryBuilder $qb,$valid=false)
+    {
+        $qb->andwhere($qb->expr()->AndX(
+            $qb->expr()->eq('o.valid',"?1"),
+            $qb->expr()->eq('o.user','?2')))
+            ->setParameter("1",$valid)
+            ->setParameter("2",$user);
+
+        return $qb;
+    }
+
+
+
+    /** PARTIE RECHERCHE **/
+
+
+    /**
+     * @return QueryBuilder
+     */
+    public function createQuery()
+    {
+        $qb = $this->_em->createQueryBuilder()
+            ->select('o')
+            ->from('BirdsObservationsBundle:Observation','o');
+
+        return $qb;
+    }
+    public function createCountQuery()
+    {
+        {
+            $qb = $this->_em->createQueryBuilder()
+                ->select('COUNT(o)')
+                ->from('BirdsObservationsBundle:Observation','o');
+
+            return $qb;
+        }
+    }
+    public function createDownloadQuery()
+    {
+        $qb = $this->_em->createQueryBuilder()
+            ->select('o.id, o.birdname, o.date, o.hour, o.latitude, o.longitude')
+            ->from('BirdsObservationsBundle:Observation','o');
+
+        return $qb;
+    }
+
+    /**
+     * @param $content : string
+     * Function that search within 3 fields the $content.
+     * @return QueryBuilder
+     */
+    public function searchForString($content, QueryBuilder $qb)
+    {
+        $qb->where($qb->expr()->orX(
+            $qb->expr()->like("o.birdname", "?1"),
+            $qb->expr()->like("o.title", "?2"),
+            $qb->expr()->like("o.description", "?3"))
+        )
+            ->setParameters(array(1 => "%".$content."%", 2 => "%".$content."%", 3 => "%".$content."%"));
+        return $qb;
+    }
+
+
+
+    /**
+     * @param $min $max : DateTime
+     * Function that search observations within 2 dates
+     * @return QueryBuilder
+     */
+    public function searchWithinDates($min, $max, QueryBuilder $qb)
+    {
+        $min->setTime(00,00,00);
+        $max->setTime(23,59,59);
+        $qb->andWhere($qb->expr()->AndX(
+            $qb->expr()->gte("o.date", "?4"),
+            $qb->expr()->lte("o.date", "?5"))
+        )
+            ->setParameter("4", $min)
+            ->setParameter("5", $max);
+
+        return $qb;
+    }
+
+    /**
+     * @param $min $max : integer
+     * Function that search observations within 2 hours
+     * @return QueryBuilder
+     */
+    public function searchWithinHours($min, $max, QueryBuilder $qb)
+    {
+
+        $qb->andWhere($qb->expr()->between('o.hour', '?6','?7'))
+            ->setParameter("6", $min)
+            ->setParameter("7", $max);
+
+        return $qb;
+    }
+
+    /**
+     * @param $centerLat    : float latitude of center point on map
+     * @param $centerLong   : float longitude of center point on map
+     * @param $metersDist : float radius of the circle in meters
+     * @param QueryBuilder $qb
+     */
+    public function searchByDistanceFromPoint($centerLat,$centerLong,$metersDist, QueryBuilder $qb)
+    {
+
+        //On va tricher et chercher dans un carré. Par contrainte de temps. Sinon on aurait trouvé un moyen de faire une recherche dans un champs sphérique:
+        //https://en.wikipedia.org/wiki/Haversine_formula
+        // https://stackoverflow.com/questions/639695/how-to-convert-latitude-or-longitude-to-meters    //Trop long à implémenter, utilisation d'une abstraction pratique
+        $lngVal = 111111 - 111111 * cos($centerLat);
+        $radiusLat = $metersDist/ 111111;
+        //var_dump($lngVal);
+        if($lngVal != 0)
+        {
+            $radiusLng = $metersDist/ $lngVal;
+            $left = $centerLong-$radiusLng;
+            $right = $centerLong+$radiusLng;
+            $top = $centerLat + $radiusLat;
+            $bottom = $centerLat - $radiusLat;
+            /*var_dump("Left ". $left);
+            var_dump("Right ". $right);
+            var_dump("Top ". $top);
+            var_dump("bottom ". $bottom);*/
+            $qb->andWhere($qb->expr()->AndX($qb->expr()->between('o.latitude','?8','?9'), $qb->expr()->between('o.longitude','?10','?11')))
+                ->setParameter("8", $bottom)
+                ->setParameter("9", $top)
+                ->setParameter("10", $left)
+                ->setParameter("11", $right);
+
+            return $qb;
+
+        }
+
+        return $qb;
+        //var_dump("Delta Lng ". $radiusLng);
+
+
+    }
+
+    /**
+     * @param $limit: integer
+     * Function that search observations within 2 hours
+     * @return QueryBuilder
+     */
+    public function limit($limit,QueryBuilder $qb)
+    {
+        $qb->setMaxResults($limit);
+        return $qb;
+    }
+
+    public function startAt($offset, QueryBuilder $qb)
+    {
+        $qb->setFirstResult($offset);
+        return $qb;
+    }
+
+    /**
+     * @param $limit: integer
+     * Function that search observations within 2 hours
+     * @return QueryBuilder
+     */
+    public function orderBy($orderBy,QueryBuilder $qb)
+    {
+        if($orderBy == 0) //Si + de temps, remplacer par une énumération.
+            $qb->orderBy('o.birdname',"ASC");
+        else if($orderBy == 1)
+            $qb->orderBy('o.date', "DESC");
+        else if($orderBy == 2)
+            $qb->orderBy('o.hour', "ASC");
+        else if($orderBy == 3)
+            $qb->orderBy('o.title', "ASC");
+        else if($orderBy == 4)
+            $qb->orderBy('o.place', "ASC");
+        else if($orderBy == 5)
+            $qb->orderBy('o.user', "ASC");
+
+        return $qb;
+    }
+
+
+
+
+
+    /**
+     * @param QueryBuilder $qb
+     * @return array or null
+     */
+    public function sendQuery(QueryBuilder $qb)
+    {
+        return $qb->getQuery()->getResult();
+    }
+    /**
+     * @param QueryBuilder $qb
+     * @return array or null
+     */
+    public function sendCountQuery(QueryBuilder $qb)
+    {
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * @param QueryBuilder $qb
+     * @return mixed
+     */
+    public function getQueryHasSQL(QueryBuilder $qb)
+    {
+        return $qb->getQuery()->getSQL();
+    }
+
+    /**
+     * @param QueryBuilder $qb
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getParameters(QueryBuilder $qb)
+    {
+        $parameters= array();
+        $i = 1;
+        foreach($qb->getQuery()->getParameters() as $param)
+        {
+            $parameters['i'] = $param->getValue();
+            $i++;
+        }
+
+
+        return $parameters;
+    }
+
+
+
 }
+
+
+
+

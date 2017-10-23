@@ -1,0 +1,58 @@
+{% extends "@BirdsObservations/observationLayout.html.twig" %}
+
+{% block css %}
+    {{ parent() }}
+	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/themes/smoothness/jquery-ui.css" />
+{% endblock %}
+
+{% block overallContent %}
+	<div class="form-group">
+	<h1>Modifiez l'observation n°{{ obs.id }}</h1>
+
+        {{ form_start(form)  }}
+        {{ form_row(form.birdname, {'label':'Oiseau:'})  }}
+        {{ form_row(form.notSure, {'label':'Je ne suis pas sûr de mon observation'})   }}
+        {{ form_row(form.date, {'label':'Date de l\'observation:'}) }}
+		<div class="row">
+			<div class="col-sm-12">
+				<p>Désignez le lieu de votre observation:</p>
+                {% block map %}{{ parent() }}{% endblock %}
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-4 col-sm-offset-2">
+                {{ form_row(form.latitude) }}
+			</div>
+			<div class="col-sm-4">
+                {{ form_row(form.longitude)  }}
+			</div>
+
+		</div>
+		<div class="row">
+			<p class="btn btn-default col-sm-4 col-sm-offset-4" id="useMyPos">Utiliser ma position</p>
+		</div>
+		<hr>
+        {{ form_row(form.image)}}
+        {{ form_rest(form) }}
+		<input type="submit" class="btn btn-success"/>
+        {{ form_end(form) }}
+
+	</div>
+
+
+
+{% endblock %}
+
+{% block js %}
+	<script>var page="add"</script>
+    {{ parent() }}
+
+	<script src={{ asset("js/observations/creerObservation.js") }}></script>
+	<script src={{ asset("js/observations/positionSelector.js") }}></script>
+
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src={{ asset("js/observations/autocompleteBirds.js") }}></script>
+
+{% endblock %}
+
