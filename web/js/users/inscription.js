@@ -1,9 +1,9 @@
 $( function(){
     var natForm = $('#champsNat');
-    hideShow($('#nat').is(':checked'), natForm);
+    hideShow($('#fos_user_registration_form_confirmationStatus').is(':checked'), natForm);
 
 
-    $('#nat').on("click", function(){
+    $('#fos_user_registration_form_confirmationStatus').on("click", function(){
         //console.log($('#nat').is(':checked'));
         hideShow($(this).is(':checked'), natForm);
 

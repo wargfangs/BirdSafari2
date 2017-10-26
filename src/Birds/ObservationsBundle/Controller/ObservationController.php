@@ -412,8 +412,12 @@ class ObservationController extends Controller
         $form = $this->get('form.factory')->create(ObservationFormType::class, $observation);
 
         //Traitement
+
+
         if($request->isMethod("POST") && $form->handleRequest($request)->isValid())
         {
+
+            //Attribution de validité pour les Naturalistes + message par utilisateur
             if($this->get('security.authorization_checker')->isGranted('ROLE_NATURALIST'))
             {
                 $observation->setValid(true);
@@ -424,29 +428,23 @@ class ObservationController extends Controller
                 $observation->setValid(false);
                 $request->getSession()->getFlashBag()->add('success', 'Félicitation, Vous avez enregistré une nouvelle observation!!! Après validation par un professionel, vous pourrez la voir sur la carte.' );
             }
-
-            $request->getSession()->getFlashBag()->add("error",$observation->getImage()->getUploadRootDir());
-            $observation->setUser($this->getUser());
-            if(is_array($observation->getBirdname()))
-            {
-
-                $observation->setBirdname($observation->getBirdname()['bird']->getlbNom());
-            }
-
             $em = $this->getDoctrine()->getManager();
 
-            $image = $observation->getImage();
+            $observation->setUser($this->getUser()); // L'utilisateur est envoyé à l'observation.
 
 
-            file_put_contents("image.txt", "Created instance: src:". $image->getSrc(). " alt:" . $image->getAlt(). " Id:" . $image->getId(), FILE_APPEND);
+            $observation->setBirdname($request->request->get("bird")); // Attribution de l'oiseau, traitement de sécurité dans la classe
+
+            //Go in bird repo. //Find one bird by id
+            $bird= $em->getRepository('BirdsObservationsBundle:Birds')->findOneByNomVern($observation->getBirdname());
+
+            if($bird == null)
+            {
+                // Entrée invalide = redirection + message d'erreur.
+            }
 
             $em->persist($observation);
-            $image= $observation->getImage();
-            file_put_contents("image.txt", "Created instance: src:". $image->getSrc(). " alt:" . $image->getAlt(). " Id:" . $image->getId(), FILE_APPEND);
-
             $em->flush();
-            $image= $observation->getImage();
-            file_put_contents("image.txt", "Created instance: src:". $image->getSrc(). " alt:" . $image->getAlt(). " Id:" . $image->getId(), FILE_APPEND);
             return $this->redirectToRoute("birds_my_observations");
         }
 
@@ -472,13 +470,13 @@ class ObservationController extends Controller
         $authorizedCommand = false;
         if($this->isGranted("IS_AUTHENTICATED_FULLY"))
         {
-            if ($observation->getUser() == $this->getUser()) {
+            if ($observation->getUser() == $this->getUser()) { //Si l'auteur est cet utilisateur
                 $authorizedCommand = true;
             }
-            if ($this->isGranted("ROLE_ADMIN")) {
+            if ($this->isGranted("ROLE_ADMIN")) { //Si admin
                 $authorizedCommand = true;
             }
-            if ($this->isGranted("ROLE_NATURALIST", $observation->getUser())) {
+            if ($this->isGranted("ROLE_NATURALIST", $observation->getUser())) {//Si
                 $authorizedCommand = true;
                 if ($observation->getUser() != $this->getUser())
                 {
@@ -519,13 +517,23 @@ class ObservationController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             if(!$this->isGranted("ROLE_NATURALIST"))
                 $observation->setValid(false);
+            $observation->setBirdname($request->request->get("bird")); // Attribution de l'oiseau, traitement de sécurité dans la classe
 
+            $em = $this->getDoctrine()->getManager();
+            //Go in bird repo. //Find one bird by id
+            $bird= $em->getRepository('BirdsObservationsBundle:Birds')->findOneByNomVern($observation->getBirdname());
+
+            if($bird == null)
+            {
+                // Entrée invalide = redirection + message d'erreur.
+            }
 
             $this->getDoctrine()->getManager()->persist($observation);
             $this->getDoctrine()->getManager()->flush();
             $request->getSession()->getFlashBag()->add("success","Modification de l'observation n°".$observation->getId()." prise en compte. ");
             return $this->redirectToRoute('birds_observation', array('id' => $observation->getId()));
         }
+
 
         return $this->render('BirdsObservationsBundle:Observations:modifierObservation.html.twig', array(
             'form' => $editForm->createView(),
@@ -541,33 +549,36 @@ class ObservationController extends Controller
     public function birdsJsonAction(Request $request)
     {
         $cache = new FilesystemCache();
-        $cache->delete('birds.names');
+        //$cache->delete('birds.names');
         if(!$cache->has('birds.names'))
         {
             $em = $this->getDoctrine()->getManager();
             $repo = $em->getRepository('BirdsObservationsBundle:Birds');
             $result = $repo->getAllByArray();
-
             $array = array();
+            $arrayOfValue = array(); //Enregistre les duplicats.
             foreach($result as $bird)
             {
-                $array []= $bird;
+                //test
+                if(!in_array($bird["nomVern"],$arrayOfValue)) //Retirer les duplicats.
+                    //add
+                {
+                    $array []= $bird;
+                }
+                $arrayOfValue []= $bird["nomVern"];
+                //add value
             }
             $birdsJSON = json_encode($array);
             $cache->set('birds.names',$birdsJSON);
-
         }
         else{
             $birdsJSON = $cache->get('birds.names');
-
         }
         $response = new Response(
             $birdsJSON,
             Response::HTTP_OK,
             array('content/type' => 'application/json')
         );
-
-
         $response->prepare($request);
         return $response;
     }

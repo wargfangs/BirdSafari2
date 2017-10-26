@@ -4,18 +4,15 @@
         {{ form_row(searchBar.searchBar,{label_attr:{"class":"hidden"}}) }}
 
         <button class="btn btn-default form-control">Rechercher <span class="glyphicon glyphicon-search"></span></button>
-        {{ form_row(searchBar.parametreAvances) }}
+        {{ form_row(searchBar.parametreAvances, {label:"Recherche avancée"}) }}
     </div>
 
 </div>
 
 <div id="paramAv" class="from-group">
 
-
-
-
-
     <div class="row form-inline col-xs-12 col-sm-12">
+
         <div class="row form-inline col-xs-12 col-sm-6">
             <div class=""> Du {{ form_row(searchBar.DateDebut) }}</div>
             <div class=""> Au {{ form_row(searchBar.DateFin) }}</div>
@@ -29,7 +26,6 @@
 
                 <div class=""> {{ form_row(searchBar.HeureFin) }}</div>
             </div>
-
         </div>
     </div>
 

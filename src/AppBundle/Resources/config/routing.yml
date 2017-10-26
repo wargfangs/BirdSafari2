@@ -18,14 +18,20 @@ admin_articles:
         path: /admin/articles
         defaults: { _controller: AppBundle:App:adminArticles }
 
-admin_stats:
-        path: /admin/statistiques
-        defaults: { _controller: AppBundle:App:adminStats }
+admin_validate_user:
+    path: /admin/{id}/validateUser
+    defaults: { _controller: AppBundle:App:userValidate }
+    requirements:
+        id: \d+
 
-admin_vids:
-        path: /admin/videos
-        defaults: { _controller: AppBundle:App:adminVideos }
+admin_delete_user:
+    path: /admin/{id}/delete
+    defaults: { _controller: AppBundle:App:userDelete }
+    requirements:
+        id: \d+
 
-admin_pics:
-        path: /admin/images
-        defaults: { _controller: AppBundle:App:adminImages }
+admin_passobs_user:
+    path: /admin/{id}/passObs
+    defaults: { _controller: AppBundle:App:toObs }
+    requirements:
+        id: \d+

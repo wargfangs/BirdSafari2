@@ -5,11 +5,12 @@ $(function(){
     var formCarteActive = $('#mapSearch');
 
 
-    //Activation desactivation des champs de recherche avancée******************
+    //Activation désactivation des champs de recherche avancée******************
     hideShow(boolCarteActive.is(':checked'), formCarteActive);
     hideShow(boolParamAv.is(':checked'), formParamAv);
 
     boolParamAv.on("click", function(){
+
         hideShow($(this).is(':checked'), formParamAv);
         hideShow(boolCarteActive.is(':checked'), formCarteActive);
 
@@ -47,6 +48,7 @@ function hideShow(check, form)
     if(check)
     {
         $(form).slideDown();
+
 
     }
     else
