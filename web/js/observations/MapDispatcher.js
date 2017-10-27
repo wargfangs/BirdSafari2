@@ -56,12 +56,12 @@ function repositionnerCarte(map, lats,lngs)
     });
 
     //console.log(latmin+" "+ latmax +" "+ lngmin +" "+ lngmax);
-    map.setCenter(new google.maps.LatLng((latmin+latmax)/2, (lngmin+lngmax)/2));
+    map.setCenter(new google.maps.LatLng((latmin+latmax)/2, (lngmin+lngmax)/2)); // Centre la carte sur le milieu des points
 
     //Condition de zoom. Si ecart = X, définir zoom max.
     var ecart = Math.max(latmax-latmin, lngmax-lngmin);
     console.log(ecart);
-    if(ecart < 0.03)
+    if(ecart < 0.03)                        //Dé-zoom suffisament
         map.setZoom(13);
     else if(ecart >= 0.03 && ecart < 0.6)
         map.setZoom(10);

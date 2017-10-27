@@ -11,12 +11,20 @@ admin:
         defaults: { _controller: AppBundle:App:adminHome }
 
 admin_user:
-        path: /admin/users
-        defaults: { _controller: AppBundle:App:adminUsers }
+        path: /admin/users/{page}
+        defaults:
+            _controller: AppBundle:App:adminUsers
+            page: 1
+        requirements:
+            page: \d+
 
 admin_articles:
-        path: /admin/articles
-        defaults: { _controller: AppBundle:App:adminArticles }
+        path: /admin/articles/{page}
+        defaults:
+            _controller: AppBundle:App:adminArticles
+            page: 1
+        requirements:
+            page: \d+
 
 admin_validate_user:
     path: /admin/{id}/validateUser

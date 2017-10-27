@@ -10,7 +10,7 @@ function initMap()
     });
 
 
-    OnMapReady(map); // Toutes les pages du bundle observation doivent implémenter cette fonction. Toutes ont besoin de la carte.
+
 
 
     searchMap = new google.maps.Map(document.getElementById('mapR'), {
@@ -26,7 +26,10 @@ function initMap()
             searchMap.setZoom(10);
         });
 
+
     }
+
+    OnMapReady(map); // Toutes les pages du bundle observation doivent implémenter cette fonction. Toutes ont besoin de la carte.
     OnMapRReady(searchMap);
 
 

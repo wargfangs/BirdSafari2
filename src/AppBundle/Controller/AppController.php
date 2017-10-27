@@ -41,16 +41,29 @@ class AppController extends Controller
     /**
      * Action qui mène à la page d'administration des utilisateurs.
      */
-    public function adminUsersAction(Request $request)
+    public function adminUsersAction(Request $r, $page)
     {
-        $this->checkAdmin($request);
+        $this->checkAdmin($r);
+
+        //Get orderBy.
+        $orderBy = $r->query->get("orderBy");
+        if($orderBy != "role") //Order by role or user name only. (One way)
+            $orderBy = "user";
+
+
+        var_dump($orderBy);
+
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository("AppBundle:User");
-        $users= $repo->findAll();
+        $param = $repo->getByPage($page,$orderBy);  //GetTotalNumber / Get Actual page. / Get results.
+        $users = $param['results']; unset($param['results']);
+        $param['orderBy']= $orderBy;
 
-
+        //View is waiting for: param.page - param.orderBy - nombrePage
         return $this->render('AppBundle::adminUsers.html.twig', array(
-            'users'=>$users
+            'users'=>$users,
+            'param' => $param,
+            'nombrePage'=> $param['nombrePage']
         ));
     }
 

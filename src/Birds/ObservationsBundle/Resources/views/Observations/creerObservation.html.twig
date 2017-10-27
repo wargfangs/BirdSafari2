@@ -27,7 +27,7 @@
 
 		<div class="row">
 			<div class="col-sm-4 col-sm-offset-2">
-				{{ form_row(form.place, {attr:{'id':'autocompleteAddress'}}) }}
+				{{ form_row(form.place, {attr:{'id':'autocompleteAddress', 'onclick':'geocodeNow()'}}) }}
 			</div>
 
 			<div class="col-sm-4 col-sm-offset-2" hidden>
@@ -55,10 +55,12 @@
 
 {% block js %}
 	<script>var page="add"</script>
-	{{ parent() }}
+
+	<script src={{ asset("js/observations/positionSelector.js") }}></script> <!--Contient MapReady appelé en callback du chargement de la carte.-->
+    {{ parent() }}
 
 	<script src={{ asset("js/observations/creerObservation.js") }}></script>
-	<script src={{ asset("js/observations/positionSelector.js") }}></script>
+	<script src={{ asset("js/observations/addressLoc.js") }}></script>
 
 
 
