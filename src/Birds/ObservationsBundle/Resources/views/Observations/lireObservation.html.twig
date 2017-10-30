@@ -12,9 +12,16 @@
         {{ obs.description  }}
     {% endif %}
 
-	{% if obs.image is defined %}
-		{{ obs.image }}
+	{% if obs.image
+        <div class="col-sm-12 col-xs-12">
+		    <img src="{{ asset(obs.image.src) }}" alt={{ obs.image.alt }}/>
+        </div>
     {% endif %}
+
+    {% if is_granted("ROLE_NATURALIST") %}
+        <a href="{{ path('birds_observations_remove', {'id':obs.id}) }}">Supprimer</a> <!--Si en atte-->
+        <a href="{{ path('birds_observations_update', {'id':obs.id}) }}">Modifier</a><!--Si cet utilisateur-->
+        {% endif %}
 
 
 {% endblock %}

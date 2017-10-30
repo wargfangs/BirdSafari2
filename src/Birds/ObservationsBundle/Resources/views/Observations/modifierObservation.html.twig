@@ -37,7 +37,20 @@
 			<p class="btn btn-default col-sm-4 col-sm-offset-4" id="useMyPos">Utiliser ma position</p>
 		</div>
 		<hr>
-        {{ form_row(form.image)}}
+
+		<div class="row">
+
+			<div class="col-sm-6 col-xs-12">
+                {{ form_row(form.image)}}
+			</div>
+            {% if obs.image %}
+
+			<div class="col-sm-6 col-xs-12">
+				Image actuelle:
+				<img class="col-xs-12" src="{{ asset(obs.image.src) }}" alt="{{ obs.image.alt }}">
+			</div>
+			{% endif %}
+		</div>
         {{ form_rest(form) }}
 		<input type="submit" class="btn btn-success"/>
         {{ form_end(form) }}

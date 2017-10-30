@@ -4,8 +4,8 @@
 {% block css %}{{ parent() }}{% endblock %}
 {% block body %}
     <h1>Administration</h1>
-    <button class="btn btn-lg btn-default"><a href="{{ path('admin_user') }}">Utilisateurs</a></button>
-    <button class="btn btn-lg btn-default"><a href="{{ path('admin_articles') }}">Articles</a></button>
+    <button class="btn btn-lg btn-default"><a href="{{ path('admin_user', {"orderBy":"user"}) }}">Utilisateurs</a></button>
+    <button class="btn btn-lg btn-default"><a href="{{ path('admin_articles', {"orderBy":"date"}) }}">Articles</a></button>
 
 
     {% block content %}{% endblock %}

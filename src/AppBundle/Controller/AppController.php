@@ -15,8 +15,11 @@ class AppController extends Controller
      */
     public function accueilAction(Request $request)
     {
-
-        return $this->render('AppBundle::accueil.html.twig');
+        $em = $this->getDoctrine()->getManager();
+        $lastObsValid = $em->getRepository('BirdsObservationsBundle:Observation')->findLastValid(5);
+        return $this->render('AppBundle::accueil.html.twig',array(
+            'obs'=>$lastObsValid
+        ));
     }
 
     /**
@@ -51,7 +54,7 @@ class AppController extends Controller
             $orderBy = "user";
 
 
-        var_dump($orderBy);
+        //var_dump($orderBy);
 
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository("AppBundle:User");

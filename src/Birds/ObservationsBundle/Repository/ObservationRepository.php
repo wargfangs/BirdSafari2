@@ -24,7 +24,9 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
             ->from('BirdsObservationsBundle:Observation','o')
             ->where('o.valid = :val')
             ->setParameter('val',true)
-            ->orderBy('o.id','DESC')
+            ->andWhere('o.hasValidPictureForShow = :vrai')
+            ->setParameter('vrai',true)
+            ->orderBy('o.date','DESC')
             ->setMaxResults($number);
         return $qb->getQuery()->getResult();
 

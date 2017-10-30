@@ -2,14 +2,11 @@
 
 namespace Birds\ObservationsBundle\Controller;
 
-use Birds\ObservationsBundle\BirdsObservationsBundle;
-use Birds\ObservationsBundle\Entity\Birds;
 use AppBundle\Entity\Image;
 use Birds\ObservationsBundle\Entity\Observation;
 use Birds\ObservationsBundle\Form\ObservationFormType;
 use Birds\ObservationsBundle\Form\SearchBarFormType;
 use Birds\ObservationsBundle\Repository\ObservationRepository;
-use Doctrine\DBAL\Platforms\Keywords\OracleKeywords;
 use Doctrine\ORM\QueryBuilder;
 use Exporter\Handler;
 use Exporter\Source\DoctrineDBALConnectionSourceIterator;
@@ -20,8 +17,6 @@ use Symfony\Component\Cache\Simple\FilesystemCache;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use Symfony\Component\Validator\Constraints\Date;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 class ObservationController extends Controller
 {
@@ -416,7 +411,46 @@ class ObservationController extends Controller
 
         if($request->isMethod("POST") && $form->handleRequest($request)->isValid())
         {
+            $em = $this->getDoctrine()->getManager();
 
+            //Filling $observation:
+            $observation->setUser($this->getUser()); // L'utilisateur est envoyé à l'observation.
+            $observation->setBirdname($request->request->get("bird")); // Attribution de l'oiseau, traitement de sécurité dans la classe
+
+            //Go in bird repo. //Find one bird by name
+            $bird = $em->getRepository('BirdsObservationsBundle:Birds')->findOneByNomVern($observation->getBirdname());
+            if($bird == null) // if bird name is unknown in database, stop the process
+            {
+                //Redirect + message erreur.
+                $request->getSession()->getFlashbag()->add('error','Ce type d\'oiseau n\'existe pas en base de données.');
+                return $this->redirectToRoute('birds_observations_add');
+            }
+
+
+            if($observation->getImage() != null)
+            {
+                $file = $observation->getImage()->getFile();    //picture: See if we can make this auto?
+                ////Tester la taille de l'image et le type de fichier. Si différent de png, jpg, bmp et > 2 Mo
+                if($file->getSize()>2000)
+                {
+
+                }
+                $authorizedType = array('jpg','png','bmp','gif');
+                if($file->getMimeType())
+                {
+
+                }
+                $image = new Image();
+
+                $image->setAlt(uniqid() ."_". $file->getClientOriginalName());
+                $image->setSrc($image->getUploadDir() . "/" . $image->getAlt());
+
+                $file->move($image->getUploadDir(), $image->getAlt());
+                $em->persist($image);
+                $observation->setImage($image);
+
+
+            }
             //Attribution de validité pour les Naturalistes + message par utilisateur
             if($this->get('security.authorization_checker')->isGranted('ROLE_NATURALIST'))
             {
@@ -428,23 +462,23 @@ class ObservationController extends Controller
                 $observation->setValid(false);
                 $request->getSession()->getFlashBag()->add('success', 'Félicitation, Vous avez enregistré une nouvelle observation!!! Après validation par un professionel, vous pourrez la voir sur la carte.' );
             }
-            $em = $this->getDoctrine()->getManager();
-
-            $observation->setUser($this->getUser()); // L'utilisateur est envoyé à l'observation.
 
 
-            $observation->setBirdname($request->request->get("bird")); // Attribution de l'oiseau, traitement de sécurité dans la classe
 
-            //Go in bird repo. //Find one bird by id
-            $bird= $em->getRepository('BirdsObservationsBundle:Birds')->findOneByNomVern($observation->getBirdname());
 
-            if($bird == null)
-            {
-                // Entrée invalide = redirection + message d'erreur.
-            }
+
+            //$em->persist($image);
 
             $em->persist($observation);
+            if(isset($image))
+                $observation->setImage($image); // For some reason image gets to null after persisting observation, whether we have cascade persist or not doesn't change a damn thing.
+            //var_dump($observation);
+
+
             $em->flush();
+
+
+
             return $this->redirectToRoute("birds_my_observations");
         }
 
@@ -510,7 +544,7 @@ class ObservationController extends Controller
         $birdRepo= $this->getDoctrine()->getRepository('BirdsObservationsBundle:Observation');
         $observation = $birdRepo->find($id);
         //$observation->setBirdname($birdRepo->findByLbNom($observation->getBirdname()));
-        //var_dump($observation);
+
         $editForm = $this->createForm( ObservationFormType::class, $observation);
         $editForm->handleRequest($request);
 
