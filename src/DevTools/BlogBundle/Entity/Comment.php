@@ -39,13 +39,12 @@ class Comment
     /**
      * @var User
      *
-     * @ORM\OneToOne(targetEntity="\AppBundle\Entity\User", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="\AppBundle\Entity\User", inversedBy="comments", cascade={"persist"})
      */
-    private $author;
+    private $user;
 
     /**
-     * @var \Array
-     * @ORM\ManyToOne(targetEntity="DevTools\BlogBundle\Entity\Comment", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="DevTools\BlogBundle\Entity\Article", inversedBy="comments", cascade={"persist"})
      */
     private $article;
 
@@ -111,11 +110,11 @@ class Comment
     /**
      * Set article
      *
-     * @param \DevTools\BlogBundle\Entity\Comment $article
+     * @param \DevTools\BlogBundle\Entity\Article $article
      *
-     * @return Comment
+     * @return Article
      */
-    public function setArticle(\DevTools\BlogBundle\Entity\Comment $article = null)
+    public function setArticle(\DevTools\BlogBundle\Entity\Article $article = null)
     {
         $this->article = $article;
 
@@ -125,7 +124,7 @@ class Comment
     /**
      * Get article
      *
-     * @return \DevTools\BlogBundle\Entity\Comment
+     * @return \DevTools\BlogBundle\Entity\Article
      */
     public function getArticle()
     {
@@ -133,26 +132,32 @@ class Comment
     }
 
     /**
-     * Set author
+     * Set user
      *
-     * @param \AppBundle\Entity\User $author
+     * @param \AppBundle\Entity\User $user
      *
-     * @return Comment
+     * @return Article
      */
-    public function setAuthor(\AppBundle\Entity\User $author = null)
+    
+    public function setUser(\AppBundle\Entity\User $user = null)
     {
-        $this->author = $author;
+        $this->user = $user;
 
         return $this;
     }
 
     /**
-     * Get author
+     * Get user
      *
      * @return \AppBundle\Entity\User
      */
-    public function getAuthor()
+    public function getUser()
     {
-        return $this->author;
+        return $this->user;
+    }
+    
+    public function __construct()
+    {
+        $this->date = new \DateTime('Europe/Paris');
     }
 }

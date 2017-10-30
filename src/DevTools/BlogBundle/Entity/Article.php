@@ -47,24 +47,30 @@ class Article
     /**
      * @var string
      *
-     * @ORM\Column(name="content", type="string", length=255)
+     * @ORM\Column(name="content", type="string", length=1000)
      */
     private $content;
 
     /**
      * @var Image
      *
-     * @ORM\OneToOne(targetEntity="\AppBundle\Entity\Image", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Image", inversedBy="articles", cascade={"persist", "remove"})
      */
     private $image;
 
     /**
      * @var User
      *
-     * @ORM\OneToOne(targetEntity="\AppBundle\Entity\User", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="articles", cascade={"persist"})
      */
-    private $author;
+    private $user;
 
+    /**
+     * @var String
+     * 
+     * @ORM\OneToMany(targetEntity="DevTools\BlogBundle\Entity\Comment", mappedBy="article", cascade={"persist", "remove"})
+     */
+    private $comments; // Notez le « s », un article est lié à plusieurs commentaires
 
 
 
@@ -202,26 +208,70 @@ class Article
 
 
     /**
-     * Set author
+     * Set user
      *
-     * @param \AppBundle\Entity\User $author
+     * @param \AppBundle\Entity\User $user
      *
      * @return Article
      */
-    public function setAuthor(\AppBundle\Entity\User $author = null)
+    public function setUser(\AppBundle\Entity\User $user = null)
     {
-        $this->author = $author;
+        $this->user = $user;
 
         return $this;
     }
 
     /**
-     * Get author
+     * Get user
      *
      * @return \AppBundle\Entity\User
      */
-    public function getAuthor()
+    public function getUser()
     {
-        return $this->author;
+        return $this->user;
     }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->creationDate = new \DateTime('Europe/Paris');
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \DevTools\BlogBundle\Entity\Comment $comment
+     *
+     * @return Article
+     */
+    public function addComment(\DevTools\BlogBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \DevTools\BlogBundle\Entity\Comment $comment
+     */
+    public function removeComment(\DevTools\BlogBundle\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+    
 }

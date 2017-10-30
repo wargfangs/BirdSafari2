@@ -480,13 +480,10 @@ class ObservationController extends Controller
             }
             if ($this->isGranted("ROLE_NATURALIST", $observation->getUser())) {
                 $authorizedCommand = true;
-                if ($observation->getUser() != $this->getUser())
-                {
-                    if(!$this->isGranted("ROLE_ADMIN"))
-                    {
-                        $authorizedCommand = false;
-                        $request->getSession()->getFlashBag()->add("error","Vous ne pouvez pas supprimer les observations de vos collègues.");
-                    }
+                if ($observation->getUser() != $this->getUser() && !$this->isGranted("ROLE_ADMIN"))
+                {                 
+                  $authorizedCommand = false;
+                  $request->getSession()->getFlashBag()->add("error","Vous ne pouvez pas supprimer les observations de vos collègues.");                   
                 }
             }
 

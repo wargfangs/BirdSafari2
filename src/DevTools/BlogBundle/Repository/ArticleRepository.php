@@ -10,4 +10,55 @@ namespace DevTools\BlogBundle\Repository;
  */
 class ArticleRepository extends \Doctrine\ORM\EntityRepository
 {
+  public function findAllByUser(\AppBundle\Entity\User $user)
+  {
+    $qb = $this->_em->createQueryBuilder();
+    $qb
+    ->select('a')
+    ->from('DevToolsBlogBundle:Article', 'a')
+    ->where('a.user = :userId')
+    ->setParameter(':userId', $user);
+    return $qb
+    ->getQuery()
+    ->getResult();
+  }
+  
+  public function getTotalCount(\AppBundle\Entity\User $user)
+  {
+    $qb = $this->_em->createQueryBuilder();
+    $qb
+    ->select('COUNT(a)')
+    ->from('DevToolsBlogBundle:Article', 'a')
+    ->where('a.user = :userId')
+    ->setParameter(':userId', $user);
+    return $qb
+    ->getQuery()->getSingleScalarResult();
+  }
+  
+    /**
+     * @param $pageNumber
+     * @return mixed : array
+     */
+    public function getByPage($pageNumber, \AppBundle\Entity\User $user, $limit=4)
+    {
+        $results['nombreResultat'] =  $this->getTotalCount($user);
+        $results['nombrePage'] = ceil($results['nombreResultat']/$limit);//Total number of page per 25 Users
+        $page = intval($pageNumber);
+        if($results['nombrePage'] < $page)     //25 Users per page
+            $page = ceil($results['nombreResultat']/$limit);    //
+        if($page<1)
+            $page=1;
+        $results["page"]= $page;
+        $qb = $this->_em->createQueryBuilder('a')->select('a')
+            ->from('DevToolsBlogBundle:Article', 'a')
+            ->where('a.user = :userId')
+            ->setParameter(':userId', $user);
+            
+        //Order by:
+        $qb->orderBy('a.creationDate');
+        
+        $qb->setFirstResult(($page-1)*$limit)->setMaxResults($limit);
+        $results['results']= $qb->getQuery()->getResult();
+        return $results;
+    }
 }

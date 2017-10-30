@@ -71,26 +71,26 @@ class Observation
      */
     private $place;
 
-
     /**
      * @var boolean
      *
      * @ORM\Column(name="valid", type="boolean",nullable =false)
      */
     private $valid;
-	/**
+    
+    /**
      * One Observation has One User.
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
-	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id", unique=false)
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", unique=false)
      */
     private $user;
 
 
-	 /**
+    /**
      * @var Image
      * @ORM\Column(name="imageId",nullable=true)
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Image", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="image", referencedColumnName="id", nullable=true)
+     * @ORM\ManyToOne(targetEntity="\AppBundle\Entity\Image", inversedBy="observations", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="image_id", referencedColumnName="id", nullable=true)
      */
     private $image;
 

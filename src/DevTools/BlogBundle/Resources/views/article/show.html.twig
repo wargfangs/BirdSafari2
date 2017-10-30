@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Article</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Titre</th>
+                <td>{{ article.title }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{% if article.creationDate %}{{ article.creationDate|date('d/m/Y - H:i') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <td><img src="{{ article.image.src }}" alt="" /></td>
+            </tr>
+            <tr>
+                <th>Contenu</th>
+                <td>{{ article.content }}</td>
+            </tr>
+        </tbody>
+    </table>     
+
+    <h3>Ajoutez un commentaire</h3>
+    {{ form_start(commentForm) }}
+     <div class="form-group">
+      {{ form_errors(commentForm.content) }}
+      {{ form_widget(commentForm.content, { 'attr':  {
+       'rows': '4',
+       'class': 'form-control',
+       'placeholder': 'Ecrivez votre commentaire'
+      }}) }}
+     </div>
+    <div class="form-group">
+      <input type="submit" class="btn btn-primary" value="Publier le commentaire" />
+    </div>
+    {{ form_end(commentForm) }}
+            
+    <h3>Commentaires</h3>
+    {% for com in showcomment %}
+{#        <p>{{ com.user }}</p> #}
+        <p>Date : {{ com.date|date('d/m/Y - H:i') }}</p>
+        <p>Commentaire : {{ com.content }}</p>
+{#        <p>{{ form_start(deletecom_form) }}
+                <input type="submit" value="Supprimer">
+            {{ form_end(deletecom_form) }}
+        </p>#}
+    {% else %}
+        Pas de commentaires pour l'instant.
+    {% endfor %}
+    
+    
+    <ul>
+        <li>
+            <a href="{{ path('article_index') }}">Retour à la liste d'articles</a>
+        </li>
+        <li>
+            <a href="{{ path('article_edit', { 'id': article.id }) }}">Modifier</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Supprimer">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
