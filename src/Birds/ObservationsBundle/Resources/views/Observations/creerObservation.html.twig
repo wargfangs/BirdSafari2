@@ -26,8 +26,15 @@
 		</div>
 
 		<div class="row">
-			<div class="col-sm-4 col-sm-offset-2">
-				{{ form_row(form.place, {attr:{'id':'autocompleteAddress', 'onclick':'geocodeNow()'}}) }}
+			<div class="col-sm-6 col-sm-offset-2">
+				<div class="col-sm-9 form-inline">
+
+                    {{ form_row(form.place, {attr:{'id':'place'}}) }}
+
+				</div>
+				<div class="col-sm-3">
+
+				</div>
 			</div>
 
 			<div class="col-sm-4 col-sm-offset-2" hidden>
@@ -60,7 +67,7 @@
     {{ parent() }}
 
 	<script src={{ asset("js/observations/creerObservation.js") }}></script>
-	<script src={{ asset("js/observations/addressLoc.js") }}></script>
+
 
 
 

@@ -25,3 +25,9 @@
 
 
 {% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <script src="{{ asset('js/observations/MapDispatcher.js') }}"></script>
+
+{% endblock %}
