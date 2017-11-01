@@ -26,7 +26,7 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
      */
     public function getByPage($pageNumber, $order,$limit=25)
     {
-        $results['nombreResultat'] =  $this->getTotalCount();
+        $results['nombreResultat'] = $this->getTotalCount();  // Total de résultats
         $results['nombrePage'] = ceil($results['nombreResultat']/$limit);//Total number of page per 25 Users
         $page = intval($pageNumber);
         if($results['nombrePage'] < $page)     //25 Users per page

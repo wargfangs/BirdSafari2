@@ -139,20 +139,17 @@ class Image
 
 
 
-    /**
-     * @ORM\PreRemove()
-     */
+
     public function preRemoveUpload()
     {
         // On sauvegarde temporairement le nom du fichier, car il dépend de l'id
-        $this->tempFilename = $this->getUploadRootDir().'/'.$this->id.'.'.$this->src;
+        $this->tempFilename = $this->src;
     }
 
-    /**
-     * @ORM\PostRemove()
-     */
+
     public function removeUpload()
     {
+        $this->preRemoveUpload();
         // En PostRemove, on n'a pas accès à l'id, on utilise notre nom sauvegardé
         if (file_exists($this->tempFilename)) {
             // On supprime le fichier

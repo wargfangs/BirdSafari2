@@ -46,7 +46,7 @@ class AppController extends Controller
      */
     public function adminUsersAction(Request $r, $page)
     {
-        $this->checkAdmin($r);
+        $this->checkAdmin($r); //On vérifie si l'utilisateur est l'admin.
 
         //Get orderBy.
         $orderBy = $r->query->get("orderBy");

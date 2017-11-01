@@ -459,4 +459,13 @@ class Observation
     {
         return $this->hasValidPictureForShow;
     }
+
+    /**
+     * Removes reference from database. Do not suppress
+     */
+    public function removeImageReference()
+    {
+
+        $this->image = null;
+    }
 }
