@@ -101,7 +101,7 @@
 					</thead>
 					<tbody>
                     {%  for obs in observationsAttente %}
-						<tr>
+						<tr class="observationLine" id="line-{{ obs.id }}">
 							<td>{{ obs.place }}</td>
 							<td>{{ obs.date | date('d m Y',"Europe/Paris") }}</td>
 							<td>{{ obs.hour }}h</td>
@@ -109,7 +109,7 @@
 							<td><a  href={{ path("birds_observation", {"id": obs.id }) }}>{{ obs.birdname }} </a></td>
 							<td><a class="btn btn-xs btn-info btn-block" href="{{ path("birds_observations_update", {"id": obs.id}) }}">Modifier</a>
 								<a class="btn btn-xs btn-warning btn-block" href="{{ path("birds_observations_remove", {"id" : obs.id }) }}">Supprimer</a></td>
-							<div class="coords" hidden>{{ obs.latitude }};{{ obs.longitude }}</div>
+							<div class="coords" hidden>{{ obs.latitude }};{{ obs.longitude }};{{ obs.id }}</div>
 						</tr>
                     {% endfor %}
 					</tbody>
@@ -297,7 +297,7 @@
 					</thead>
 					<tbody>
 					{%  for obs in observations %}
-						<tr>
+						<tr class="observationLine" id="line-{{ obs.id }}">
 							<td>{{ obs.place }}</td>
 							<td>{{ obs.date | date('d m Y',"Europe/Paris") }}</td>
 							<td>{{ obs.hour }}h</td>
@@ -309,7 +309,7 @@
 									<a class="btn btn-xs btn-warning btn-block" href="{{ path("birds_observations_remove", {"id" : obs.id }) }}">Supprimer</a>
 								{% endif %}
 							</td>
-							<div class="coords" hidden>{{ obs.latitude }};{{ obs.longitude }}</div>
+							<div class="coords" hidden>{{ obs.latitude }};{{ obs.longitude }};{{ obs.id }}</div>
 						</tr>
 					{% endfor %}
 					</tbody>

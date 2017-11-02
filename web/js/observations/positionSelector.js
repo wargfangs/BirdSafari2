@@ -50,8 +50,10 @@ function OnMapReady(map)//map = élément du dom
         });
 
         $('form[name="observation_form"]').on('submit', function(e) {
-            reverseGeo(latID,longID,marker,geocoder,map, infos);
             e.preventDefault();
+            reverseGeo(latID,longID,marker,geocoder,map, infos);
+
+            this.submit();
         });
         //reverse geocoding for address.  Fill place field with town and administrative region + fill latlng.
         marker.addListener('dragend', function(){
@@ -166,10 +168,11 @@ function reverseGeo(lat,lng,marker, geocoder, map, infowindow) {
             } else {
 
                 //write : Unknown address.
-
+                $('#observation_form_place').val("Adresse inconnue");
             }
         } else {
-            window.alert('Geocoder failed due to: ' + status);
+            //Write: unknown address
+            $('#observation_form_place').val("Adresse inconnue");
         }
     });
 }
