@@ -10,4 +10,32 @@ namespace DevTools\BlogBundle\Repository;
  */
 class CommentRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findAllByArticle($id) {
+        
+        $repository = $this
+          ->getDoctrine()
+          ->getManager()
+          ->getRepository('DevToolsBlogBundle:Article')
+        ;
+
+        $article = $repository->find($id);
+        
+        $repo = $this
+        ->getDoctrine()
+        ->getManager()
+        ->getRepository('DevToolsBlogBundle:Comment')
+        ;
+
+        $result = $repo->findAll();
+
+        foreach ($result as $row) {
+          // $advert est une instance de Advert
+         $comment = $row->getId();
+        $comments = $comment->setArticle($article);
+         
+        }
+                return $comments;
+
+    }
+
 }

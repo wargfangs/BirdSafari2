@@ -36,8 +36,6 @@ class User extends BaseUser
      */
     private $lastname;
 
-
-
     /**
      * @var string
      *
@@ -62,9 +60,21 @@ class User extends BaseUser
     /**
      * @var Image
      *
-     * @ORM\OneToOne(targetEntity="\AppBundle\Entity\Image", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Image", inversedBy="users", cascade={"persist", "remove"})
      */
     private $image;
+    
+    /**
+     * 
+     * @ORM\OneToMany(targetEntity="DevTools\BlogBundle\Entity\Article", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $articles; // Notez le « s », un user est lié à plusieurs articles
+    
+    /**
+     * 
+     * @ORM\OneToMany(targetEntity="DevTools\BlogBundle\Entity\Comment", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $comments; // Notez le « s », un user est lié à plusieurs commentaires
 
 
     /**
@@ -238,5 +248,71 @@ class User extends BaseUser
         return $this->image;
     }
 
+    /**
+     * Add article
+     *
+     * @param \DevTools\BlogBundle\Entity\Article $article
+     *
+     * @return User
+     */
+    public function addArticle(\DevTools\BlogBundle\Entity\Article $article)
+    {
+        $this->articles[] = $article;
 
+        return $this;
+    }
+
+    /**
+     * Remove article
+     *
+     * @param \DevTools\BlogBundle\Entity\Article $article
+     */
+    public function removeArticle(\DevTools\BlogBundle\Entity\Article $article)
+    {
+        $this->articles->removeElement($article);
+    }
+
+    /**
+     * Get articles
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getArticles()
+    {
+        return $this->articles;
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \DevTools\BlogBundle\Entity\Comment $comment
+     *
+     * @return User
+     */
+    public function addComment(\DevTools\BlogBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \DevTools\BlogBundle\Entity\Comment $comment
+     */
+    public function removeComment(\DevTools\BlogBundle\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
 }

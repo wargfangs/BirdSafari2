@@ -1,5 +1,5 @@
 dev_tools_blog:
-    resource: "@DevToolsBlogBundle/Resources/config/routing.yml"
+    resource: "@DevToolsBlogBundle/Resources/config/routing/article.yml"
     prefix:   /Blog
 
 birds_observations:

@@ -56,7 +56,27 @@ class Image
     private $file;
     private $tempFilename;
 
+    /**
+     * @var String
+     * 
+     * @ORM\OneToMany(targetEntity="DevTools\BlogBundle\Entity\Article", mappedBy="image", cascade={"persist"})
+     */
+    private $articles; // Notez le « s », une image est liée à plusieurs articles
+	
+    /**
+     * @var String
+     * 
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\User", mappedBy="image", cascade={"persist"})
+     */
+    private $users; // Notez le « s », une image est liée à plusieurs users
 
+    /**
+     * @var String
+     * 
+     * @ORM\OneToMany(targetEntity="Birds\ObservationsBundle\Entity\Observation", mappedBy="image", cascade={"persist"})
+     */
+    private $observations; // Notez le « s », une image est liée à plusieurs observations
+    
     /**
      * Get id
      *
@@ -168,5 +188,116 @@ class Image
         // On retourne le chemin relatif vers l'image pour notre code PHP
 
         return __DIR__.'/../../../web/'.$this->getUploadDir();
+    }
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->articles = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add article
+     *
+     * @param \DevTools\BlogBundle\Entity\Article $article
+     *
+     * @return Image
+     */
+    public function addArticle(\DevTools\BlogBundle\Entity\Article $article)
+    {
+        $this->articles[] = $article;
+
+        return $this;
+    }
+
+    /**
+     * Remove article
+     *
+     * @param \DevTools\BlogBundle\Entity\Article $article
+     */
+    public function removeArticle(\DevTools\BlogBundle\Entity\Article $article)
+    {
+        $this->articles->removeElement($article);
+    }
+
+    /**
+     * Get articles
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getArticles()
+    {
+        return $this->articles;
+    }
+
+    /**
+     * Add user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Image
+     */
+    public function addUser(\AppBundle\Entity\User $user)
+    {
+        $this->users[] = $user;
+
+        return $this;
+    }
+
+    /**
+     * Remove user
+     *
+     * @param \AppBundle\Entity\User $user
+     */
+    public function removeUser(\AppBundle\Entity\User $user)
+    {
+        $this->users->removeElement($user);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
+    /**
+     * Add observation
+     *
+     * @param \Birds\ObservationsBundle\Entity\Observation $observation
+     *
+     * @return Image
+     */
+    public function addObservation(\Birds\ObservationsBundle\Entity\Observation $observation)
+    {
+        $this->observations[] = $observation;
+
+        return $this;
+    }
+
+    /**
+     * Remove observation
+     *
+     * @param \Birds\ObservationsBundle\Entity\Observation $observation
+     */
+    public function removeObservation(\Birds\ObservationsBundle\Entity\Observation $observation)
+    {
+        $this->observations->removeElement($observation);
+    }
+
+    /**
+     * Get observations
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getObservations()
+    {
+        return $this->observations;
     }
 }
