@@ -1,9 +1,218 @@
 {% extends "base.html.twig" %}
 
 {% block title %}{{ parent() }} - Notre Mission{% endblock %}
-{% block css %}{{ parent() }}{% endblock %}
+{% block css %}{{ parent() }}
+    <link href="{{ asset('css/special/mission.css') }}" rel="stylesheet">
+{% endblock %}
 {% block body %}
-    <h1 class="text-center">Vous trouverez des informations sur notre mission ici.</h1>
+
+    <div class="container-fluid">
+
+        <div class="row missionRow">
+            <div class="col-md-12">
+                <h2 class="text-center">Notre mission</h2>
+                <div class="col-md-3"> <div class="col-md-12">
+                        <video class="col-md-12 col-sm-8 col-xs-12" width="300"  controls>
+                            <source src="{{ asset('video/Le changement climatique menace l\'avifaune en Inde.mp4') }}" type="video/mp4">
+                            Your browser doesn't support this kind of video.
+                        </video>
+
+                    </div></div>
+                <div class="col-md-3"> <div class="col-md-offset-1 col-md-10">
+                        <p>
+                            Un proverbe chinois dit que l’homme déplace des montagnes en emportant en premier de petits cailloux.
+                            C’est à la lumière de cet ancien adage que le projet “nos amis les oiseaux” est né. La mission et le succès de notre projet dépend de l’union de personnes.
+                            Nous pensons que même si l’Homme peut détruire, il a aussi la faculté de réparer.
+                        </p>
+                    </div></div>
+                <div class="col-md-3"> <div class="col-md-offset-1 col-md-10">
+                        <p>
+                            Ce même homme qui a l’humilité de réparer peut également avoir le courage de défendre.
+                            Pour faire partie du projet, il suffit de regarder le ciel et de photographier les oiseaux que vous voyez. Avec ce geste simple, vous nous aiderez à localiser les espèces de la région.
+                        </p>
+                    </div></div>
+                <div class="col-md-3"> <div class="col-md-offset-1 col-md-10">
+                        <p>
+                            Grâce à vos photos et à leur localisation, nos scientifiques auront suffisamment de données pour mesurer l’évolution du nombre d’individus de chaque espèce de la région.
+                            Vous nous aiderez ainsi à les protéger de l'extinction tout en protégeant la biodiversité.
+
+                        </p>
+                    </div></div>
+            </div>
+        </div>
+
+        <div class="row missionRow">
+            <div class="col-md-12">
+                <h2 class="text-center">Soutenir la nature</h2>
+
+                <div class="col-md-3"> <div class="col-md-offset-1 col-md-10">
+                        <p>
+                            De nombreux projets existent en France, où chacun à sa manière peut contribuer à protéger la planète. C’est main dans la main que nous pourrons tous ensemble déplacer la montagne, si grande soit-elle. C’est dans ce sens que nous soutenons aujourd’hui les initiatives de nombreuses autres associations et collectivités.
+                        </p>
+
+                    </div></div>
+                <div class="col-md-3"> <div class="col-md-offset-1 col-md-10">
+                        <p>Nos amis les oiseaux aurait peu de sens si l’association n’était pas insérée dans une démarche à plus grande échelle, et nous vous invitons à découvrir toutes les initiatives que nous soutenons en cliquant sur les photos que vous trouverez sur notre site
+                            et en vous inscrivant à notre journal hebdomadaire pour y retrouver chaque semaine une sélection préparée par nos soins.
+                        </p>
+                    </div></div>
+                <div class="col-md-3"> <div class="col-md-offset-1 col-md-10">
+                        <p>
+                            Construisons ensemble un avenir durable et respectueux de l’environnement.
+                        </p>
+                    </div></div>
+                <div class="col-md-3">
+                    {% include '@App/Carousel/carouselTemplate.html.twig' with {
+                        'idCar':'1',
+                        'slideNumber' : '3',
+                        'picArray':[
+                            {'src':"img/BlueBees.jpg",'alt':"BlueBees", 'overflow':'true'},
+                            {'src':"img/photo.jpg",'alt':"care"},
+                            {'src':"img/hqdefault.jpg",'alt':"greatPlanet"}
+                        ],
+                        'class':'carousel-little'
+                    } %}
+
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row missionRow">
+            <div class="col-md-12">
+                <h2 class="text-center">Nos partenaires</h2>
+                <div class="col-md-3"> <div class="col-md-offset-1 col-md-10">
+                        <p>
+                            L’association Nos Amis Les Oiseaux travaille en collaboration avec les l’Organisation des Nation Unies, Le WWF et le CNRS sur le projet “Warm global” (réchauffement de la planète),
+                            vaste projet qui identifie les changements climatiques de notre planète.
+                            L’importance de ce partenariat?
+
+                        </p>
+                    </div></div>
+                <div class="col-md-3"> <div class="col-md-offset-1 col-md-10">
+                        <p>
+                            C'est grâce à leurs données climatiques que nous pouvons identifier ou même prédire tout changement dans la nature.
+                            Avec l’aide de ces organismes, aujourd’hui nous travaillons pour anticiper, protéger les espèces avant même une possible migration.
+                        </p>
+                    </div></div>
+                <div class="col-md-3">
+                    <div class="col-md-offset-1 col-md-10">
+                        <p>
+                            Si vous voulez en savoir plus sur le projet Warm Global cliquez sur l’image inscrivez-vous à notre journal pour avoir
+                            accès aux différentes actions entreprises aujourd’hui pour sauvegarder la planète et préserver la biodiversité.
+
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    {% include '@App/Carousel/carouselTemplate.html.twig' with {
+                    'idCar':'2',
+                    'slideNumber' : '5',
+                    'picArray':[
+                    {'src':"img/2-CNRS.png",'alt':"CNRS"},
+                    {'src':"img/2-ForThePlanet.png",'alt':"care"},
+                    {'src':"img/2-MNHN.png",'alt':"Muséum national d'histoire naturelle"},
+                    {'src':"img/2-ONU.png",'alt':"ONU"},
+                    {'src':"img/2-WWF.jpg",'alt':"WWF"}
+                    ],
+                    'class':'carousel-little'} %}
+                </div>
+            </div>
+        </div>
+
+        <div class="row missionRow">
+            <div class="col-md-12">
+                <h2 class="text-center">Nos membres</h2>
+                <div class="col-md-3">
+                    {% include '@App/Carousel/carouselTemplate.html.twig' with {
+                    'idCar':'3',
+                    'slideNumber' : '3',
+                    'picArray':[
+                    {'src':"img/3-Directricedesrecherchs.jpg",'alt':"Directrice des recherches"},
+                    {'src':"img/3-President.jpg",'alt':"president"},
+                    {'src':"img/3-MVP.jpg",'alt':"MVP"}
+                    ],
+                    'class':'carousel-little'
+                    } %}
+                </div>
+                <div class="col-md-3"> <div class="col-md-offset-1 col-md-10">
+                        <p>
+                            “J’ai rencontré Nicolas Dujardin (le Président de l’association) le 30 novembre 2015 à la conférence de paris sur le climat.
+                            À l’époque, le président de la plus grande puissance au monde soutenait les actions contre le réchauffement climatique et
+                            j'étais chargée de créer des liens avec les associations locales pour créer des actions coordonnées transatlantiques.
+                        </p>
+                    </div></div>
+                <div class="col-md-3"> <div class="col-md-offset-1 col-md-10">
+                        <p>
+                            Les temps ont changé, mais les conséquences sont tous les jours un peu plus visibles.
+                            C’est là que l'idée de Nicolas Dujardin est devenue plus pertinente que jamais.
+                            En alliant nos forces avec Nos Amis les Oiseaux, nous avons la possibilité d’obtenir la plus grande base de données jamais établie au monde sur les conséquences du réchauffement climatique sur les animaux.
+                            Si l'expérience s'avère concluante, nous globaliserons l’action.
+                        </p>
+                    </div></div>
+                <div class="col-md-3"> <div class="col-md-offset-1 col-md-10">
+                        <p>
+                            Tous ensemble nous pouvons construire un monde plus durable et plus respectueux de l’environnement.”
+                            Catherine Decker, Directrice de Recherche.
+
+                        </p>
+                    </div></div>
+            </div>
+        </div>
+
+
+        <div id="videoPop" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Ne partez pas tout de suite !!!</h4>
+                    </div>
+                    <div class="modal-body">
+                        <video class="text-center" width="400" height='240' controls>
+                            <source src="{{ asset('video/Le changement climatique menace l\'avifaune en Inde.mp4') }}" type="video/mp4">
+                            Your browser doesn't support this kind of video.
+                        </video>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
 {% endblock %}
 {% block foot %}{% endblock %}
-{% block js %}{{ parent() }}{% endblock %}
+{% block js %}{{ parent() }}
+    <script src="{{ asset('js/Mission/mission.js') }}"></script>
+
+{% endblock %}

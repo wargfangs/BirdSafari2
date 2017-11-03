@@ -1,7 +1,9 @@
 {% extends "base.html.twig" %}
 
-{% block title %}{{ parent() }}-Notre Mission{% endblock %}
-{% block css %}{{ parent() }}{% endblock %}
+{% block title %}{{ parent() }} - Accueil{% endblock %}
+{% block css %}{{ parent() }}
+    <link href="{{ asset('css/special/accueil.css') }}" rel="stylesheet">
+{% endblock %}
 {% block body %}
 
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -51,13 +53,14 @@
     </a>
 </div>
 
-<div class="container text-center">
+<div class="container-fluid text-center">
     <div class="row text-center isole">
 
-        <p>Vous voulez participer à la science? <a href="{{ path("birds_observations_add") }}" class="btn btn-lg btn-success" >Ajoutez une observation d'oiseau</a></p>
+        <p class="accueil-pad">DERNIÈRES OBSERVATIONS</p>
+        <p>Vous voulez faire avancer la science ??? <br><a href="{{ path("birds_observations_add") }}" class="btn btn-lg btn-info accueil-pad">Ajoutez une observation d'oiseau</a></p>
     </div>
     <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-4 accueil-pad">
             <h3>Notre mission </h3>
             <a href="{{ path('mission') }}" class="">
                 <p>Notre mission :
@@ -68,12 +71,12 @@
                 </p>
             </a>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-4 accueil-pad">
             <h3>Vidéo: Notre mission pour la planète</h3>
             <iframe width="560" height="315" class="col-xs-12" src="https://www.youtube.com/embed/8V-X8NgiK_E" frameborder="0" allowfullscreen></iframe>
-            <p>Project 2</p>
+
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-4 accueil-pad">
             <h3>Statistiques du jour</h3>
             <script type="text/javascript" src="https://www.planetoscope.com/widget.php?id=1839&f=3"></script>
 
