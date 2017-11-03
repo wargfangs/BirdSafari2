@@ -12,9 +12,22 @@
         {{ obs.description  }}
     {% endif %}
 
-	{% if obs.image is defined %}
-		{{ obs.image }}
+	{% if obs.image %}
+        <div class="col-sm-12 col-xs-12">
+		    <img class="col-xs-12" src="{{ asset(obs.image.src) }}" alt={{ obs.image.alt }}/>
+        </div>
     {% endif %}
 
+    {% if is_granted("ROLE_NATURALIST") %}
+        <a href="{{ path('birds_observations_remove', {'id':obs.id}) }}" >Supprimer</a>
+        <a href="{{ path('birds_observations_update', {'id':obs.id}) }}" >Modifier</a>
+    {% endif %}
+
+
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <script src="{{ asset('js/observations/MapDispatcher.js') }}"></script>
 
 {% endblock %}

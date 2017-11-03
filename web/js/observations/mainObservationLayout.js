@@ -26,7 +26,7 @@ $(function(){
     //button : jqueryObj bouton surlequel on a appuyé.
     function smartClose(button)
     {
-        console.log("Contient c6 "+ button.parent().hasClass("col-md-6"));
+        //console.log("Contient c6 "+ button.parent().hasClass("col-md-6"));
         if(button.attr("id") === 'obsLayout')
         {
             //écouter les événements de redimensionnement de la carte pour retirer le bug d'affichage.
@@ -43,4 +43,13 @@ $(function(){
             $('#obsLayout').parent().toggleClass("col-md-11");
         }
 
+    }
+
+    function OnMapReady(map)
+    {
+        console.log("Called");
+        $('.storing').click(function(){
+            google.maps.event.trigger(map, 'resize');
+
+        });
     }

@@ -10,7 +10,11 @@
 	<h1>Modifiez l'observation n°{{ obs.id }}</h1>
 
         {{ form_start(form)  }}
-        {{ form_row(form.birdname, {'label':'Oiseau:'})  }}
+		<label for="bird">Oiseau:</label>
+		<select class="birdnames" name="bird" id="bird">
+			<option value="{{ obs.birdname }}">{{ obs.birdname }}</option>
+		</select>
+
         {{ form_row(form.notSure, {'label':'Je ne suis pas sûr de mon observation'})   }}
         {{ form_row(form.date, {'label':'Date de l\'observation:'}) }}
 		<div class="row">
@@ -22,9 +26,13 @@
 
 		<div class="row">
 			<div class="col-sm-4 col-sm-offset-2">
+                {{ form_row(form.place, {attr:{'id':'place'}}) }}
+			</div>
+
+			<div class="col-sm-4 col-sm-offset-2" hidden>
                 {{ form_row(form.latitude) }}
 			</div>
-			<div class="col-sm-4">
+			<div class="col-sm-4" hidden>
                 {{ form_row(form.longitude)  }}
 			</div>
 
@@ -33,7 +41,26 @@
 			<p class="btn btn-default col-sm-4 col-sm-offset-4" id="useMyPos">Utiliser ma position</p>
 		</div>
 		<hr>
-        {{ form_row(form.image)}}
+
+		<div class="row">
+
+			<div class="col-sm-6 col-xs-12">
+                {% if obs.image %}
+					<input type="checkbox" class="validationRequired" name="keep" checked="checked">Garder l'ancienne image</input>
+				{% endif %}
+				<div class="validationR">
+					{{ form_row(form.image)}}
+
+				</div>
+			</div>
+            {% if obs.image %}
+
+			<div class="col-sm-6 col-xs-12">
+				Image actuelle:
+				<img class="col-xs-12" src="{{ asset(obs.image.src) }}" alt="{{ obs.image.alt }}">
+			</div>
+			{% endif %}
+		</div>
         {{ form_rest(form) }}
 		<input type="submit" class="btn btn-success"/>
         {{ form_end(form) }}
@@ -46,13 +73,12 @@
 
 {% block js %}
 	<script>var page="add"</script>
+	<script src={{ asset("js/observations/positionSelector.js") }}></script>
     {{ parent() }}
 
 	<script src={{ asset("js/observations/creerObservation.js") }}></script>
-	<script src={{ asset("js/observations/positionSelector.js") }}></script>
 
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<script src={{ asset("js/observations/autocompleteBirds.js") }}></script>
+
 
 {% endblock %}
 

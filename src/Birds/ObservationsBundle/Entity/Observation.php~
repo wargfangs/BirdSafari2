@@ -88,11 +88,16 @@ class Observation
 
 	 /**
      * @var Image
-     * @ORM\Column(name="imageId",nullable=true)
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Image", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="image", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="image_id", referencedColumnName="id", nullable=true)
      */
     private $image;
+
+    /**
+     * @ORM\Column(name="valid_pic", type="boolean",nullable =false)
+     * @var
+     */
+    private $hasValidPictureForShow=false;
 
     /**
      * @var string
@@ -249,9 +254,11 @@ class Observation
      *
      * @return Image
      */
-    public function setImage(\AppBundle\Entity\Image $image = null)
+    public function setImage(\AppBundle\Entity\Image $image)
     {
         $this->image = $image;
+        //file_put_contents("image.txt", "Created instance: src:". $image->getSrc(). " alt:" . $image->getAlt(). " Id:" . $image->getId()  );
+
 
         return $this;
     }
@@ -377,5 +384,53 @@ class Observation
     public function getNotSure()
     {
         return $this->notSure;
+    }
+
+    /**
+     * Set hour
+     *
+     * @param integer $hour
+     *
+     * @return Observation
+     */
+    public function setHour($hour)
+    {
+        $this->hour = $hour;
+
+        return $this;
+    }
+
+    /**
+     * Get hour
+     *
+     * @return integer
+     */
+    public function getHour()
+    {
+        return $this->hour;
+    }
+
+    /**
+     * Set place
+     *
+     * @param string $place
+     *
+     * @return Observation
+     */
+    public function setPlace($place)
+    {
+        $this->place = $place;
+
+        return $this;
+    }
+
+    /**
+     * Get place
+     *
+     * @return string
+     */
+    public function getPlace()
+    {
+        return $this->place;
     }
 }

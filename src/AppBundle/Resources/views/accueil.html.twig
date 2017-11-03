@@ -1,33 +1,45 @@
 {% extends "base.html.twig" %}
 
-{% block title %}{{ parent() }}-Notre Mission{% endblock %}
-{% block css %}{{ parent() }}{% endblock %}
+{% block title %}{{ parent() }} - Accueil{% endblock %}
+{% block css %}{{ parent() }}
+    <link href="{{ asset('css/special/accueil.css') }}" rel="stylesheet">
+{% endblock %}
 {% block body %}
 
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
     <!-- Indicators -->
     <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
+        {% set indic = 0 %}
+        {% for o in obs %}
+            {% if indic == 0 %}
+            <li data-target="#myCarousel" data-slide-to="{{ indic }}" class="active"></li>
+            {% else %}
+            <li data-target="#myCarousel" data-slide-to="{{ indic }}"></li>
+            {% endif %}
+            {% set indic = indic+1 %}
+        {% endfor %}
     </ol>
 
     <!-- Wrapper for slides -->
     <div class="carousel-inner" role="listbox">
-        <div class="item active">
-            <img src="https://placehold.it/1200x400?text=IMAGE" alt="Image">
-            <div class="carousel-caption">
-                <h3>Observ1</h3>
-                <p>Text d'observation ou auteur</p>
-            </div>
-        </div>
+        {% set active = false %}
+        {% for o in obs %}
 
-        <div class="item">
-            <img src="https://placehold.it/1200x400?text=Another Image Maybe" alt="Image">
-            <div class="carousel-caption">
-                <h3>Observ2</h3>
-                <p>Texte d'observ. Auteur</p>
+            <!--Adding a valid observation to the stack-->
+            <div class="item {% if active == false %}active{% endif %}">
+                <a href="{{ path("birds_observation", {'id':o.id}) }}">
+                    <img src="{{ asset(o.image.src) }}" alt="{{ o.image.alt }}"/>
+                    <div class="carousel-caption">
+                        <h3>Observation n° {{ o.id }}</h3>
+                        <p>{{ o.birdname }}  {% if o.title %}| {{ o.title }}{% elseif o.user %} par {{ o.user.username }}{% elseif o.place %}| {{ o.place }}{% endif %} </p>
+                    </div>
+                </a>
             </div>
-        </div>
+
+            {% set active = true %}
+        {% endfor %}
+
+
     </div>
 
     <!-- Left and right controls -->
@@ -41,27 +53,33 @@
     </a>
 </div>
 
-<div class="container text-center">
-    <h3>Ce qu'on fait</h3><br>
+<div class="container-fluid text-center">
+    <div class="row text-center isole">
+
+        <p class="accueil-pad">DERNIÈRES OBSERVATIONS</p>
+        <p>Vous voulez faire avancer la science ??? <br><a href="{{ path("birds_observations_add") }}" class="btn btn-lg btn-info accueil-pad">Ajoutez une observation d'oiseau</a></p>
+    </div>
     <div class="row">
-        <div class="col-sm-4">
-            textBLABLABLA
-            <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
-            <p>Notre mission</p>
+        <div class="col-sm-4 accueil-pad">
+            <h3>Notre mission </h3>
+            <a href="{{ path('mission') }}" class="">
+                <p>Notre mission :
+                    Notre mission est de receuillir un maximum de données pour que nos scientifiques puissent comprendre l'impact de l'activité humaine sur la biodiversité
+                    et sur nos amis les oiseaux.
+
+
+                </p>
+            </a>
         </div>
-        <div class="col-sm-4">
-            textBLABLABLA/ video
-            <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
-            <p>Project 2</p>
+        <div class="col-sm-4 accueil-pad">
+            <h3>Vidéo: Notre mission pour la planète</h3>
+            <iframe width="560" height="315" class="col-xs-12" src="https://www.youtube.com/embed/8V-X8NgiK_E" frameborder="0" allowfullscreen></iframe>
+
         </div>
-        <div class="col-sm-4">
-            statistiques du jour
-            <div class="well">
-                <script type="text/javascript" src="https://www.planetoscope.com/widget.php?id=1839&f=3"></script>
-            </div>
-            <div class="well">
-                <p>Some text..</p>
-            </div>
+        <div class="col-sm-4 accueil-pad">
+            <h3>Statistiques du jour</h3>
+            <script type="text/javascript" src="https://www.planetoscope.com/widget.php?id=1839&f=3"></script>
+
         </div>
     </div>
 </div>
@@ -69,7 +87,18 @@
 {% endblock %}
 {% block foot %}{% endblock %}
 {% block js %}{{ parent() }}
+    <script>
+        $(function(){ $('.widget_plus').hide(); });
+        $('.widget_planeto').hide();
+        var newForm=  '<p id="statFromPlaneto"> </p><p id="numberOfPlaneto"> '
+        $('.widget_planeto').after($(newForm));
 
+        $('#statFromPlaneto').text($('.widget_titre').find('a').text());
+        $('#numberOfPlaneto').text(0);
+        $('#Connecte1839').on('change', function(){
+            $('#numberOfPlaneto').html($(this));
+        });
+    </script>
 
 {% endblock %}
 

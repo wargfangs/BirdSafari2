@@ -12,7 +12,7 @@ $(function(){
            if($.trim(text) != "")
            {
                text = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
-               $(".birdnames").append("<option value=" + text + ">" + text + "</option>");
+               $(".birdnames").append("<option value=\"" + bird.nomVern  + "\">" + text + "</option>");
            }
 
 

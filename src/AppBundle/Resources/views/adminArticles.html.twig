@@ -1,0 +1,8 @@
+{% extends "@App/adminLayout.html.twig" %}
+
+
+
+{% block content %}
+	Articles
+    {% include '@App/paginationTemplate.html.twig' with {'pathOfPage':'admin_articles'} %}
+{% endblock %}

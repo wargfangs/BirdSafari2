@@ -1,0 +1,13 @@
+body {
+
+}
+
+@media screen and (max-width:640px)
+{
+    body {
+        background-image: url("/BirdSafari/web/img/backgrounds/fond_mission_mobile.jpg");
+        background-attachment: fixed;
+
+    }
+}
+

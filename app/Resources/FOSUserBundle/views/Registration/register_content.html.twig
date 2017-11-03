@@ -7,7 +7,8 @@
     {{ form_row(form.username) }}
     {{ form_row(form.plainPassword) }}
 
-    <label for="nat">{{ "Demander à être un naturaliste"|trans }}</label> <input id="nat" name="nat" type="checkbox" class=""/>
+
+    {{ form_row(form.confirmationStatus, {attr:{'id':'nat'}}) }}
     <div class="form-group" id="champsNat">
 
         {{ form_row(form.firstName) }}

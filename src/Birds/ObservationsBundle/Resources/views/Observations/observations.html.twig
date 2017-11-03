@@ -168,13 +168,13 @@
 				</thead>
 				<tbody>
         			{%  for obs in observations %}
-						<tr>
+						<tr class="observationLine" id="line-{{ obs.id }}">
 							<td>{{ obs.place }}</td>
 							<td>{{ obs.date | date('d m Y',"Europe/Paris") }}</td>
 							<td>{{ obs.hour }}h</td>
 							<td>{{ obs.title }}</td>
 							<td><a href={{ path("birds_observation", {"id": obs.id }) }}>{{ obs.birdname }} </a></td>
-							<div class="coords" hidden>{{ obs.latitude }};{{ obs.longitude }}</div>
+							<div class="coords" hidden>{{ obs.latitude }};{{ obs.longitude }};{{ obs.id }}</div>
 						</tr>
                     {% endfor %}
 				</tbody>

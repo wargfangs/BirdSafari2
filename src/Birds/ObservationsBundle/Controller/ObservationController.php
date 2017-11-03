@@ -2,14 +2,12 @@
 
 namespace Birds\ObservationsBundle\Controller;
 
-use Birds\ObservationsBundle\BirdsObservationsBundle;
-use Birds\ObservationsBundle\Entity\Birds;
 use AppBundle\Entity\Image;
 use Birds\ObservationsBundle\Entity\Observation;
 use Birds\ObservationsBundle\Form\ObservationFormType;
 use Birds\ObservationsBundle\Form\SearchBarFormType;
 use Birds\ObservationsBundle\Repository\ObservationRepository;
-use Doctrine\DBAL\Platforms\Keywords\OracleKeywords;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
 use Exporter\Handler;
 use Exporter\Source\DoctrineDBALConnectionSourceIterator;
@@ -20,8 +18,6 @@ use Symfony\Component\Cache\Simple\FilesystemCache;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use Symfony\Component\Validator\Constraints\Date;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 class ObservationController extends Controller
 {
@@ -412,8 +408,34 @@ class ObservationController extends Controller
         $form = $this->get('form.factory')->create(ObservationFormType::class, $observation);
 
         //Traitement
+
+
         if($request->isMethod("POST") && $form->handleRequest($request)->isValid())
         {
+            $em = $this->getDoctrine()->getManager();
+
+            //Filling $observation:
+            $observation->setUser($this->getUser()); // L'utilisateur est envoyé à l'observation.
+            $observation->setBirdname($request->request->get("bird")); // Attribution de l'oiseau, traitement de sécurité dans la classe
+
+            //Go in bird repo. //Find one bird by name
+            $bird = $em->getRepository('BirdsObservationsBundle:Birds')->findOneByNomVern($observation->getBirdname());
+            if($bird == null) // if bird name is unknown in database, stop the process
+            {
+                //Redirect + message erreur.
+                $request->getSession()->getFlashbag()->add('error','Ce type d\'oiseau n\'existe pas en base de données.');
+                return $this->redirectToRoute('birds_observations_add');
+            }
+
+
+            if($observation->getImage() != null)
+            {
+                $r=$this->uploadImage($observation,$em);
+                $observation = $r['obs'];
+                $image = $r['image'];
+
+            }
+            //Attribution de validité pour les Naturalistes + message par utilisateur
             if($this->get('security.authorization_checker')->isGranted('ROLE_NATURALIST'))
             {
                 $observation->setValid(true);
@@ -425,28 +447,22 @@ class ObservationController extends Controller
                 $request->getSession()->getFlashBag()->add('success', 'Félicitation, Vous avez enregistré une nouvelle observation!!! Après validation par un professionel, vous pourrez la voir sur la carte.' );
             }
 
-            $request->getSession()->getFlashBag()->add("error",$observation->getImage()->getUploadRootDir());
-            $observation->setUser($this->getUser());
-            if(is_array($observation->getBirdname()))
-            {
-
-                $observation->setBirdname($observation->getBirdname()['bird']->getlbNom());
-            }
-
-            $em = $this->getDoctrine()->getManager();
-
-            $image = $observation->getImage();
 
 
-            file_put_contents("image.txt", "Created instance: src:". $image->getSrc(). " alt:" . $image->getAlt(). " Id:" . $image->getId(), FILE_APPEND);
+
+
+            //$em->persist($image);
 
             $em->persist($observation);
-            $image= $observation->getImage();
-            file_put_contents("image.txt", "Created instance: src:". $image->getSrc(). " alt:" . $image->getAlt(). " Id:" . $image->getId(), FILE_APPEND);
+            if(isset($image))
+                $observation->setImage($image); // For some reason image gets to null after persisting observation, whether we have cascade persist or not doesn't change a damn thing.
+            //var_dump($observation);
+
 
             $em->flush();
-            $image= $observation->getImage();
-            file_put_contents("image.txt", "Created instance: src:". $image->getSrc(). " alt:" . $image->getAlt(). " Id:" . $image->getId(), FILE_APPEND);
+
+
+
             return $this->redirectToRoute("birds_my_observations");
         }
 
@@ -472,13 +488,13 @@ class ObservationController extends Controller
         $authorizedCommand = false;
         if($this->isGranted("IS_AUTHENTICATED_FULLY"))
         {
-            if ($observation->getUser() == $this->getUser()) {
+            if ($observation->getUser() == $this->getUser()) { //Si l'auteur est cet utilisateur
                 $authorizedCommand = true;
             }
-            if ($this->isGranted("ROLE_ADMIN")) {
+            if ($this->isGranted("ROLE_ADMIN")) { //Si admin
                 $authorizedCommand = true;
             }
-            if ($this->isGranted("ROLE_NATURALIST", $observation->getUser())) {
+            if ($this->isGranted("ROLE_NATURALIST", $observation->getUser())) {//Si
                 $authorizedCommand = true;
                 if ($observation->getUser() != $this->getUser())
                 {
@@ -512,20 +528,67 @@ class ObservationController extends Controller
         $birdRepo= $this->getDoctrine()->getRepository('BirdsObservationsBundle:Observation');
         $observation = $birdRepo->find($id);
         //$observation->setBirdname($birdRepo->findByLbNom($observation->getBirdname()));
-        //var_dump($observation);
+
         $editForm = $this->createForm( ObservationFormType::class, $observation);
+
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             if(!$this->isGranted("ROLE_NATURALIST"))
                 $observation->setValid(false);
+            $observation->setBirdname($request->request->get("bird")); // Attribution de l'oiseau, traitement de sécurité dans la classe
+            $em = $this->getDoctrine()->getManager();
+            $bird= $em->getRepository('BirdsObservationsBundle:Birds')->findOneByNomVern($observation->getBirdname());
+
+            if($bird == null)
+            {
+                // Entrée invalide = redirection + message d'erreur.
+            }
+            $ch= $request->request->get('keep');
+            $oldPic = $observation->getImage();
+            $image = null; // Prepares the variable.
+            if($ch == null && $oldPic != null) //Si demande de changement: Prendre en compte champ : Remove old pic, ajouter nouvelle ou ne rien faire
+            {
+                if ($oldPic->getSrc() != null) // Si une ancienne image était enregistrée, on supprime le fichier correspondant.
+                {
+                    if (file_exists($oldPic->getSrc())) // Supprimer l'ancien fichier.
+                        unlink($oldPic->getSrc());
+                }
+                if ($oldPic->getFile() != null) // upload new image (On garde le même
+                {
+                    $r = $this->uploadImage($observation, $em);
+                    $observation = $r['obs'];
+                    $image = $r['image'];
+                } else // No new picture. We can delete reference of image in observation.
+                {
+                    $observation->removeImageReference();
+                    $em->remove($oldPic);
+                    $image = null;
+                }
 
 
-            $this->getDoctrine()->getManager()->persist($observation);
+            }
+
+
+
+
+            $em->persist($observation);
+
+            if($ch == null) //Si changement d'image demandé.
+            {
+                if($image != null)
+                    $observation->setImage($image);
+                else
+                    $observation->removeImageReference();
+            }
+
             $this->getDoctrine()->getManager()->flush();
+
+
             $request->getSession()->getFlashBag()->add("success","Modification de l'observation n°".$observation->getId()." prise en compte. ");
             return $this->redirectToRoute('birds_observation', array('id' => $observation->getId()));
         }
+
 
         return $this->render('BirdsObservationsBundle:Observations:modifierObservation.html.twig', array(
             'form' => $editForm->createView(),
@@ -541,33 +604,37 @@ class ObservationController extends Controller
     public function birdsJsonAction(Request $request)
     {
         $cache = new FilesystemCache();
-        $cache->delete('birds.names');
+        //$cache->delete('birds.names');
         if(!$cache->has('birds.names'))
         {
+
             $em = $this->getDoctrine()->getManager();
             $repo = $em->getRepository('BirdsObservationsBundle:Birds');
             $result = $repo->getAllByArray();
-
             $array = array();
+            $arrayOfValue = array(); //Enregistre les duplicats.
             foreach($result as $bird)
             {
-                $array []= $bird;
+                //test
+                if(!in_array($bird["nomVern"],$arrayOfValue)) //Retirer les duplicats.
+                    //add
+                {
+                    $array []= $bird;
+                }
+                $arrayOfValue []= $bird["nomVern"];
+                //add value
             }
             $birdsJSON = json_encode($array);
             $cache->set('birds.names',$birdsJSON);
-
         }
         else{
             $birdsJSON = $cache->get('birds.names');
-
         }
         $response = new Response(
             $birdsJSON,
             Response::HTTP_OK,
             array('content/type' => 'application/json')
         );
-
-
         $response->prepare($request);
         return $response;
     }
@@ -731,6 +798,30 @@ class ObservationController extends Controller
         $param['nbrRes']=$nombreDeResultats;
         $param['query'] = $qb;
         return $param;
+    }
+
+    public function uploadImage(Observation $observation, EntityManager $em)
+    {
+        $file = $observation->getImage()->getFile();    //picture: See if we can make this auto?
+        ////Tester la taille de l'image et le type de fichier. Si différent de png, jpg, bmp et > 2 Mo
+        if($file->getSize()>2000)
+        {
+
+        }
+        $authorizedType = array('jpg','png','bmp','gif');
+        if($file->getMimeType())
+        {
+
+        }
+        $image = new Image();
+
+        $image->setAlt(uniqid() ."_". $file->getClientOriginalName());
+        $image->setSrc($image->getUploadDir() . "/" . $image->getAlt());
+
+        $file->move($image->getUploadDir(), $image->getAlt());
+        $em->persist($image);
+        $observation->setImage($image);
+        return array('image'=>$image, 'obs'=>$observation); //Return
     }
 
 
