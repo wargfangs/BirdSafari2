@@ -20,6 +20,11 @@ function OnMapReady(map)
        {
            repositionnerCarte(map,lats,lngs);
        }
+        /* Events *********************/
+        $('.storing').click(function(){
+            google.maps.event.trigger(map, 'resize');
+
+        });
 
     });
 

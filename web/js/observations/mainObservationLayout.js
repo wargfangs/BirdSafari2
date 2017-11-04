@@ -45,11 +45,8 @@ $(function(){
 
     }
 
-    function OnMapReady(map)
+   /* function OnMapReady(map)
     {
         console.log("Called");
-        $('.storing').click(function(){
-            google.maps.event.trigger(map, 'resize');
 
-        });
-    }
+    }*/

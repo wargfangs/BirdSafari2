@@ -70,13 +70,7 @@ class Image
      */
     private $users; // Notez le « s », une image est liée à plusieurs users
 
-    /**
-     * @var String
-     * 
-     * @ORM\OneToMany(targetEntity="Birds\ObservationsBundle\Entity\Observation", mappedBy="image", cascade={"persist"})
-     */
-    private $observations; // Notez le « s », une image est liée à plusieurs observations
-    
+
     /**
      * Get id
      *
@@ -267,37 +261,6 @@ class Image
         return $this->users;
     }
 
-    /**
-     * Add observation
-     *
-     * @param \Birds\ObservationsBundle\Entity\Observation $observation
-     *
-     * @return Image
-     */
-    public function addObservation(\Birds\ObservationsBundle\Entity\Observation $observation)
-    {
-        $this->observations[] = $observation;
 
-        return $this;
-    }
 
-    /**
-     * Remove observation
-     *
-     * @param \Birds\ObservationsBundle\Entity\Observation $observation
-     */
-    public function removeObservation(\Birds\ObservationsBundle\Entity\Observation $observation)
-    {
-        $this->observations->removeElement($observation);
-    }
-
-    /**
-     * Get observations
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getObservations()
-    {
-        return $this->observations;
-    }
 }

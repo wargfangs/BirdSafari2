@@ -3,9 +3,7 @@ namespace Birds\ObservationsBundle\Form;
 
 use AppBundle\Form\ImageType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -18,9 +16,8 @@ class ObservationFormType extends AbstractType
     {
 
         $builder
-            ->add('notSure',CheckboxType::class, array('required'=>false))
             ->add('image',ImageType::class, array('required'=>false))
-            ->add('date',DateTimeType::class)
+            ->add('date',DateTimeType::class, array('widget'=>'single_text'))
             ->add('place', TextType::class, array('required'=>false, 'label'=>'Lieu '))
             ->add('latitude')
             ->add('longitude')

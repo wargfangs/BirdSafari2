@@ -3,7 +3,7 @@
 
 function OnMapReady(map)//map = élément du dom
 {
-
+    //console.log("ready");
     $(function(){
         var latID= "#observation_form_latitude";
         var longID= "#observation_form_longitude";

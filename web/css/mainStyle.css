@@ -147,14 +147,6 @@
 
 }
 
-th
-{
-    padding-top: 20px;
-    padding-bottom: 20px;
-    padding-right: 3px;
-    padding-left: 3px;
-
-}
 
 .glyphicon-lg
 {
@@ -169,4 +161,26 @@ th
 .missionRow
 {
     margin-bottom: 5%;
+}
+
+td, th /*Tous les tableaux sont formatés ainsi*/
+{
+    border-right: solid beige 2px;
+    min-width: 70px;
+}
+table
+{
+    border: hidden;
+
+}
+
+.btn, input[type=text]{
+    border-radius: 50px;
+}
+
+.global-marg{
+    margin-bottom: 5%;
+}
+.global-marg-xs{
+    margin-bottom: 10%;
 }

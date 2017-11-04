@@ -7,53 +7,79 @@
 {% endblock %}
 
 {% block overallContent %}
-	<h1>Ajoutez une observation</h1>
-	<div class="form-group">
 
-        {{ form_start(form)  }}
-		<label for="bird">Oiseau:</label>
-		<select class="birdnames" name="bird" id="bird">
-			<option value="0">Sélectionnez un oiseau</option>
-		</select>
-
-		{{ form_row(form.notSure, {'label':'Je ne suis pas sûr de mon observation'})   }}
-        {{ form_row(form.date, {'label':'Date de l\'observation:'}) }}
-		<div class="row">
-			<div class="col-sm-12">
-				<p>Désignez le lieu de votre observation:</p>
-				{% block map %}{{ parent() }}{% endblock %}
+	<div class="row">
+		<div class="row global-marg">
+			<div class="col-md-10">
+				<h1 class="text-center">Ajoutez une observation</h1>
 			</div>
 		</div>
+		<div class="form-group">
+            {{ form_start(form)}}
+			<div class="row global-marg">
+				<div class="col-md-10 col-md-offset-1">
+					<div class="col-md-4">
+						<div class="form-group global-marg-xs">
+							{{ form_label(form.title,'Titre') }}
+							{{ form_widget(form.title) }}
+						</div>
+						<div class="form-group global-marg-xs">
+                            {{ form_label(form.description,'Commentaire') }}
+                            {{ form_widget(form.description) }}
+						</div>
+						<div class="form-group global-marg-xs">
+                            <table>
+								<tr>
+									<td>
+										<label for="bird" class="control-label">Oiseau*</label>
+										<select class="birdnames form-control" name="bird" id="bird">
+											<option value="0">Sélectionnez un oiseau</option>
+										</select>
+									</td>
+									<td>
+										{{ form_label(form.date,'Date*') }}
+										{{ form_widget(form.date) }}
+									</td>
+								</tr>
+							</table>
+						</div>
+						<div class="form-group global-marg-xs">
+							{{ form_label(form.image,'Image')}}
+							<div hidden>{{ form_label(form.image.file)}}</div>
+							{{ form_widget(form.image.file)}}
+						</div>
+						<div class="form-group global-marg-xs">
+							{{ form_label(form.place,'Adresse') }} <p class="btn btn-info btn-xs text-right" id="useMyPos">Utiliser ma position</p>
+							{{ form_widget(form.place, {attr:{'id':'place'}}) }}
 
-		<div class="row">
-			<div class="col-sm-6 col-sm-offset-2">
-				<div class="col-sm-9 form-inline">
+						</div>
 
-                    {{ form_row(form.place, {attr:{'id':'place'}}) }}
+					</div>
+
+					<div class="col-md-6 col-md-offset-1">
+						<p>Désignez le lieu de votre observation: (glisser-déposer le marqueur)</p>
+                        {% block map %}{{ parent() }}{% endblock %}
+						<div class="col-md-4 col-md-offset-2" hidden>
+                            {{ form_row(form.latitude) }}
+						</div>
+						<div class="col-md-4" hidden>
+                            {{ form_row(form.longitude)  }}
+						</div>
+					</div>
 
 				</div>
-				<div class="col-sm-3">
-
-				</div>
 			</div>
 
-			<div class="col-sm-4 col-sm-offset-2" hidden>
-                {{ form_row(form.latitude) }}
+			<div class="row global-marg text-center col-md-10">
+
+				<input type="submit" class="btn btn-info"/>
+
+
 			</div>
-			<div class="col-sm-4" hidden>
-                {{ form_row(form.longitude)  }}
-			</div>
+            {{ form_rest(form) }}
+            {{ form_end(form) }}
 
 		</div>
-		<div class="row">
-			<p class="btn btn-default col-sm-4 col-sm-offset-4" id="useMyPos">Utiliser ma position</p>
-		</div>
-		<hr>
-		{{ form_row(form.image)}}
-        {{ form_rest(form) }}
-		<input type="submit" class="btn btn-success"/>
-        {{ form_end(form) }}
-
 	</div>
 
 
