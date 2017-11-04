@@ -177,10 +177,23 @@ table
 .btn, input[type=text]{
     border-radius: 50px;
 }
+textarea{
+    border-radius: 15px;
+}
+textarea[disabled]
+{
+    background-color: white;
+}
 
 .global-marg{
-    margin-bottom: 5%;
+margin-bottom: 5%;
 }
 .global-marg-xs{
-    margin-bottom: 10%;
+margin-bottom: 30px;
+}
+@media screen and (max-width:1080px)
+{
+    .global-marg-xs{
+        margin-bottom: 15px;
+    }
 }

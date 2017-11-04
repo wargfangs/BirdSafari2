@@ -2,12 +2,15 @@ $(function(){
     var check =$("#keepPic");
     var pic=$("#oldPic");
     var selector=$("#observation_form_image_file");
+    if(document.getElementById('oldPic') != null)
+    {
+        hideShowPic(check, pic,selector);
+        check.on('click', function(){
+            hideShowPic($(this).is(':checked'),pic,selector);
+        });
+    }
 
-    hideShowPic(check, pic,selector);
 
-    check.on('click', function(){
-       hideShowPic($(this).is(':checked'),pic,selector);
-    });
 
 });
 
