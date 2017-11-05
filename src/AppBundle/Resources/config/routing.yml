@@ -43,3 +43,11 @@ admin_passobs_user:
     defaults: { _controller: AppBundle:App:toObs }
     requirements:
         id: \d+
+
+contact:
+    path: /contact
+    defaults: { _controller: AppBundle:App:contact }
+
+mentions:
+    path: /Mentions_Legales
+    defaults: { _controller: AppBundle:App:mentions }

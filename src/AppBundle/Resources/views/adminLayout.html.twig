@@ -1,7 +1,7 @@
 {% extends "base.html.twig" %}
 
 {% block title %}{{ parent() }} - Admin{% endblock %}
-{% block css %}{{ parent() }}{% endblock %}
+{% block css %}{{ parent() }} <!-- Add css spec-->{% endblock %}
 {% block body %}
     <h1>Administration</h1>
     <button class="btn btn-lg btn-default"><a href="{{ path('admin_user', {"orderBy":"user"}) }}">Utilisateurs</a></button>
@@ -11,5 +11,5 @@
     {% block content %}{% endblock %}
 
 {% endblock %}
-{% block foot %}{% endblock %}
+
 {% block js %}{{ parent() }}{% endblock %}

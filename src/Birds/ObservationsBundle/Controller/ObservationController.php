@@ -49,8 +49,8 @@ class ObservationController extends Controller
         $qb = $repoObs->createQuery();
         $countQb = $repoObs->createCountQuery();
 
-        $param["research"] = "nd";
-        $param["minDate"] = "nd";
+        $param["research"] = "nd"; // Default null I defined in routes. Kind of surprising. 
+        $param["minDate"] = "nd"; 
         $param["maxDate"] = "nd";
         $param["minHours"] = "nd";
         $param["maxHours"] = "nd";
@@ -58,18 +58,19 @@ class ObservationController extends Controller
         $param["lng"] = "nd";
         $param["rad"] = "nd";
         $param["orderBy"] = "nd";
-        if($research != "nd")
+
+        if($research != "nd") //Filling up those values with the correct demands.
         {
             $pageTitle = "Résultat de la recherche";
-            //$research = \mysqli::escape_string($research);
+
             $qb = $repoObs->searchForString($research, $qb);
             $countQb = $repoObs->searchForString($research, $countQb);
             $param["research"] = $research;
         }
         if($maxDate != "nd" && $maxDate != "nd")
         {
-            $minDate2 = $this->matchDate($minDate);
-            $maxDate2 = $this->matchDate($maxDate);
+            $minDate2 = $this->get('birdsObservations.validator')->matchDate($minDate);
+            $maxDate2 = $this->get('birdsObservations.validator')->matchDate($maxDate);
             if($minDate2 && $maxDate2 )
             {
 
@@ -83,8 +84,8 @@ class ObservationController extends Controller
         if($minHours != "nd" && $maxHours != "nd")
         {
             //Test de valeur
-            $minHours = $this->matchHours($minHours,0);
-            $maxHours = $this->matchHours($maxHours,23);
+            $minHours = $this->get('birdsObservations.validator')->matchHours($minHours,0);
+            $maxHours = $this->get('birdsObservations.validator')->matchHours($maxHours,23);
             if($maxHours < $minHours) //Inversion des variables min max.
             {
                 $temp = $maxHours;
@@ -116,7 +117,7 @@ class ObservationController extends Controller
         $nombreDeResultats = $repoObs->sendQuery($countQb)[0][1];
 
         //Page, limite et ordre
-        $param = array_merge($param, $this->matchPageLimitOrderBy($limit,$page, $orderBy, $nombreDeResultats, $repoObs,$qb));
+        $param = array_merge($param, $this->get('birdsObservations.pager')->matchPageLimitOrderBy($limit,$page, $orderBy, $nombreDeResultats, $repoObs,$qb));
 
 
 
@@ -192,21 +193,8 @@ class ObservationController extends Controller
             if($minHours != "nd" && $maxHours != "nd")
             {
                 //Test de valeur
-                $minHours = intval($minHours);$maxHours = intval($maxHours);
-                if(!is_int($minHours))
-                    $minHours=0;
-                if(!is_int($maxHours))
-                    $maxHours=23;
-
-                if($minHours<0)
-                    $minHours = 0;
-                if($minHours > 23)
-                    $minHours = 23;
-                if($maxHours<0)
-                    $maxHours = 0;
-                if($maxHours > 23)
-                    $maxHours = 23;
-
+                $minHours = $this->get('birdsObservations.validator')->matchHours($minHours,0);
+                $maxHours = $this->get('birdsObservations.validator')->matchHours($maxHours,23);
                 if($maxHours < $minHours) //Inversion des variables min max.
                 {
                     $temp = $maxHours;
@@ -295,6 +283,7 @@ class ObservationController extends Controller
 
         $repo = $this->getDoctrine()->getManager()->getRepository('BirdsObservationsBundle:Observation');
 
+        // À automatiser dès que possible. 
         $countQb1 = $repo->createCountQuery();
         $countQb2 = $repo->createCountQuery();
         $qb1 = $repo->createQuery();
@@ -308,10 +297,10 @@ class ObservationController extends Controller
         $nbrResults2= $repo->sendCountQuery($countQb2);
 
 
-        $param1 = $this->matchPageLimitOrderBy($limit2,$page2, $orderBy2, $nbrResults1, $repo,$qb1);
+        $param1 = $this->get('birdsObservations.pager')->matchPageLimitOrderBy($limit2,$page2, $orderBy2, $nbrResults1, $repo,$qb1);
         $qb1 = $param1["query"];
 
-        $param2 = $this->matchPageLimitOrderBy($limit,$page, $orderBy, $nbrResults2, $repo,$qb2);
+        $param2 = $this->get('birdsObservations.pager')->matchPageLimitOrderBy($limit,$page, $orderBy, $nbrResults2, $repo,$qb2);
         $qb2 = $param2["query"];
 
         unset($param1["query"]);
@@ -349,7 +338,7 @@ class ObservationController extends Controller
         $nbrResults = $R->sendCountQuery($cqb);
 
 
-        $param = $this->matchPageLimitOrderBy($limit,$page, $orderBy, $nbrResults, $R,$qb);
+        $param = $this->get('birdsObservations.pager')->matchPageLimitOrderBy($limit,$page, $orderBy, $nbrResults, $R,$qb);
         $qb= $param["query"];
         $observations = $R->sendQuery($qb);
 
@@ -373,7 +362,7 @@ class ObservationController extends Controller
             $obs->setValid(true);
             $em->persist($obs);
             $em->flush();
-            $rq->getSession()->getFlashBag()->set("success","Vous venez de valider l'observation n° ".$obs->getId().". Elle est désormais accessible à tous les utilisateurs.");
+            $rq->getSession()->getFlashBag()->set("success","Vous venez de valider l'observation n° ".$obs->getId().". Elle est désormais visible par tous les utilisateurs.");
         }
         return $this->redirectToRoute("birds_en_attente");
     }
@@ -567,8 +556,6 @@ class ObservationController extends Controller
             }
 
 
-
-
             $em->persist($observation);
 
             if($ch == null) //Si changement d'image demandé.
@@ -595,6 +582,7 @@ class ObservationController extends Controller
 
 
     /**
+     * Rendre disponible mes données d'oiseaux à une url donnée pour les récupérer en ajax et améliorer les performances.
      * @param Request $request
      * @return Response
      */
@@ -646,7 +634,8 @@ class ObservationController extends Controller
 
         if($request->isMethod("POST"))
         {
-            //Traiter les données du formulaire
+            //Traiter les données du formulaire (retirer "/" de l'entrée research.)
+
         }
 
         return $this->render("BirdsObservationsBundle:Observations:search.html.twig", array(
@@ -711,104 +700,19 @@ class ObservationController extends Controller
     }
 
 
-    /**
-     * @param $date
-     * @return bool|\DateTime|null
-     */
-    function matchDate($date)
-    {
-        $pattern = '/^[0-9]{4}-[0-9]{2}-[0-9]{2}/';
-        if(!preg_match($pattern, $date))
-            return null;
-        return \DateTime::createFromFormat("Y-m-d",$date);
-
-    }
-
-
-    /**
-     * @param $hour : string or int
-     * @param $default
-     * @return int
-     */
-    function matchHours($hour, $default)
-    {
-        //Test de valeur
-        $hour = intval($hour);
-
-        if(!is_int($hour))
-            $hour = $default;
-
-
-        if($hour<0)
-            $hour = 0;
-        if($hour > 23)
-            $hour = 23;
-
-        return $hour;
-
-    }
-
-
-    /**
-     * @param $limit :string | int
-     * @param $page : string | int
-     * @param $nombreDeResultats : string | int
-     * @param $orderBy : string | int
-     * @param ObservationRepository $repoObs
-     * @param QueryBuilder $qb
-     * @return mixed
-     */
-    function matchPageLimitOrderBy($limit, $page, $orderBy, $nombreDeResultats, ObservationRepository $repoObs, QueryBuilder $qb)
-    {
-        //Page, limite et ordre
-        $limit = intval($limit); $page = intval($page);
-        //var_dump("page ". $page);
-        //var_dump("limite ". $limit);
-        if(!is_int($limit))
-        {
-            $limit = 5;
-            $page = 1;
-        }
-
-        if($limit > 100)
-            $limit = 100;
-
-       //var_dump(ceil($nombreDeResultats/$limit));
-
-        if(ceil($nombreDeResultats/$limit) < $page)     //Si la page demandée est supérieure au nombre de pages possibles
-            $page = ceil($nombreDeResultats/$limit);    //On lui attribue le max
-        if($page<1)
-            $page=1;
-
-        //var_dump($page);
-        $qb = $repoObs->startAt(($page-1)*$limit,$qb);
-        $qb = $repoObs->limit($limit,$qb);
-        $param['limit']= $limit;
-
-        //Ordonner
-        if($orderBy > 4 || $orderBy < 0 ) //0 espèces, 1 date, 2 heures, 3 titre, 4 lieu
-            $orderBy = 0;
-        $qb = $repoObs->orderBy($orderBy,$qb);
-        $param['orderBy'] = $orderBy;
-        $param['page'] = $page;
-        $param['nPages'] = ceil($nombreDeResultats/$limit);
-        $param['nbrRes']=$nombreDeResultats;
-        $param['query'] = $qb;
-        return $param;
-    }
-
+    /*En attendant de l'automatiser dans la classe image avec un pre-persist*/
     public function uploadImage(Observation $observation, EntityManager $em)
     {
         $file = $observation->getImage()->getFile();    //picture: See if we can make this auto?
-        ////Tester la taille de l'image et le type de fichier. Si différent de png, jpg, bmp et > 2 Mo
+        ////À faire ::: Tester la taille de l'image et le type de fichier. Si différent de png, jpg, bmp et > 2 Mo
         if($file->getSize()>2000)
         {
-
+            //TO DO
         }
         $authorizedType = array('jpg','png','bmp','gif');
         if($file->getMimeType())
         {
-
+            //TO DO
         }
         $image = new Image();
 

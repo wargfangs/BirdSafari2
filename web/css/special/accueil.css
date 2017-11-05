@@ -1,12 +1,12 @@
 body {
-    background-image: url("/BirdSafari/web/img/backgrounds/fond_mission_desktop.jpg");
+    background-image: url("/BirdSafari/web/img/backgrounds/fond_accueil_bureau.jpg");
     background-attachment: fixed;
 }
 
 @media screen and (max-width:300px)
 {
     body {
-        background-image: url("/BirdSafari/web/img/backgrounds/fond_mission_mobile.jpg");
+        background-image: url("/BirdSafari/web/img/backgrounds/fond_accueil_mobile.jpg");
         background-attachment: fixed;
 
     }

@@ -1,16 +1,23 @@
 {% extends "base.html.twig" %}
 
 {% block title %}{{ parent() }} - Observations{% endblock %}
-{% block css %}{{ parent() }}{% endblock %}
+{% block css %}{{ parent() }}
+	<link href="{{ asset('css/special/observation.css') }}" rel="stylesheet">
+{% endblock %}
 {% block body %}
 	<div class="container-fluid">
 		<div class="row">
 
+			<div class="row">
 
-			<div class="col-sm-12 bg-observation-search text-center">
-				{% block search %}
-					{{ render(controller("BirdsObservationsBundle:Observation:searchBar")) }}
-				{% endblock %}
+				<div class="col-sm-9 col-sm-offset-3 col-xs-8 col-xs-offset-2 global-marg-up-xs global-marg bg-observation-search ">
+					<div class="col-sm-offset-1">
+						{% block search %}
+							{{ render(controller("BirdsObservationsBundle:Observation:searchBar")) }}
+						{% endblock %}
+
+					</div>
+				</div>
 			</div>
 
 
@@ -54,7 +61,7 @@
 			</div>
 			<div class="col-sm-9 bg-observation-main">
 				{% block overallContent %}
-					<div class="col-sm-12 col-md-6" >
+					<div class="col-sm-12 col-md-6 global-marg" >
 						<button class="btn btn-default storing" id="obsLayout"><span class="glyphicon glyphicon-chevron-down"></span> Liste</button>
 						<div>
 						{% block content %}
@@ -62,8 +69,8 @@
 						{% endblock %}
 						</div>
 					</div>
-					<div class="col-sm-12 col-md-6">
-						<button class="btn btn-default storing" id="mapLayout"><span class="glyphicon glyphicon-chevron-down"></span> Carte</button>
+					<div class="col-sm-12 col-md-6 global-marg">
+						<button class="btn btn-default storing global-marg" id="mapLayout"><span class="glyphicon glyphicon-chevron-down"></span> Carte</button>
 						<div>
                         {% block map %}
 							<div id="map"></div>
@@ -78,7 +85,7 @@
 	</div>
 
 {% endblock %}
-{% block foot %}{% endblock %}
+{% block foot %}{{ parent() }}{% endblock %}
 {% block js %}{{ parent() }}
 	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 	<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script> <!-- Permet de générer des routes en js.-->

@@ -46,7 +46,11 @@ class AppController extends Controller
      */
     public function adminUsersAction(Request $r, $page)
     {
-        $this->checkAdmin($r); //On vérifie si l'utilisateur est l'admin.
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
+        {
+            $r->getSession()->getFlashBag()->add('error','Pour accéder à cette page, veuillez vous authentifier en tant qu\'administrateur.');
+            return $this->redirectToRoute("fos_user_security_login");
+        }
 
         //Get orderBy.
         $orderBy = $r->query->get("orderBy");
@@ -105,7 +109,11 @@ class AppController extends Controller
      */
     public function adminArticlesAction(Request $request)
     {
-       $this->checkAdmin();
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
+        {
+            $request->getSession()->getFlashBag()->add('error','Pour accéder à cette page, veuillez vous authentifier en tant qu\'administrateur.');
+            return $this->redirectToRoute("fos_user_security_login");
+        }
         return $this->render('AppBundle::adminArticles.html.twig');
     }
 
@@ -114,7 +122,11 @@ class AppController extends Controller
      */
     public function userDeleteAction(Request $r, $id)
     {
-        $this->checkAdmin();
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
+        {
+            $r->getSession()->getFlashBag()->add('error','Pour accéder à cette page, veuillez vous authentifier en tant qu\'administrateur.');
+            return $this->redirectToRoute("fos_user_security_login");
+        }
         $user = $this->getDoctrine()->getRepository('AppBundle:User')->findOneById($id);
 
         if($user == null) // Utilisateur inexistant
@@ -134,7 +146,11 @@ class AppController extends Controller
 
     public function toObsAction(Request $r, $id)
     {
-        $this->checkAdmin($r);
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
+        {
+            $r->getSession()->getFlashBag()->add('error','Pour accéder à cette page, veuillez vous authentifier en tant qu\'administrateur.');
+            return $this->redirectToRoute("fos_user_security_login");
+        }
         $user = $this->getDoctrine()->getRepository('AppBundle:User')->findOneById($id);
 
         if($user == null) // Utilisateur inexistant
@@ -153,12 +169,15 @@ class AppController extends Controller
         return $this->redirectToRoute("admin_user");
     }
 
-    function checkAdmin(Request $r)
+
+    function contactAction(Request $r)
     {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
-        {
-            $r->getSession()->getFlashBag()->add('error','Pour accéder à cette page, veuillez vous authentifier en tant qu\'administrateur.');
-            return $this->redirectToRoute("fos_user_security_login");
-        }
+
+        return $this->render('AppBundle::contact.html.twig');
+    }
+
+    function mentionsAction()
+    {
+        return $this->render('AppBundle::mentions.html.twig');
     }
 }

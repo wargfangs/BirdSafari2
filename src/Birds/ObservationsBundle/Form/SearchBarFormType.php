@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\RangeType;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,7 +25,7 @@ class SearchBarFormType extends AbstractType
     {
 
 
-        $builder->add('searchBar', TextType::class, array('label'=>"Barre de recherche"))
+        $builder->add('searchBar', SearchType::class, array('label'=>"Barre de recherche"))
             ->add('parametreAvances', CheckboxType::class, array('label'=>"Paramètres avancés", 'required'=>false ))
             ->add('DateDebut',DateType::class, array('label'=>"Date de début", 'data'=>new \DateTime("2017-09-01")))
             ->add('DateFin',DateType::class, array('label'=>"Date de fin", 'data'=>new \DateTime("now")))
