@@ -1,4 +1,6 @@
 services:
-#    birds_observations.example:
-#        class: Birds\ObservationsBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+    birdsObservations.validator:
+        class: Birds\ObservationsBundle\ValidateData\Validator
+
+    birdsObservations.pager:
+        class: Birds\ObservationsBundle\Pager\Pager
