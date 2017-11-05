@@ -14,7 +14,23 @@
 <body>
 <div class="container-fluid">
 
-    <nav class="row navbar navbar-default" role="navigation">
+    <div class="row banderole">
+        <div class="container">
+            <div class="col-sm-6 col-sm-offset-3 text-center mainHeaderText">
+                <h1>NOS AMIS LES OISEAUX</h1>
+                <h5>France</h5>
+                <p>Depuis 1993</p>
+                <img id="logoDuSite" src="{{ asset('img/2-CNRS.png') }}" alt = "Logo du site: Bird Safari"/>
+
+            </div>
+            {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+            <div class="col-sm-3 text-right global-marg-up hide-below-xs">
+                <a href="{{ path('fos_user_security_login') }}"><button class="btn btn-transp btn-sm">Connexion</button></a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <nav class="row navbar navbar-default navbar-special" role="navigation">
 
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menuPrincipal">
@@ -22,41 +38,41 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-                <p class="navbar-brand"><img id="logoDuSite" src="{{ asset('img/fake_logo.svg') }}" alt = "Logo du site: Bird Safari">  </p>
+
         </div>
         <div class="collapse navbar-collapse" id="menuPrincipal">
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-center">
 
-                <li>
+                <li class="{% if is_granted('IS_AUTHENTICATED_FULLY') %}col-sm-2{% else %}col-sm-3{% endif %} text-center">
                     <a href="{{ path('home') }}" class="text-center"> <!---->
-                        <span class="glyphicon glyphicon-home"></span> Accueil
+                        Accueil
                     </a>
                 </li>
-                <li>
+                <li class="{% if is_granted('IS_AUTHENTICATED_FULLY') %}col-sm-3{% else %}col-sm-3{% endif %} text-center">
                     <a href="{{ path('birds_observations') }}" class="text-center"> <!---->
                         Observations
                     </a>
                 </li>
 
 
-                <li>
-                    <a href="{{ path('article_index') }}" class="text-center">
-                        Blog
-                    </a>
-                </li>
 
-                <li>
+                <li class="{% if is_granted('IS_AUTHENTICATED_FULLY') %}col-sm-3{% else %}col-sm-3{% endif %} text-center">
                     <a href="{{ path('mission') }}" class="text-center">
                         Notre mission
                     </a>
                 </li>
+                <li class="{% if is_granted('IS_AUTHENTICATED_FULLY') %}col-sm-2{% else %}col-sm-3{% endif %} text-center">
+                    <a href="{{ path('article_index') }}" class="text-center">
+                        Articles
+                    </a>
+                </li>
 
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    <li class="dropdown">
+                    <li class="dropdown col-sm-2">
                         <a class="dropdown-toggle text-center" data-toggle="dropdown" href="#">
-                            <span class="glyphicon glyphicon-user"></span> Bienvenue {{ app.user.username }} <span class="caret"></span>
+                            Bienvenue {{ app.user.username }} <span class="caret"></span>
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu pull-right">
                             <li><a href="{{ path('fos_user_profile_show') }}" class="text-right">Profil</a></li>
                             {% if not is_granted("ROLE_ADMIN") %}<li><a href="{{ path('birds_en_attente') }}" class="text-right">En attente</a></li>{% endif %}
                             {% if is_granted("ROLE_NATURALIST") %}<li><a href="#" class="text-right"> Mes articles</a></li>{% endif %}
@@ -67,7 +83,7 @@
                     </li>
 
                 {% else %}
-                    <li>
+                    <li class="hide-above-xs">
                         <a href="{{ path('fos_user_security_login') }}" class="text-center">
                             Connexion
                         </a>
@@ -92,8 +108,34 @@
     {% block body %}{% endblock %}
     </div>
     <footer class="container-fluid bg-foot">
-        <h2>piedPage</h2>
-        {% block foot %}{% endblock %}
+
+        {% block foot %}
+            <ul class="nav navbar-nav navbar-center">
+                <li class="col-sm-3 text-center">
+                    <a href="{{ path('mentions') }}" class="text-center"> <!---->
+                        Mentions Légales
+                    </a>
+                </li>
+                <li class="col-sm-3 text-center">
+                    <a href="{{ path('contact') }}" class="text-center"> <!---->
+                        Contact
+                    </a>
+                </li>
+
+
+
+                <li class="col-sm-3 text-center">
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('admin') }}" class="text-center">
+                        Administration
+                    </a>
+                    {% endif %}
+                </li>
+                <li class="col-sm-3 text-center">
+
+                </li>
+            </ul>
+        {% endblock %}
     </footer>
 
 {% block js %}

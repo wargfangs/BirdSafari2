@@ -49,8 +49,8 @@ class ObservationController extends Controller
         $qb = $repoObs->createQuery();
         $countQb = $repoObs->createCountQuery();
 
-        $param["research"] = "nd";
-        $param["minDate"] = "nd";
+        $param["research"] = "nd"; // Default null I defined in routes. Kind of surprising. 
+        $param["minDate"] = "nd"; 
         $param["maxDate"] = "nd";
         $param["minHours"] = "nd";
         $param["maxHours"] = "nd";
@@ -58,10 +58,11 @@ class ObservationController extends Controller
         $param["lng"] = "nd";
         $param["rad"] = "nd";
         $param["orderBy"] = "nd";
-        if($research != "nd")
+
+        if($research != "nd") //Filling up those values with the correct demands.
         {
             $pageTitle = "Résultat de la recherche";
-            //$research = \mysqli::escape_string($research);
+
             $qb = $repoObs->searchForString($research, $qb);
             $countQb = $repoObs->searchForString($research, $countQb);
             $param["research"] = $research;
@@ -295,6 +296,7 @@ class ObservationController extends Controller
 
         $repo = $this->getDoctrine()->getManager()->getRepository('BirdsObservationsBundle:Observation');
 
+        // À automatiser dès que possible. 
         $countQb1 = $repo->createCountQuery();
         $countQb2 = $repo->createCountQuery();
         $qb1 = $repo->createQuery();
@@ -567,8 +569,6 @@ class ObservationController extends Controller
             }
 
 
-
-
             $em->persist($observation);
 
             if($ch == null) //Si changement d'image demandé.
@@ -595,6 +595,7 @@ class ObservationController extends Controller
 
 
     /**
+     * Rendre disponible mes données d'oiseaux à une url donnée pour les récupérer en ajax et améliorer les performances.
      * @param Request $request
      * @return Response
      */
@@ -646,7 +647,8 @@ class ObservationController extends Controller
 
         if($request->isMethod("POST"))
         {
-            //Traiter les données du formulaire
+            //Traiter les données du formulaire (retirer "/" de l'entrée research.)
+
         }
 
         return $this->render("BirdsObservationsBundle:Observations:search.html.twig", array(
@@ -712,6 +714,7 @@ class ObservationController extends Controller
 
 
     /**
+    * Test fonction to avoid bad data
      * @param $date
      * @return bool|\DateTime|null
      */
@@ -726,6 +729,7 @@ class ObservationController extends Controller
 
 
     /**
+     * Test fonction to avoid bad data
      * @param $hour : string or int
      * @param $default
      * @return int
@@ -750,6 +754,7 @@ class ObservationController extends Controller
 
 
     /**
+     * Calcule le nombre de page en fonction du nombre d'objets existant et de la limite d'objets fixés.
      * @param $limit :string | int
      * @param $page : string | int
      * @param $nombreDeResultats : string | int
@@ -797,6 +802,7 @@ class ObservationController extends Controller
         return $param;
     }
 
+    /*En attendant de l'automatiser dans la classe image avec un pre-persist*/
     public function uploadImage(Observation $observation, EntityManager $em)
     {
         $file = $observation->getImage()->getFile();    //picture: See if we can make this auto?

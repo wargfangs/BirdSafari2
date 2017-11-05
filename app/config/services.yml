@@ -39,3 +39,7 @@ services:
     birdsObservation.redirect_after_registration_subscribe:
         class: AppBundle\EventListener\RedirectAfterRegistration
         autowire: true
+
+    birdsObservations.validator:
+        class: Birds\ObservationsBundle\ValidateData\Validator
+

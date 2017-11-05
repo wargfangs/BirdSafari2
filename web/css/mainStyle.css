@@ -1,3 +1,111 @@
+.banderole
+{
+    height: 150px;
+
+    background-image: url("/BirdSafari/web/img/backgrounds/fond_articles_bureau.jpg");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    border-bottom: solid white 1.5px;
+}
+@media screen and (max-width: 375px) {
+    .banderole
+    {
+        height: 280px;
+        background-image: url("/BirdSafari/web/img/backgrounds/fond_header_mobile.jpg");
+        background-attachment: fixed;
+        border-bottom: solid white 1.5px;
+
+    }
+
+}
+
+body{
+    background-image: url("/BirdSafari/web/img/backgrounds/fond_accueil_bureau.jpg");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+
+}
+.mainHeaderText
+{
+    font-family: fantasy;
+}
+.btn-transp
+{
+    background-color: transparent;
+    border: solid black 1px;
+}
+.hide-below-xs
+{
+    display: block;
+}
+.hide-above-xs
+{
+    display: none !important;
+}
+.navbar-special
+{
+    background-color: white;
+}
+.navbar-center
+{
+    width: 100%;
+    font-size: large;
+}
+#logoDuSite
+{
+    width: 60x;
+    height: 60px;
+    position: relative;
+    top: -60px;
+    left: -130px;
+}
+@media screen and (max-width: 991px)
+{
+    .navbar-center
+    {
+        font-size: medium;
+    }
+}
+@media screen and (max-width: 767px) {
+    .banderole
+    {
+        margin-bottom: 5px;
+    }
+    .hide-below-xs
+    {
+        display: none;
+    }
+    .hide-above-xs
+    {
+        display: block !important;
+    }
+    .navbar-special
+    {
+        background-color: transparent !important;
+        margin-top: -70px;
+        margin-bottom: -15px !important;
+
+
+    }
+
+    .navbar-center
+    {
+        margin-left:40%;
+        width: 60% !important;
+        font-size: large;
+    }
+
+    .navbar-collapse
+    {
+        border-top: hidden;
+    }
+}
+.navbar-toggle:hover
+{
+    background-color: transparent !important;
+    border: white solid 1px;
+}
+
 .navbar {
     padding-top: 15px;
     padding-bottom: 15px;
@@ -9,10 +117,18 @@
 
 }
 .navbar-nav li a:hover {
-    color: #1abc9c !important;
+
+    text-decoration: underline solid black;
+
+
 }
 .navbar-nav li a {
     color:black !important;
+}
+
+#menuPrincipal
+{
+
 }
 
 .flash-error
@@ -28,12 +144,13 @@
 
 .bg-foot
 {
-    background-color: #313131;
-    color: floralwhite;
+    background-color: white;
+    color: grey;
+    border: solid 1px grey;
 }
 #content
 {
-    min-height: 800px;
+    min-height: 500px;
 }
 #map {
     height: 500px;
@@ -57,29 +174,14 @@
         display: none;
     }
 }
-#siderContent
-{
-    background-color: #666666;
-    min-height: 1000px !important;
 
-}
 
 .bg-observation-search
 {
-    background-color: #1abc9c;
-    color: #EEEEEE;
     font-family: "Adobe Garamond Pro";
 }
 
-.bg-observation-side
-{
-    background-color: #FFFFFF;
-}
 
-.bg-observation-main
-{
-    min-height: 1000px !important;
-}
 
 .panel
 {
@@ -103,13 +205,8 @@
 
     background-color: #999999;
 }
-#logoDuSite
-{
-    margin-top: -20px;
-    width: 90px;
-    height: 90px;
 
-}
+
 .slider{
     -webkit-appearance: none;
     width: 100%;
@@ -174,7 +271,7 @@ table
 
 }
 
-.btn, input[type=text]{
+.btn, input[type=text], input[type=password],input[type=email]{
     border-radius: 50px;
 }
 textarea{
@@ -188,6 +285,11 @@ textarea[disabled]
 .global-marg{
 margin-bottom: 5%;
 }
+
+.global-marg-up{
+    margin-top: 50px;
+}
+
 .global-marg-xs{
 margin-bottom: 30px;
 }
