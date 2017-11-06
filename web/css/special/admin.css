@@ -22,3 +22,9 @@ body {
 {
     margin-top: 10%;
 }
+
+.user td
+{
+    border: none !important;
+    text-align: left;
+}
