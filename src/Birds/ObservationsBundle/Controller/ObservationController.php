@@ -134,11 +134,8 @@ class ObservationController extends Controller
         //Envoi de la requête avec les différentes demandes.
         $observations = $repoObs->sendQuery($qb);
 
-        //var_dump($nombreDeResultats);
         $pageN = $nombreDeResultats/$limit;
         $pageN = ceil($pageN);
-
-        //
 
         return $this->render('BirdsObservationsBundle:Observations:observations.html.twig', array(
             'observations' => $observations,
