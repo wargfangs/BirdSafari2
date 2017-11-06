@@ -1,11 +1,22 @@
 {% extends "@App/adminLayout.html.twig" %}
 
 
+{% block admintitle %}<h2>Administration des utilisateurs</h2>{% endblock %}
 
 {% block content %}
-	<h1></h1>
-	<h2>Administration des utilisateurs</h2>
 
+	<div class="row ">
+		<div class="col-md-4 text-center">
+			<h5>Administration</h5>
+			<h6>Utilisateur</h6>
+		</div>
+	</div>
+	<table>
+		<tr>
+			<th>Auteur</th>
+			<th>Statut</th>
+		</tr>
+	</table>
 	{% for user in users %}
 		{% set nat = 0 %}		<!-- Variable that stores if user is naturalist, admin or normal-->
         {% if "ROLE_NATURALIST" in user.roles %}
