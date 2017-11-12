@@ -40,3 +40,4 @@ function toggleMendatory(check, form)
         $(form).find('.form-control').removeAttr('required');
     }
 }
+

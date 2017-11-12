@@ -16,11 +16,25 @@ security:
         password: Password
         remember_me: 'Remember me'
         submit: 'Log in'
+		reset_password: 'Reset your password'
+		register: 'Not register yet?'
 
 profile:
     show:
         username: Username
         email: Email
+        first_name: 'First name'
+        birth: 'Date of birth'
+        nosubscriber: 'You are not register to our newsletter.'
+        status: 'I am a naturalist
+        first_name: 'First name'
+        last_name: 'Last name'
+        institution: 'Institution'
+        avatar: 'Add a picture'
+        admin: 'Admin'
+        naturalist: 'Naturalist'
+        observer: 'Observer'
+        Edit_profile: 'Edit profile'
     edit:
         submit: Update
     flash:
@@ -90,3 +104,13 @@ form:
     password_confirmation: 'Repeat password'
     new_password: 'New password'
     new_password_confirmation: 'Repeat new password'
+    first_name: 'First name'
+	birth: 'Date of birth'
+    newsletter_subscriber: 'Subscribe to our newsletter'
+    status: 'I am a naturalist
+    first_name: 'First name'
+    last_name: 'Last name'
+    institution: 'Institution'
+    avatar: 'Add a picture'
+    acceptCgu: 'I accept the CGU of BirdSafari'
+    
