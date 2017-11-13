@@ -16,6 +16,7 @@ class ObservationFormType extends AbstractType
     {
 
         $builder
+
             ->add('image',ImageType::class, array('required'=>false))
             ->add('date',DateTimeType::class, array('widget'=>'single_text'))
             ->add('place', TextType::class, array('required'=>false, 'label'=>'Lieu '))

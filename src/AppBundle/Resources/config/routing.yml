@@ -51,3 +51,8 @@ contact:
 mentions:
     path: /Mentions_Legales
     defaults: { _controller: AppBundle:App:mentions }
+
+
+mail:
+    path: /mailTo
+    defaults: { _controller: AppBundle:Mail:sendMail }

@@ -29,7 +29,7 @@
 
 
 
-		<p><!-- Start writing users here:-->
+		<p class="row"><!-- Start writing users here:-->
 
 			<a href="#user-{{ user.id }}" data-toggle="collapse" class="collapser">
 				<div >
@@ -88,21 +88,15 @@
 			<div class="col-md-4 col-md-offset-1 global-marg-up-xs global-marg-xs">
 				<div class="col-md-7">
                     {% if user.confirmationStatus == true and nat==0 %}
-						<button class="btn btn-sm btn-default col-md-12"><a href="{{ path('admin_validate_user', {'id':user.id }) }}">Valider la demande</a></button>
+						<button class="text-center btn btn-sm btn-default row"><a href="{{ path('admin_validate_user', {'id':user.id }) }}">Valider la demande</a></button>
                     {% endif %}
                     {% if (nat!=0 or user.confirmationStatus == true ) and nat != 2%}
-						<button class="btn btn-sm btn-default col-md-12"><a href="{{ path('admin_passobs_user', {'id':user.id }) }}">Passer en Observateur</a></button>
+						<button class=" text-center btn btn-sm btn-default row"><a href="{{ path('admin_passobs_user', {'id':user.id }) }}">Passer en Observateur</a></button>
                     {% endif %}
-					<button class="btn btn-sm btn-default col-md-12"><a href="{{ path('admin_delete_user', {'id':user.id }) }}">Désactiver utilisateur</a></button>
+					<button class="text-center btn btn-sm btn-default row"><a href="{{ path('admin_delete_user', {'id':user.id }) }}">Désactiver utilisateur</a></button>
+					<a href="#" class="text-center row" data-toggle="modal" data-target="#mailPop"><span class="glyphicon glyphicon-lg glyphicon-envelope"></span>Envoyer un mail</a>
 				</div>
-				<a href="#" class="col-md-5 text-center"><span class="glyphicon glyphicon-lg glyphicon-envelope"></span>Envoyer un mail</a>
-
 			</div>
-
-
-
-
-
 		</div>
 
 	{% endfor %}

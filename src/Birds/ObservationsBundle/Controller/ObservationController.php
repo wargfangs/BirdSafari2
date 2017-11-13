@@ -29,26 +29,16 @@ class ObservationController extends Controller
     public function observationsAction(Request $request, $page=1, $limit=5, $research="nd", $minDate="nd", $maxDate="nd", $minHours="nd", $maxHours="nd", $latitude="nd", $longitude="nd", $radius="nd", $orderBy=0)
     {
         $pageTitle = "Toutes les observations";
-        /*var_dump("Page ". $page);
-        var_dump("limit ". $limit);
-        var_dump("research ". $research);
-        var_dump("minDate ". $minDate);
-        var_dump("maxDate ". $maxDate);
-        var_dump("minHours ". $minHours);
-        var_dump("maxHours ". $maxHours);
-        var_dump("Latitude ". $latitude);
-        var_dump("Longitude ". $longitude);
-        var_dump("Radius ". $radius);
-        var_dump("Order by ". $orderBy);*/
 
         $em = $this->getDoctrine()->getManager();
         $repoObs = $em->getRepository('BirdsObservationsBundle:Observation');
-        $param = array();
 
 
         $qb = $repoObs->createQuery();
         $countQb = $repoObs->createCountQuery();
 
+        //Data to send to view for pagination
+        $param = array();
         $param["research"] = "nd"; // Default null . . .
         $param["espece"] = "nd";
         $param["minDate"] = "nd";
@@ -69,7 +59,7 @@ class ObservationController extends Controller
             $countQb = $repoObs->searchForString($research, $countQb);
             $param["research"] = $research;
         }
-        if($espece != null)
+        if($espece != "nd" && $espece != 0)
         {
 
             $qb = $repoObs->addFilterBySpecies($espece, $qb);
@@ -388,6 +378,9 @@ class ObservationController extends Controller
      */
     public function addObsAction(Request $request)
     {
+
+
+
         //Si autorisé.
         if(!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY'))
         {
@@ -599,20 +592,7 @@ class ObservationController extends Controller
             $em = $this->getDoctrine()->getManager();
             $repo = $em->getRepository('BirdsObservationsBundle:Birds');
             $result = $repo->getAllByArray();
-            $array = array();
-            $arrayOfValue = array(); //Enregistre les duplicats.
-            foreach($result as $bird)
-            {
-                //test
-                if(!in_array($bird["nomVern"],$arrayOfValue)) //Retirer les duplicats.
-                    //add
-                {
-                    $array []= $bird;
-                }
-                $arrayOfValue []= $bird["nomVern"];
-                //add value
-            }
-            $birdsJSON = json_encode($array);
+            $birdsJSON = json_encode($result);
             $cache->set('birds.names',$birdsJSON);
         }
         else{
@@ -712,15 +692,19 @@ class ObservationController extends Controller
     {
         $file = $observation->getImage()->getFile();    //picture: See if we can make this auto?
         ////À faire ::: Tester la taille de l'image et le type de fichier. Si différent de png, jpg, bmp et > 2 Mo
-        if($file->getSize()>2000)
+        if(!in_array(exif_imagetype($file),array(IMAGETYPE_JPEG,IMAGETYPE_PNG, IMAGETYPE_BMP,IMAGETYPE_GIF)))
+            throw new \Exception("This is not an image or this format is not png or jpeg.");
+
+        //Taille de l'image et ratio
+        $picData = getimagesize($file->getPathname());
+        $ratio = $picData[0]/$picData[1]; //Width/height
+
+        if($ratio> 1.2 && $ratio < 1.8 && $file->getSize()>2000) // Si l'image est entre 1.2 et 1.8fois plus large que haute
         {
-            //TO DO
+            $observation->setHasValidPictureForShow(true);  //Valid for "Accueil"
         }
-        $authorizedType = array('jpg','png','bmp','gif');
-        if($file->getMimeType())
-        {
-            //TO DO
-        }
+
+
         $image = new Image();
 
         $image->setAlt(uniqid() ."_". $file->getClientOriginalName());
