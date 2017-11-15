@@ -37,6 +37,7 @@ profile:
         Edit_profile: 'Modifier votre profil'
     edit:
         submit: 'Mettre à jour'
+        img: 'Modifier'
     flash:
         updated: 'Le profil a été mis à jour avec succès.'
 

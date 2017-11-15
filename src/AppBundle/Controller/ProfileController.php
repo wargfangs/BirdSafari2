@@ -23,7 +23,7 @@ use AppBundle\Entity\User;
 /**
  * Controller managing the user profile.
  *
- * Surcharge ProfileController de FOSuserBundle
+ * Overide FosUserBundle ProfileController 
  */
 class ProfileController extends BaseController
 {
@@ -38,7 +38,7 @@ class ProfileController extends BaseController
         }
 		
 		/**
-		* Verifier si l'utilisateur est inscrit à la newsletter
+		* Watch if user is register to the newsletter
 		*
 		*/
 		$em = $this->getDoctrine()->getManager();
@@ -92,7 +92,7 @@ class ProfileController extends BaseController
 
             $userManager->updateUser($user);
 			
-			 $this->manageNewsletterSubscription($user); // Inscription Newsletter
+			 $this->manageNewsletterSubscription($user); // Newsletter registration
 
             if (null === $response = $event->getResponse()) {
                 $url = $this->generateUrl('fos_user_profile_show');
@@ -115,10 +115,10 @@ class ProfileController extends BaseController
         $em = $this->getDoctrine()->getManager();
         $newsletterRepository = $em->getRepository('AppBundle:Newsletter');
 
-        // Gestion de l'inscription à la newsletter
+        // Newsletter subscription management
         $newsletter = $newsletterRepository->findOneBy(array('email' => $user->getEmail()));
-        if($user->getNewsletterSubscriber()){ // Si il souhaite recevoir la newsletter
-            if(!$newsletter){ // Si non inscrit
+        if($user->getNewsletterSubscriber()){ // if subscription
+            if(!$newsletter){ // if not a subscriber
                 $newsletter = new Newsletter();
                 $newsletter->setEmail($user->getEmail());
                 $em->persist($newsletter);

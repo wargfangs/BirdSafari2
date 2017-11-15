@@ -18,24 +18,23 @@ class ProfileType extends AbstractType
          $builder
            
             ->add('avatar', VichFileType::class, array(
-                'data_class' => null,
-				'allow_delete' => true, 
+                'data_class' 	=> null,
+				'allow_delete' 	=> true, 
                 'property_path' => 'avatar',
-                'required' => false,
+                'required' 		=> false,
             ))
+			 ->add('confirmationStatus',CheckboxType::class, array('required'=>false))
+			 ->add('institution')
 			 ->add('newsletterSubscriber', CheckboxType::class, array(
                 
-                'required' => false,
-                'data' => false
+                'required' 		=> false,
+                'data' 			=> false
             ))
 			
 			 ->add('firstName')
             ->add('lastName')
-            ->add('birth', BirthdayType::class)
-            ->add('institution');
-
-
-
+            ->add('birth', BirthdayType::class);
+           
     }
     /**
      * {@inheritdoc}

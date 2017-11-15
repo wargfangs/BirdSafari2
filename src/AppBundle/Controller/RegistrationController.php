@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Controller managing the user registration.
  *
- * Surcharge RegistrationController de FOSuserBundle
+ * Override FosUserBundle RegistrationController 
  */
 class RegistrationController extends BaseController
 {
@@ -56,7 +56,7 @@ class RegistrationController extends BaseController
 
                 $userManager->updateUser($user);
 				
-				$this->manageNewsletterSubscription($user); // Inscription à la newsletter
+				$this->manageNewsletterSubscription($user); // Registration to the newsletter
 
                 if (null === $response = $event->getResponse()) {
                     $url = $this->generateUrl('fos_user_registration_confirmed');
@@ -88,7 +88,7 @@ class RegistrationController extends BaseController
     {
         $em = $this->getDoctrine()->getManager();
 
-        if($user->getNewsletterSubscriber()){ // Inscription à la newsletter si case cochée
+        if($user->getNewsletterSubscriber()){ // register to newsletter if checkbox have been checked
             $alreadyExists = $em->getRepository('AppBundle:Newsletter')->findOneBy(array('email' => $user->getEmail()));
             if(!$alreadyExists){
                 $newsletter = new Newsletter();

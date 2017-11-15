@@ -13,7 +13,7 @@ use FOS\UserBundle\Controller\SecurityController as BaseController;
 /**
  * Controller managing the user login.
  *
- * Surcharge SecurityController de FOSuserBundle
+ * Override FosUserBundle SecurityController.
  */
 class SecurityController extends BaseController
 {

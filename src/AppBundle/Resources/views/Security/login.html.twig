@@ -15,7 +15,7 @@
 				<h1>Bienvenue</h1><br>
 				
 					<p>Entrez un email ou un identifiant valide pour vous connecter.</p>
-					
+												{# User informations #}
 					<form>
 						<label for="username">{{ 'security.login.username'|trans }}</label>
 						<input type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
@@ -26,7 +26,7 @@
 						<div class="g-recaptcha" data-sitekey="6LeivjIUAAAAANwUBcnp6aM0tsjlua6jPsYoJPZn"></div>
 						<input type="submit" class="login login-submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
 					</form>
-					
+												{# User Help buttons #}
 					<div class="loginHelp">
 						<label for="reset_password">{{ 'security.login.reset_password'|trans }}</label>
 						<a href="{{ path('fos_user_resetting_request') }}"><input type="button" id="reset_password" name="_reset_password" class="userButton" value="Envoyer par email"></a>

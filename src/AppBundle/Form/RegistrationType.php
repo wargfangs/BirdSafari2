@@ -18,8 +18,7 @@ class RegistrationType extends AbstractType
          $builder
 			 ->add('acceptCgu',CheckboxType::class, array(
 				 'required'=>false,
-				 'attr'=> array(
-					 'onclick' => 'enableSubmit')
+				 
 			 ))
 			 ->add('newsletterSubscriber', CheckboxType::class, array(
                'required' => false,
