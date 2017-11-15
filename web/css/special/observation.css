@@ -50,3 +50,10 @@ body {
 {
     margin-top: 20px;
 }
+
+.xdsoft_datetimepicker table, .xdsoft_datetimepicker td,.xdsoft_datetimepicker th
+{
+    padding: 0px;
+    margin: 0px;
+    min-width: 0px;
+}

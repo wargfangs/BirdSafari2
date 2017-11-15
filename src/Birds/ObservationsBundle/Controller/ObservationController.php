@@ -15,6 +15,7 @@ use Exporter\Writer\JsonWriter;
 use Exporter\Writer\XlsWriter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Cache\Simple\FilesystemCache;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -585,26 +586,21 @@ class ObservationController extends Controller
     public function birdsJsonAction(Request $request)
     {
         $cache = new FilesystemCache();
-        //$cache->delete('birds.names');
+        $cache->delete('birds.names');
         if(!$cache->has('birds.names'))
         {
 
             $em = $this->getDoctrine()->getManager();
             $repo = $em->getRepository('BirdsObservationsBundle:Birds');
             $result = $repo->getAllByArray();
-            $birdsJSON = json_encode($result);
+            $birdsJSON = new JsonResponse($result);
             $cache->set('birds.names',$birdsJSON);
         }
         else{
             $birdsJSON = $cache->get('birds.names');
         }
-        $response = new Response(
-            $birdsJSON,
-            Response::HTTP_OK,
-            array('content/type' => 'application/json')
-        );
-        $response->prepare($request);
-        return $response;
+
+        return $birdsJSON;
     }
 
 
@@ -701,7 +697,7 @@ class ObservationController extends Controller
 
         if($ratio> 1.2 && $ratio < 1.8 && $file->getSize()>2000) // Si l'image est entre 1.2 et 1.8fois plus large que haute
         {
-            $observation->setHasValidPictureForShow(true);  //Valid for "Accueil"
+            $observation->setHasValidPictureForShow(true);  //Valid for page "Accueil"
         }
 
 
