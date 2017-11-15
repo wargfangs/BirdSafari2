@@ -1,0 +1,5 @@
+AppBundle\Entity\User:
+    image:
+        mapping:           avatar # required
+        filename_property: avatarName     # required
+        

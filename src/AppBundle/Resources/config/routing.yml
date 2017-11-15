@@ -51,3 +51,7 @@ contact:
 mentions:
     path: /Mentions_Legales
     defaults: { _controller: AppBundle:App:mentions }
+
+edit_user_profile:
+    path:     /user/{id}/edit
+    defaults: { _controller: AppBundle:Security:editUser }

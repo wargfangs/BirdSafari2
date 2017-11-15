@@ -1,3 +1,8 @@
+easy_admin_bundle:
+    resource: "@EasyAdminBundle/Controller/AdminController.php"
+    type:     annotation
+    prefix:   /admin
+
 dev_tools_blog:
     resource: "@DevToolsBlogBundle/Resources/config/routing/article.yml"
     prefix:   /Blog

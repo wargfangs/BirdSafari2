@@ -1,0 +1,51 @@
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+
+<div class="login-container">
+    <img src="{{ absolute_url(asset('img/fake_logo.svg')) }}" alt="fake_logo" height="50" class="fake_logo">
+	<h3>Vos informations</h3><br>
+  
+    												{# User Role display #}
+    
+     {% if 'ROLE_SUPER_ADMIN' in user.roles %}
+     	<strong>{{ 'profile.show.admin'|trans }}</strong>
+	 {% elseif 'ROLE_NATURALIST' in user.roles %}
+		<strong>{{ 'profile.show.naturalist'|trans }}</strong><br/>
+		 {{ user.institution }}
+	 {% elseif 'ROLE_USER' in user.roles %}
+		<strong>{{ 'profile.show.observer'|trans }}</strong><br/>
+	 {% endif %}
+   	
+	<div class="profile">
+	
+													{# User profile picture #}
+		
+		{% if user.avatar is not null %}
+			<img class="avatar" src="{{ absolute_url(vich_uploader_asset(user, 'avatar')) }}" alt="{{ user.avatarName }}" style="width: 100px; height: 100px;"/>
+		{% else %}
+			<img class="avatar" src="{{ absolute_url(asset('img/nopic.jpg')) }}" alt="Avatar vide" style="width: 100px; height: 100px;"/>
+		{% endif %}
+		
+		<div class="infos_profile" style="text-align:left;">
+													
+														{# User Informations #}
+			<ul class="userInfos">
+				<li><strong>{{ 'profile.show.username'|trans }}:</strong><br/> {{ user.username }}</li>
+				<li><strong>{{ 'profile.show.email'|trans }}:</strong><br/> {{ user.email }}</li>
+				<li><strong>{{ 'profile.show.first_name'|trans }}:</strong><br/> {{ user.firstName }}</li>
+				<li><strong>{{ 'profile.show.last_name'|trans }}:</strong><br/> {{ user.lastName }}</li>
+				<li><strong>{{ 'profile.show.birth'|trans }}:</strong><br/> {{ user.birth|date('d-m-Y') }}</li><br/>
+				{% if user.newsletterSubscriber is empty %}
+				<li><strong style="color:red;">{{ 'profile.show.nosubscriber'|trans }}</strong></li><br/>
+				{% endif %}
+			</ul>
+			<a href="{{ path('fos_user_profile_edit') }}"><input type="submit" value="{{ 'profile.show.Edit_profile'|trans }}" class="login login-submit"/></a>
+
+		</div>
+ 
+    </div>
+</div>
+
+
+

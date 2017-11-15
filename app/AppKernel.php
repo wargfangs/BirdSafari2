@@ -20,6 +20,8 @@ class AppKernel extends Kernel
             new Birds\ObservationsBundle\BirdsObservationsBundle(),
             new DevTools\BlogBundle\DevToolsBlogBundle(),
             new Exporter\Bridge\Symfony\Bundle\SonataExporterBundle(),
+			new Vich\UploaderBundle\VichUploaderBundle(),
+			new EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle()
 
         ];
