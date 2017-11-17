@@ -1,0 +1,39 @@
+{% extends "@App/Popup/mailPopup.html.twig" %}
+
+
+
+
+{% block title %}
+   <p class="text-center">Envoyer un message</p>
+
+{% endblock %}
+
+
+{% block content %}
+    {% if fmail is defined and fmail %}
+        {{ form_start(fmail) }}
+
+        {{ form_label(fmail.to, 'À') }}
+        {{ form_widget(fmail.to, {'attr':{'disabled':'disabled'}}) }}
+        <br/>
+        {{ form_label(fmail.subject, 'Sujet') }}
+        {{ form_widget(fmail.subject) }}
+        <br/>
+        {{ form_label(fmail.message, 'Votre message:') }}
+        {{ form_widget(fmail.message) }}
+        <br/>
+        {{ form_rest(fmail) }}
+        <br/>
+        <input type="submit" value="Envoyer" />
+
+        {{ form_end(fmail) }}
+    {% else %}
+        <p>Service de mail non disponible.</p>
+    {% endif %}
+{% endblock %}
+
+
+
+{% block form_end %}
+
+{% endblock %}

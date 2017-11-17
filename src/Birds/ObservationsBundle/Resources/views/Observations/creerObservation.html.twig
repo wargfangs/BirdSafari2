@@ -4,6 +4,7 @@
 {% block css %}
 	{{ parent() }}
 	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/themes/smoothness/jquery-ui.css" />
+	<link rel="stylesheet" type="text/css" href="{{ asset('js/jqueryExtensions/jquery.datetimepicker.css') }}" >
 {% endblock %}
 
 {% block overallContent %}
@@ -15,7 +16,7 @@
 			</div>
 		</div>
 		<div class="form-group">
-            {{ form_start(form)}}
+            {{ form_start(form) }}
 			<div class="row global-marg">
 				<div class="col-md-10 col-md-offset-1">
 					<div class="col-md-4">
@@ -92,6 +93,7 @@
 	<script src={{ asset("js/observations/positionSelector.js") }}></script> <!--Contient MapReady appelé en callback du chargement de la carte.-->
     {{ parent() }}
 
+	<script src={{ asset("js/jqueryExtensions/build/jquery.datetimepicker.full.min.js") }}></script>
 	<script src={{ asset("js/observations/creerObservation.js") }}></script>
 
 

@@ -1,12 +1,12 @@
 body {
-    background-image: url("/BirdSafari/web/img/backgrounds/fond_observation_bureau.jpg");
+    background-image: url("../img/backgrounds/fond_observation_bureau.jpg");
     background-attachment: fixed;
 
 }
 @media screen and (max-width:375px)
 {
     body {
-        background-image: url("/BirdSafari/web/img/backgrounds/fond_observation_mobile.jpg");
+        background-image: url("../img/backgrounds/fond_observation_mobile.jpg");
         background-attachment: fixed;
 
     }
@@ -49,4 +49,17 @@ body {
 .global-marg-up-xs
 {
     margin-top: 20px;
+}
+
+.xdsoft_datetimepicker table, .xdsoft_datetimepicker td,.xdsoft_datetimepicker th
+{
+    padding: 0px;
+    margin: 0px;
+    min-width: 0px;
+}
+
+@media screen and (max-width:1300px) and (min-width:968px) {
+    .map{
+        padding-left: 40%;
+    }
 }

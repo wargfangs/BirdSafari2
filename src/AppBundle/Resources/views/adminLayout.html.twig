@@ -1,14 +1,31 @@
 {% extends "base.html.twig" %}
 
 {% block title %}{{ parent() }} - Admin{% endblock %}
-{% block css %}{{ parent() }} <!-- Add css spec-->{% endblock %}
+{% block css %}{{ parent() }}
+    <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
+{% endblock %}
 {% block body %}
-    <h1>Administration</h1>
-    <button class="btn btn-lg btn-default"><a href="{{ path('admin_user', {"orderBy":"user"}) }}">Utilisateurs</a></button>
-    <button class="btn btn-lg btn-default"><a href="{{ path('admin_articles', {"orderBy":"date"}) }}">Articles</a></button>
+
+    <div class="row">
+        <div class="col-md-4 col-xs-12 text-center global-marg-up">
+            {% block admintitle %}<h2>Administration</h2>{% endblock %}
+            <button class="btn btn-lg btn-default"><a href="{{ path('admin_user', {"orderBy":"user"}) }}">Utilisateurs</a></button>
+            <button class="btn btn-lg btn-default"><a href="{{ path('admin_articles', {"orderBy":"date"}) }}">Articles</a></button>
+
+        </div>
+        <div class="col-md-7 col-md-offset-1 col-xs-11 col-xs-offset-1 global-marg-up-xs">
+            {% block content %}{% endblock %}
+
+        </div>
+    </div>
 
 
-    {% block content %}{% endblock %}
+
+
+    <div class="global-marg-up-xs global-marg">
+        {% include '@App/Popup/PopUpObs.html.twig' with {'idObs':'2', 'id':'mailPop'} %}
+    </div>
+
 
 {% endblock %}
 

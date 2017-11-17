@@ -1,12 +1,24 @@
 {% extends "@App/adminLayout.html.twig" %}
 
 
+{% block admintitle %}<h2>Administration des utilisateurs</h2>{% endblock %}
 
 {% block content %}
-	<h1></h1>
-	<h2>Administration des utilisateurs</h2>
 
-	{% for user in users %}
+	<div class="row ">
+		<div class="col-md-4 text-center">
+			<h5>Administration</h5>
+			<h6>Utilisateur</h6>
+		</div>
+	</div>
+	<table>
+		<tr>
+			<th>Auteur</th>
+			<th>Statut</th>
+		</tr>
+	</table>
+
+    {% for user in users %}
 		{% set nat = 0 %}		<!-- Variable that stores if user is naturalist, admin or normal-->
         {% if "ROLE_NATURALIST" in user.roles %}
             {% set nat = 1 %}
@@ -17,51 +29,81 @@
 
 
 
-		<p><!-- Start writing users here:-->
+		<p class="row"><!-- Start writing users here:-->
 
 			<a href="#user-{{ user.id }}" data-toggle="collapse" class="collapser">
 				<div >
 					<span class="glyphicon glyphicon-chevron-right"></span>
-                    {% if user.username | length > 30 %}{{ user.username | slice(0,30) }}...
-                    {% else %}{{ user.username }}{% endif %}
+					{% if user.username | length > 30 %}{{ user.username | slice(0,30) }}...
+					{% else %}{{ user.username }}{% endif %}
 					|
-                    {% if nat == 0 %}
-                        {% if user.confirmationStatus == true %}Obs (nat) {% else %}Obs {% endif %}
-                    {% elseif nat == 1 %}Nat {% elseif nat == 2 %}Admin{% endif %}
+					{% if nat == 0 %}
+						{% if user.confirmationStatus == true %}Obs (nat) {% else %}Obs {% endif %}
+					{% elseif nat == 1 %}Nat {% elseif nat == 2 %}Admin{% endif %}
 				</div>
-
-
 			</a>
-		</p>
-		<p class="collapse" id="user-{{user.id}}">
-			Pseudo: {{ user.username }} <br>
-			Mail: {{ user.email }} <br>
-			{% if nat == 1 or nat == 2 or nat == 0 and user.confirmationStatus == true %}  <!-- if Nat or Admin -->
-				Nom: {{ user.lastname}} <br>
-				Prénom: {{ user.firstname }} <br>
-				Date de naissance: {{ user.birth|date('d/m/Y') }} <br>
-				Établissement: {{ user.institution }} <br>
-			{% endif %}
-			Statut: {% if nat == 0 %}
-						{% if user.confirmationStatus == true %}Observateur en attente pour devenir naturaliste
-						{% else %}Observateur {% endif %}
-					{% elseif nat == 1 %}Naturaliste
-					{% elseif nat == 2 %}Administrateur{% endif %} <br>
 
-			<a href=""><span class="glyphicon glyphicon-lg glyphicon-envelope"></span></a>
-        {% if user.confirmationStatus == true and nat==0 %}
-			<button class="btn btn-sm btn-default"><a href="{{ path('admin_validate_user', {'id':user.id }) }}">Valider la demande</a></button>
-		{% endif %}
-		{% if (nat!=0 or user.confirmationStatus == true ) and nat != 2%}
-			<button class="btn btn-sm btn-default"><a href="{{ path('admin_passobs_user', {'id':user.id }) }}">Passer en Observateur</a></button>
-		{% endif %}
-			<button class="btn btn-sm btn-default"><a href="{{ path('admin_delete_user', {'id':user.id }) }}">Désactiver utilisateur</a></button>
 
 		</p>
+		<div class="collapse row user" id="user-{{user.id}}">
+			<div class="col-md-6">
+				<table>
+					<tr>
+						<td>Pseudo: </td>
+						<td>{{ user.username }} </td>
+					</tr>
+					<tr>
+						<td>Mail: </td>
+						<td>{{ user.email }} </td>
+					</tr>
+                    {% if nat == 1 or nat == 2 or nat == 0 and user.confirmationStatus == true %}  <!-- if Nat or Admin -->
+					<tr>
+						<td>Nom: </td>
+						<td>{{ user.lastname}}</td>
+					</tr>
+					<tr>
+						<td>Prénom: </td>
+						<td>{{ user.firstname }}</td>
+					</tr>
+					<tr>
+						<td>Date de naissance: </td>
+						<td>{{ user.birth|date('d/m/Y') }} </td>
+					</tr>
+					<tr>
+						<td>Établissement: </td>
+						<td> {{ user.institution }}</td>
+					</tr>
+					<tr>
+						<td>Statut: </td>
+						<td>{% if nat == 0 %}
+                                {% if user.confirmationStatus == true %}Observateur en attente pour devenir naturaliste
+                                {% else %}Observateur {% endif %}
+                            {% elseif nat == 1 %}Naturaliste
+                            {% elseif nat == 2 %}Administrateur{% endif %}</td>
+					</tr>
+
+                    {% endif %}
+				</table>
+			</div>
+			<div class="col-md-4 col-md-offset-1 global-marg-up-xs global-marg-xs">
+				<div class="col-md-7">
+                    {% if user.confirmationStatus == true and nat==0 %}
+						<button class="text-center btn btn-sm btn-default row"><a href="{{ path('admin_validate_user', {'id':user.id }) }}">Valider la demande</a></button>
+                    {% endif %}
+                    {% if (nat!=0 or user.confirmationStatus == true ) and nat != 2%}
+						<button class=" text-center btn btn-sm btn-default row"><a href="{{ path('admin_passobs_user', {'id':user.id }) }}">Passer en Observateur</a></button>
+                    {% endif %}
+					<button class="text-center btn btn-sm btn-default row"><a href="{{ path('admin_delete_user', {'id':user.id }) }}">Désactiver utilisateur</a></button>
+					<a href="#" class="text-center row" data-toggle="modal" data-target="#mailPop"><span class="glyphicon glyphicon-lg glyphicon-envelope"></span>Envoyer un mail</a>
+				</div>
+			</div>
+		</div>
 
 	{% endfor %}
+	<div class="global-marg-up-xs global-marg">
+	    {% include '@App/paginationTemplate.html.twig' with {'pathOfPage':'admin_user'} %}
+	</div>
 
-	{% include '@App/paginationTemplate.html.twig' with {'pathOfPage':'admin_user'} %}
 
 {% endblock %}
 

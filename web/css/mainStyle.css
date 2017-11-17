@@ -2,7 +2,7 @@
 {
     height: 150px;
 
-    background-image: url("/BirdSafari/web/img/backgrounds/fond_articles_bureau.jpg");
+    background-image: url("../img/backgrounds/fond_articles_bureau.jpg");
     background-attachment: fixed;
     background-repeat: no-repeat;
     border-bottom: solid white 1.5px;
@@ -11,7 +11,7 @@
     .banderole
     {
         height: 280px;
-        background-image: url("/BirdSafari/web/img/backgrounds/fond_header_mobile.jpg");
+        background-image: url("../img/backgrounds/fond_header_mobile.jpg");
         background-attachment: fixed;
         border-bottom: solid white 1.5px;
 
@@ -20,7 +20,7 @@
 }
 
 body{
-    background-image: url("/BirdSafari/web/img/backgrounds/fond_accueil_bureau.jpg");
+    background-image: url("../img/backgrounds/fond_accueil_bureau.jpg");
     background-attachment: fixed;
     background-repeat: no-repeat;
 
@@ -90,8 +90,7 @@ body{
 
     .navbar-center
     {
-        margin-left:40%;
-        width: 60% !important;
+
         font-size: large;
     }
 
@@ -126,9 +125,9 @@ body{
     color:black !important;
 }
 
-#menuPrincipal
+#menuPrincipal .navbar-nav, bg-foot .navbar-nav
 {
-
+    margin: 0px 0px;
 }
 
 .flash-error
@@ -262,16 +261,26 @@ body{
 
 td, th /*Tous les tableaux sont formatés ainsi*/
 {
-    border-right: solid black 2px;
+    border-right: solid black 1px;
     min-width: 70px;
     text-align: center;
     padding-left: 3px;
     padding-right: 3px;
 
+
 }
+table {
+    border-collapse: separate;
+    border-spacing: 0px 10px;
+}
+
 td a, th a, td a:hover, th a:hover
 {
     color:inherit;
+}
+tr td:last-child, tr th:last-child
+{
+    border-right: none;
 }
 table
 {

@@ -40,6 +40,7 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
     }
 
 
+
     /**
      * @param $user Utilisateur dont il faut récupérer l
      * @param $valid boolean : true récupère les observations valides.
@@ -106,6 +107,19 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
             ->setParameters(array(1 => "%".$content."%", 2 => "%".$content."%", 3 => "%".$content."%"));
         return $qb;
     }
+
+    /**
+     * @param $espece : string
+     * @param QueryBuilder $qb
+     * @return QueryBuilder
+     */
+    public function addFilterBySpecies($espece,QueryBuilder $qb)
+    {
+        $qb->andwhere($qb->expr()->eq("o.birdname", "?12"))
+            ->setParameter("12", $espece);
+        return $qb;
+    }
+
 
 
 
@@ -262,11 +276,9 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
     public function getParameters(QueryBuilder $qb)
     {
         $parameters= array();
-        $i = 1;
         foreach($qb->getQuery()->getParameters() as $param)
         {
-            $parameters['i'] = $param->getValue();
-            $i++;
+            $parameters[] = $param->getValue();
         }
 
 

@@ -8,14 +8,7 @@ function OnMapReady(map)//map = élément du dom
         var latID= "#observation_form_latitude";
         var longID= "#observation_form_longitude";
         var placeBtn = document.getElementById('observation_form_place');
-        if(navigator.geolocation) //Si pas internet explorer, lol
-        {
-            navigator.geolocation.getCurrentPosition(function(position){
-                map.setCenter(new google.maps.LatLng(position.coords.latitude,position.coords.longitude));
-                map.setZoom(9);
-            });
 
-        }
         //Add marker
         var marker = new google.maps.Marker({
             position: map.getCenter(),
@@ -24,6 +17,34 @@ function OnMapReady(map)//map = élément du dom
 
         });
         marker.setDraggable(true);
+
+        //Recenter
+        if(navigator.geolocation)
+        {
+            if($(".coords") != null)
+                var latlng = $(".coords").text().split(";"); //obs coords
+
+            navigator.geolocation.getCurrentPosition(function(position) {
+                if($(".coords").val() != null) // If already in function.
+                {
+
+                    console.log(latlng[0] + ' ' + latlng[1]);
+                    map.setCenter(new google.maps.LatLng(parseFloat(latlng[0]),parseFloat(latlng[1])));
+                    map.setZoom(9);
+
+                }
+                else
+                {
+                    map.setCenter(new google.maps.LatLng(position.coords.latitude,position.coords.longitude));
+                    map.setZoom(7);
+
+
+                }
+                marker.setPosition(map.getCenter());
+            });
+
+        }
+
         //marker.setIcon()      //Change marker later
         //Si on a déjà des données d'observation (cas de la page de modification)
         if($(latID).val()!=0 && $(longID).val()!=0) {

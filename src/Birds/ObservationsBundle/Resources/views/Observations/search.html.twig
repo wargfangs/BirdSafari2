@@ -13,6 +13,12 @@
 
     <div class="row form-inline">
 
+        <div class="form-inline global-marg-up-xs global-marg-xs row">
+            <label for="birdR" class="control-label">Espèces*</label>
+            <select class="birdnames form-control" name="birdR" id="birdR">
+                <option value="0" selected="selected">Tous les oiseaux</option>
+            </select>
+        </div>
         <div class="form-inline col-xs-6 col-sm-6">
             <div class="row searchElt"> Du {{ form_row(searchBar.DateDebut) }}</div>
             <div class="row searchElt"> Au {{ form_row(searchBar.DateFin) }}</div>

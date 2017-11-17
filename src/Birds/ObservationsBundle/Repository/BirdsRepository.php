@@ -20,6 +20,7 @@ class BirdsRepository extends \Doctrine\ORM\EntityRepository
             ->select('b.nomVern')
             ->from('BirdsObservationsBundle:Birds','b');
             $br->where($br->expr()->neq( 'b.nomVern' , '?1'))
+                ->groupBy("b.nomVern")
                 ->setParameter("1","")
                 ->orderBy('b.nomVern','ASC');
 

@@ -2,7 +2,7 @@
 
 {% block title %}{{ parent() }} - Accueil{% endblock %}
 {% block css %}{{ parent() }}
-    <link href="{{ asset('css/special/accueil.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/accueil.css') }}" rel="stylesheet">
 {% endblock %}
 {% block body %}
 
@@ -87,7 +87,7 @@
 {% endblock %}
 {% block js %}{{ parent() }}
     <script>
-        $(function(){ $('.widget_plus').hide(); });
+       /* $(function(){ $('.widget_plus').hide(); });
         $('.widget_planeto').hide();
         var newForm=  '<p id="statFromPlaneto"> </p><p id="numberOfPlaneto"> '
         $('.widget_planeto').after($(newForm));
@@ -96,7 +96,7 @@
         $('#numberOfPlaneto').text(0);
         $('#Connecte1839').on('change', function(){
             $('#numberOfPlaneto').html($(this));
-        });
+        });*/
     </script>
 
 {% endblock %}

@@ -3,6 +3,7 @@
 {% block css %}
     {{ parent() }}
 	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/themes/smoothness/jquery-ui.css" />
+	<link rel="stylesheet" type="text/css" href="{{ asset('js/jqueryExtensions/jquery.datetimepicker.css') }}" >
 {% endblock %}
 
 {% block overallContent %}
@@ -97,6 +98,7 @@
 	<script src={{ asset("js/observations/positionSelector.js") }}></script>
     {{ parent() }}
 
+	<script src={{ asset("js/jqueryExtensions/build/jquery.datetimepicker.full.min.js") }}></script>
 	<script src={{ asset("js/observations/creerObservation.js") }}></script>
 	<script src={{ asset("js/observations/modifierObs.js") }}></script>
 

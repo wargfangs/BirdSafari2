@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Form\SendMailFormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -66,11 +67,32 @@ class AppController extends Controller
         $users = $param['results']; unset($param['results']);
         $param['orderBy']= $orderBy;
 
+        $mailpopForm = $this->get('form.factory')->create(SendMailFormType::class);
+        if($r->isMethod('POST'))
+        {
+            if($mailpopForm->handleRequest($r)->isValid())
+            {
+                $mail = $mailpopForm->getData();
+                $message = new \Swift_Message($mail['subject']);
+                $message->setFrom($this->getParameter('mailer_user'))
+                    ->setTo($mail['to'])
+                    ->setBody($this->renderView('AppBundle:Mails:observationMail.html.twig', array('message'=>$mail['message'])), 'text/html');
+
+
+                if(!$this->get('mailer')->send($message))
+                {
+                    throw new Exception('Le mail n\'a pu être envoyé.');
+                }
+            }
+
+
+        }
         //View is waiting for: param.page - param.orderBy - nombrePage
         return $this->render('AppBundle::adminUsers.html.twig', array(
             'users'=>$users,
             'param' => $param,
-            'nombrePage'=> $param['nombrePage']
+            'nombrePage'=> $param['nombrePage'],
+            'fmail' => $mailpopForm->createView()
         ));
     }
 
@@ -83,7 +105,7 @@ class AppController extends Controller
         }
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository("AppBundle:User");
-        $user= $repo->findOneById($id);
+        $user = $repo->findOneById($id);
         if($user != null)
         {
             $user->setConfirmationStatus(true);
@@ -144,6 +166,12 @@ class AppController extends Controller
     }
 
 
+    /**
+     * Changes role to "Observateur"
+     * @param Request $r
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
     public function toObsAction(Request $r, $id)
     {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
@@ -172,8 +200,35 @@ class AppController extends Controller
 
     function contactAction(Request $r)
     {
+        if($r->isMethod("POST"))
+        {
 
+            $nom = $r->request->get('name');
+            $city = $r->request->get('city');
+            $phone = $r->request->get('phone');
+            $email = $r->request->get('email');
+            $mess = $r->request->get('monmessage');
+
+            $message = new \Swift_Message('Contact');
+            $message->setFrom($this->getParameter('mailer_user'))
+                ->setTo(array('r.quevyn@live.fr','n.tchao@hotmail.fr'))
+                ->setBody('Vous avez reçu un message de '. $email .' </br> '
+                    . $nom . ' ' . $city . ' ' . $phone . ' :</br>'.
+                    $mess
+
+
+                    , 'text/html');
+
+
+            if(!$this->get('mailer')->send($message))
+            {
+                throw new Exception('Le mail n\'a pu être envoyé.');
+            }
+            $r->getSession()->getFlashBag()->add('add', 'Vous avez envoyé le message à l\'équipe. Elle vous r ');
+
+        }
         return $this->render('AppBundle::contact.html.twig');
+
     }
 
     function mentionsAction()

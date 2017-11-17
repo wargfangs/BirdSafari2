@@ -2,7 +2,7 @@
 
 {% block title %}{{ parent() }} - Notre Mission{% endblock %}
 {% block css %}{{ parent() }}
-    <link href="{{ asset('css/special/mission.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/mission.css') }}" rel="stylesheet">
 {% endblock %}
 {% block body %}
 
@@ -12,7 +12,7 @@
             <div class="col-md-12">
                 <h2 class="text-center">Notre mission</h2>
                 <div class="col-md-3 videoPlace"> <div class="col-md-12">
-                        <video class="col-md-12 col-sm-8 col-xs-12" width="300"  controls>
+                        <video class="col-md-12 col-sm-8 col-sm-offset-2 col-xs-12 text-center" width="300"  controls>
                             <source src="{{ asset('video/Le changement climatique menace l\'avifaune en Inde.mp4') }}" type="video/mp4">
                             Your browser doesn't support this kind of video.
                         </video>
@@ -40,6 +40,10 @@
                     </div></div>
             </div>
         </div>
+        <div class="row text-center global-marg">
+
+            <a href="{{ path("birds_observations_add") }}" class="btn btn-lg btn-info">Ajoutez une observation d'oiseau</a>
+        </div>
 
         <div class="row missionRow">
             <div class="col-md-12">
@@ -61,14 +65,14 @@
                             Construisons ensemble un avenir durable et respectueux de l’environnement.
                         </p>
                     </div></div>
-                <div class="col-md-3">
+                <div class="col-md-offset-0 col-md-3 col-sm-offset-2 col-sm-8">
                     {% include '@App/Carousel/carouselTemplate.html.twig' with {
                         'idCar':'1',
                         'slideNumber' : '3',
                         'picArray':[
-                            {'src':"img/BlueBees.jpg",'alt':"BlueBees", 'overflow':'true'},
-                            {'src':"img/photo.jpg",'alt':"care"},
-                            {'src':"img/hqdefault.jpg",'alt':"greatPlanet"}
+                            {'src':"img/notreMission/notre_mission_carrousel_bureau_1.jpg",'alt':"BlueBees"},
+                            {'src':"img/notreMission/notre_mission_carrousel_bureau_2.jpg",'alt':"care"},
+                            {'src':"img/notreMission/notre_mission_carrousel_bureau_3.jpg",'alt':"A.v.s.f."}
                         ],
                         'class':'carousel-little'
                     } %}
@@ -105,16 +109,16 @@
                         </p>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-offset-0 col-md-3 col-sm-offset-2 col-sm-8">
                     {% include '@App/Carousel/carouselTemplate.html.twig' with {
                     'idCar':'2',
                     'slideNumber' : '5',
                     'picArray':[
-                    {'src':"img/2-CNRS.png",'alt':"CNRS"},
-                    {'src':"img/2-ForThePlanet.png",'alt':"care"},
-                    {'src':"img/2-MNHN.png",'alt':"Muséum national d'histoire naturelle"},
-                    {'src':"img/2-ONU.png",'alt':"ONU"},
-                    {'src':"img/2-WWF.jpg",'alt':"WWF"}
+                    {'src':"img/notreMission/nos_partenaires_bureau_1.jpg",'alt':"CNRS"},
+                    {'src':"img/notreMission/nos_partenaires_bureau_5.jpg",'alt':"care"},
+                    {'src':"img/notreMission/nos_partenaires_bureau_2.jpg",'alt':"Muséum national d'histoire naturelle"},
+                    {'src':"img/notreMission/nos_partenaires_bureau_4.jpg",'alt':"ONU"},
+                    {'src':"img/notreMission/nos_partenaires_bureau_3.jpg",'alt':"WWF"}
                     ],
                     'class':'carousel-little'} %}
                 </div>
@@ -122,16 +126,16 @@
         </div>
 
         <div class="row missionRow">
-            <div class="col-md-12">
+            <div class="col-md-offset-0 col-md-12 col-sm-offset-2 col-sm-8">
                 <h2 class="text-center">Nos membres</h2>
                 <div class="col-md-3">
                     {% include '@App/Carousel/carouselTemplate.html.twig' with {
                     'idCar':'3',
                     'slideNumber' : '3',
                     'picArray':[
-                    {'src':"img/3-Directricedesrecherchs.jpg",'alt':"Directrice des recherches"},
-                    {'src':"img/3-President.jpg",'alt':"president"},
-                    {'src':"img/3-MVP.jpg",'alt':"MVP"}
+                    {'src':"img/notreMission/nos_membres_bureau_1.jpg",'alt':"Directrice des recherches"},
+                    {'src':"img/notreMission/nos_membres_bureau_3.jpg",'alt':"president"},
+                    {'src':"img/notreMission/nos_membres_bureau_2.jpg",'alt':"MVP"}
                     ],
                     'class':'carousel-little'
                     } %}
@@ -190,29 +194,10 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
 {% endblock %}
-{% block foot %}{% endblock %}
-{% block js %}{{ parent() }}
-    <script src="{{ asset('js/Mission/mission.js') }}"></script>
 
+{% block js %}{{ parent() }}
+    {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+        <script src="{{ asset('js/Mission/mission.js') }}"></script>
+    {% endif %}
 {% endblock %}

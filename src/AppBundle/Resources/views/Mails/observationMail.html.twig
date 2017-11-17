@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            h1{
+                text-align: center;
+                font-family: "Rosewood Std Regular";
+
+            }
+            h2,h3,h4,p{
+                text-align: justify;
+                font-family: "Rosewood Std Regular";
+
+            }
+            p{
+                font-size: 14px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>
+            Message de l'application birdsafari.fr
+        </h1>
+        <p>L'utilisateur <strong>{{ app.user.username }}</strong> vous a envoyé le message suivant : </p>
+
+        <p>
+            "
+            {{ message }}
+            "
+        </p>
+
+    </body>
+</html>
+
+
+    <!-- p> Voici le lien de l'observation concerné:  path('birds_observation', {'id': idObs }) }} </p>-->
+
+
+    <!--<p>Ce message était destiné à </p>-->

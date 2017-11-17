@@ -22,8 +22,7 @@ class Pager
     {
         //Page, limite et ordre
         $limit = intval($limit); $page = intval($page);
-        //var_dump("page ". $page);
-        //var_dump("limite ". $limit);
+
         if(!is_int($limit))
         {
             $limit = 5;
@@ -32,8 +31,6 @@ class Pager
 
         if($limit > 100)
             $limit = 100;
-
-        //var_dump(ceil($nombreDeResultats/$limit));
 
         if(ceil($nombreDeResultats/$limit) < $page)     //Si la page demandée est supérieure au nombre de pages possibles
             $page = ceil($nombreDeResultats/$limit);    //On lui attribue le max
