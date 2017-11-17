@@ -60,7 +60,7 @@ class ObservationController extends Controller
             $countQb = $repoObs->searchForString($research, $countQb);
             $param["research"] = $research;
         }
-        if($espece != "nd" && $espece != 0)
+        if($espece != "nd" && $espece != null && $espece != '0')
         {
 
             $qb = $repoObs->addFilterBySpecies($espece, $qb);
@@ -68,8 +68,10 @@ class ObservationController extends Controller
             $param["espece"] = $espece;
         }
 
+
         if($maxDate != "nd" && $maxDate != "nd")
         {
+
             $minDate2 = $this->get('birdsObservations.validator')->matchDate($minDate);
             $maxDate2 = $this->get('birdsObservations.validator')->matchDate($maxDate);
             if($minDate2 && $maxDate2 )
@@ -416,10 +418,9 @@ class ObservationController extends Controller
 
             if($observation->getImage() != null)
             {
-                $r=$this->uploadImage($observation,$em);
+                $r=$this->uploadImage($observation,$em); // r pour ré
                 $observation = $r['obs'];
                 $image = $r['image'];
-
             }
             //Attribution de validité pour les Naturalistes + message par utilisateur
             if($this->get('security.authorization_checker')->isGranted('ROLE_NATURALIST'))
@@ -527,6 +528,7 @@ class ObservationController extends Controller
             {
                 // Entrée invalide = redirection + message d'erreur.
             }
+
             $ch= $request->request->get('keep');
             $oldPic = $observation->getImage();
             $image = null; // Prepares the variable.
@@ -548,8 +550,6 @@ class ObservationController extends Controller
                     $em->remove($oldPic);
                     $image = null;
                 }
-
-
             }
 
 
@@ -642,6 +642,7 @@ class ObservationController extends Controller
 
 
             $minDate= $ask['DateDebut']->format("Y-m-d");
+            var_dump($ask);
             $maxDate= $ask['DateFin']->format("Y-m-d");
             $minHour= $ask['HeureDebut'];
             $maxHour= $ask['HeureFin'];

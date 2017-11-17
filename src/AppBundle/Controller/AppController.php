@@ -200,7 +200,35 @@ class AppController extends Controller
 
     function contactAction(Request $r)
     {
+        if($r->isMethod("POST"))
+        {
+
+            $nom = $r->request->get('name');
+            $city = $r->request->get('city');
+            $phone = $r->request->get('phone');
+            $email = $r->request->get('email');
+            $mess = $r->request->get('monmessage');
+
+            $message = new \Swift_Message('Contact');
+            $message->setFrom($this->getParameter('mailer_user'))
+                ->setTo(array('r.quevyn@live.fr','n.tchao@hotmail.fr'))
+                ->setBody('Vous avez reçu un message de '. $email .' </br> '
+                    . $nom . ' ' . $city . ' ' . $phone . ' :</br>'.
+                    $mess
+
+
+                    , 'text/html');
+
+
+            if(!$this->get('mailer')->send($message))
+            {
+                throw new Exception('Le mail n\'a pu être envoyé.');
+            }
+            $r->getSession()->getFlashBag()->add('add', 'Vous avez envoyé le message à l\'équipe. Elle vous r ');
+
+        }
         return $this->render('AppBundle::contact.html.twig');
+
     }
 
     function mentionsAction()

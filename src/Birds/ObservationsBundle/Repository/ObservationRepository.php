@@ -115,7 +115,7 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
      */
     public function addFilterBySpecies($espece,QueryBuilder $qb)
     {
-        $qb->where($qb->expr()->eq("o.birdname", "?12"))
+        $qb->andwhere($qb->expr()->eq("o.birdname", "?12"))
             ->setParameter("12", $espece);
         return $qb;
     }

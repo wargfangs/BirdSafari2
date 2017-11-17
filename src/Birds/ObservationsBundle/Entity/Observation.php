@@ -465,7 +465,6 @@ class Observation
      */
     public function removeImageReference()
     {
-
         $this->image = null;
     }
 }

@@ -1,12 +1,12 @@
 body {
-    background-image: url("/BirdSafari/web/img/backgrounds/fond_administration_bureau.jpg");
+    background-image: url("../web/img/backgrounds/fond_administration_bureau.jpg");
     background-attachment: fixed;
 
 }
 @media screen and (max-width:375px)
 {
     body {
-        background-image: url("/BirdSafari/web/img/backgrounds/fond_administration_mobile.jpg");
+        background-image: url("../web/img/backgrounds/fond_administration_mobile.jpg");
         background-attachment: fixed;
 
     }

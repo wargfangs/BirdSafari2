@@ -2,7 +2,7 @@
 
 {% block title %}{{ parent() }} - Observations{% endblock %}
 {% block css %}{{ parent() }}
-	<link href="{{ asset('css/special/observation.css') }}" rel="stylesheet">
+	<link href="{{ asset('css/observation.css') }}" rel="stylesheet">
 {% endblock %}
 {% block body %}
 	<div class="container-fluid">
@@ -23,7 +23,7 @@
 
 
 
-			<div class="col-sm-3 bg-observation-side">
+			<div class="col-md-3 bg-observation-side">
 				<button class="btn btn-default storing" id="menuLayout"><span class="glyphicon glyphicon-chevron-down"></span> Menu</button>
 				<div>
                 {% block sideMenu %}
@@ -59,9 +59,9 @@
 				{% endblock %}
 				</div>
 			</div>
-			<div class="col-sm-9 bg-observation-main">
+			<div class="col-md-9 bg-observation-main">
 				{% block overallContent %}
-					<div class="col-sm-12 col-md-6 global-marg" >
+					<div class="col-md-12 col-lg-6 global-marg" >
 						<button class="btn btn-default storing" id="obsLayout"><span class="glyphicon glyphicon-chevron-down"></span> Liste</button>
 						<div>
 						{% block content %}
@@ -69,7 +69,7 @@
 						{% endblock %}
 						</div>
 					</div>
-					<div class="col-sm-12 col-md-6 global-marg">
+					<div class="col-md-12 col-lg-6 global-marg">
 						<button class="btn btn-default storing global-marg" id="mapLayout"><span class="glyphicon glyphicon-chevron-down"></span> Carte</button>
 						<div>
                         {% block map %}
