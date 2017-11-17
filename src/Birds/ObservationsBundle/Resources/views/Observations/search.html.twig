@@ -1,0 +1,57 @@
+{{ form_start(searchBar, {attr:{"class":"form-inline", "action":path("birds_treatsearch")}}) }}
+<div class="row">
+    <div class="form-group form-inline">
+        {{ form_row(searchBar.searchBar,{label_attr:{"class":"hidden"},'attr':{'placeholder':'Espèce, contenu...'}}) }}
+
+        <button class=" searchSpecial"><span class="glyphicon glyphicon-search"></span></button>
+        {{ form_row(searchBar.parametreAvances, {label:"Recherche avancée"}) }}
+    </div>
+
+</div>
+
+<div id="paramAv" class="from-group">
+
+    <div class="row form-inline">
+
+        <div class="form-inline global-marg-up-xs global-marg-xs row">
+            <label for="birdR" class="control-label">Espèces*</label>
+            <select class="birdnames form-control" name="birdR" id="birdR">
+                <option value="0" selected="selected">Tous les oiseaux</option>
+            </select>
+        </div>
+        <div class="form-inline col-xs-6 col-sm-6">
+            <div class="row searchElt"> Du {{ form_row(searchBar.DateDebut) }}</div>
+            <div class="row searchElt"> Au {{ form_row(searchBar.DateFin) }}</div>
+        </div>
+
+        <div class="form-inline col-xs-6 col-sm-5 global-marg-up-xs text-right">
+            <div class="row searchElt"> {{ form_row(searchBar.HeureDebut) }}</div>
+            <div class="row searchElt"> {{ form_row(searchBar.HeureFin) }}</div>
+        </div>
+    </div>
+
+    <div class="row col-sm-offset-3">
+        {{ form_row(searchBar.ActiverCarte) }}
+    </div>
+
+    <div id="mapSearch" class="from-group row col-sm-12 col-xs-12">
+        <div class="hidden">
+            {{ form_row(searchBar.latitude) }}
+            {{ form_row(searchBar.longitude) }}
+        </div>
+        <div class="row form-inline">
+            <div class="col-xs-12 col-sm-11"><div id="mapR"></div>
+                <div class="col-xs-6 col-sm-3"><btn class="btn btn-default" id="useMyPosR">Ma position<span class="glyphicon glyphicon-map-marker" ></span></btn></div>
+                <div class="col-xs-6 col-sm-3"> <input type="text" class="col-sm-6" disabled id="distanceFromPoint" value="100"/><label class="col-sm-6" for="distanceFromPoint"> mètres</label></div>
+                <div class="col-xs-12 col-sm-6"> {{ form_row(searchBar.distanceDuCentre) }}</div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+{{ form_rest(searchBar) }}
+{{ form_end(searchBar) }}

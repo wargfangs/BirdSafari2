@@ -1,7 +1,11 @@
-dev_tools_blog:
-    resource: "@DevToolsBlogBundle/Resources/config/routing.yml"
-    prefix:   /Blog
+easy_admin_bundle:
+    resource: "@EasyAdminBundle/Controller/AdminController.php"
+    type:     annotation
+    prefix:   /admin
 
+dev_tools_blog:
+    resource: "@DevToolsBlogBundle/Resources/config/routing/article.yml"
+    prefix:   /Blog
 
 birds_observations:
     resource: "@BirdsObservationsBundle/Resources/config/routing.yml"
@@ -12,3 +16,6 @@ app:
 
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

@@ -1,3 +1,7 @@
 var/
 vendor/
 .idea/
+web/uploads/img/
+web/img/
+web/video/
+app/config/parameters.yml

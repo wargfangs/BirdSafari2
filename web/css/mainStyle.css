@@ -1,3 +1,110 @@
+.banderole
+{
+    height: 150px;
+
+    background-image: url("../img/backgrounds/fond_articles_bureau.jpg");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    border-bottom: solid white 1.5px;
+}
+@media screen and (max-width: 375px) {
+    .banderole
+    {
+        height: 280px;
+        background-image: url("../img/backgrounds/fond_header_mobile.jpg");
+        background-attachment: fixed;
+        border-bottom: solid white 1.5px;
+
+    }
+
+}
+
+body{
+    background-image: url("../img/backgrounds/fond_accueil_bureau.jpg");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+
+}
+.mainHeaderText
+{
+    font-family: fantasy;
+}
+.btn-transp
+{
+    background-color: transparent;
+    border: solid black 1px;
+}
+.hide-below-xs
+{
+    display: block;
+}
+.hide-above-xs
+{
+    display: none !important;
+}
+.navbar-special
+{
+    background-color: white;
+}
+.navbar-center
+{
+    width: 100%;
+    font-size: large;
+}
+#logoDuSite
+{
+    width: 60x;
+    height: 60px;
+    position: relative;
+    top: -60px;
+    left: -130px;
+}
+@media screen and (max-width: 991px)
+{
+    .navbar-center
+    {
+        font-size: medium;
+    }
+}
+@media screen and (max-width: 767px) {
+    .banderole
+    {
+        margin-bottom: 5px;
+    }
+    .hide-below-xs
+    {
+        display: none;
+    }
+    .hide-above-xs
+    {
+        display: block !important;
+    }
+    .navbar-special
+    {
+        background-color: transparent !important;
+        margin-top: -70px;
+        margin-bottom: -15px !important;
+
+
+    }
+
+    .navbar-center
+    {
+
+        font-size: large;
+    }
+
+    .navbar-collapse
+    {
+        border-top: hidden;
+    }
+}
+.navbar-toggle:hover
+{
+    background-color: transparent !important;
+    border: white solid 1px;
+}
+
 .navbar {
     padding-top: 15px;
     padding-bottom: 15px;
@@ -9,10 +116,18 @@
 
 }
 .navbar-nav li a:hover {
-    color: #1abc9c !important;
+
+    text-decoration: underline solid black;
+
+
 }
 .navbar-nav li a {
     color:black !important;
+}
+
+#menuPrincipal .navbar-nav, bg-foot .navbar-nav
+{
+    margin: 0px 0px;
 }
 
 .flash-error
@@ -28,15 +143,21 @@
 
 .bg-foot
 {
-    background-color: #313131;
-    color: floralwhite;
+    background-color: white;
+    color: grey;
+    border: solid 1px grey;
 }
 #content
 {
-    min-height: 1000px;
+    min-height: 500px;
 }
 #map {
     height: 500px;
+}
+
+#mapR {
+    display: block;
+    height: 300px;
 }
 
 /*Accueil*/
@@ -52,14 +173,161 @@
         display: none;
     }
 }
-#siderContent
+
+
+.bg-observation-search
 {
-    background-color: #666666;
-    height:  1000px;
+    font-family: "Adobe Garamond Pro";
 }
 
-#observation
+
+
+.panel
 {
-    background-color: #EEEEEE;
-    height:  1000px;
+    margin-top: 20px;
+}
+
+.observationCointainer
+{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    height: 50px;
+    color: white;
+
+    background-color: #666666;
+}
+
+.observationCointainer :hover
+{
+
+    color: white;
+
+    background-color: #999999;
+}
+
+
+.slider{
+    -webkit-appearance: none;
+    width: 100%;
+    height: 24px;
+    background: #d3d3d3;
+    outline: none;
+    opacity:0.7;
+    -webkit-transition: opacity .15s ease-in-out;
+    transition: opacity .15s ease-in-out;
+}
+.slider:hover {
+    opacity:1;
+}
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    background: #4CAF50;
+    cursor: pointer;
+}
+.slider::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border: 0;
+    background: #4CAF50;
+    cursor: pointer;
+}
+
+#distanceFromPoint
+{
+    color:black;
+    font-size: larger;
+    text-align: right;
+
+}
+
+
+.glyphicon-lg
+{
+    font-size: 3em;
+}
+
+.isole
+{
+    padding-top: 15px;
+}
+
+.missionRow
+{
+    margin-bottom: 5%;
+}
+
+td, th /*Tous les tableaux sont formatés ainsi*/
+{
+    border-right: solid black 1px;
+    min-width: 70px;
+    text-align: center;
+    padding-left: 3px;
+    padding-right: 3px;
+
+
+}
+table {
+    border-collapse: separate;
+    border-spacing: 0px 10px;
+}
+
+td a, th a, td a:hover, th a:hover
+{
+    color:inherit;
+}
+tr td:last-child, tr th:last-child
+{
+    border-right: none;
+}
+table
+{
+    border: hidden;
+
+}
+
+
+.btn, input[type=text], input[type=password],input[type=email],input[type=search]{
+    border-radius: 50px;
+}
+textarea{
+    border-radius: 15px;
+}
+textarea[disabled]
+{
+    background-color: white;
+}
+
+.global-marg{
+margin-bottom: 5%;
+}
+
+.global-marg-up{
+    margin-top: 50px;
+}
+.global-marg-up-xs
+{
+    margin-top: 15px;
+}
+.global-marg-xs{
+margin-bottom: 30px;
+}
+@media screen and (max-width:1080px)
+{
+    .global-marg-xs{
+        margin-bottom: 15px;
+    }
+}
+
+[type="checkbox"], [type="checkbox"]:hover
+{
+    border:none;
+
+}
+input[type=checkbox]
+{
+    background-color: deepskyblue;
+    color: white;
 }

@@ -1,6 +1,34 @@
+
 birds_observations:
-    path:     /
-    defaults: { _controller: BirdsObservationsBundle:Observation:observations }
+    path:     /{page}/{limit}/{orderBy}/{research}/{minDate}/{{maxDate}/{minHours}/{maxHours}/{latitude}/{longitude}/{radius}
+    defaults:
+        _controller: BirdsObservationsBundle:Observation:observations
+        page: 1
+        limit: 5
+        research: "nd"
+        minDate: "nd"
+        maxDate: "nd"
+        minHours: "nd"
+        maxHours: "nd"
+        latitude: "nd"
+        longitude: "nd"
+        radius: "nd"
+        orderBy: 0
+    requirements:
+        page: \d+
+        limit: \d+
+        orderBy: \d+
+
+
+export_obs:
+    path:     /export
+    defaults:
+        _controller: BirdsObservationsBundle:Observation:export
+
+
+birds_treatsearch:
+    path:   /searching
+    defaults: {_controller: BirdsObservationsBundle:Observation:treatSearch }
 
 birds_observation:
     path:     /observation/{id}
@@ -19,8 +47,48 @@ birds_observations_remove:
         id : \d+
 
 birds_observations_update:
-    path:     /observation/{id}/remove
+    path:     /observation/{id}/modify
     defaults: { _controller: BirdsObservationsBundle:Observation:updateObservation }
     requirements:
         id : \d+
 
+birds_my_observations:
+    path:     /observation/me/{page}/{limit}/{orderBy}/{page2}/{limit2}/{orderBy2}
+    defaults:
+        _controller: BirdsObservationsBundle:Observation:myObservations
+        page : 1
+        limit: 10
+        orderBy: 0
+        page2: 1
+        limit2: 10
+        orderBy2: 0
+    requirements:
+        page: \d+
+        limit: \d+
+        orderBy: \d+
+        page2: \d+
+        limit2: \d+
+        orderBy2: \d+
+
+birds_en_attente:
+    path:     /OnHold/{page}/{limit}/{orderBy}
+    defaults:
+        _controller: BirdsObservationsBundle:Observation:onHold
+        page : 1
+        limit: 10
+        orderBy: 0
+    requirements:
+        page: \d+
+        limit: \d+
+        orderBy: \d+
+
+birds_validate:
+    path:     /observation/{id}/validate
+    defaults:
+        _controller: BirdsObservationsBundle:Observation:validate
+    requirements:
+        id: \d+
+
+API_birdname:
+    path:     /API/birds
+    defaults: {_controller: BirdsObservationsBundle:Observation:birdsJson }

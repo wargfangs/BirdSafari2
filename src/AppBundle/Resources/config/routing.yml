@@ -5,3 +5,53 @@ home:
 mission:
         path:   /Mission
         defaults: { _controller: AppBundle:App:aPropos }
+
+admin:
+        path: /admin
+        defaults: { _controller: AppBundle:App:adminHome }
+
+admin_user:
+        path: /admin/users/{page}
+        defaults:
+            _controller: AppBundle:App:adminUsers
+            page: 1
+        requirements:
+            page: \d+
+
+admin_articles:
+        path: /admin/articles/{page}
+        defaults:
+            _controller: AppBundle:App:adminArticles
+            page: 1
+        requirements:
+            page: \d+
+
+admin_validate_user:
+    path: /admin/{id}/validateUser
+    defaults: { _controller: AppBundle:App:userValidate }
+    requirements:
+        id: \d+
+
+admin_delete_user:
+    path: /admin/{id}/delete
+    defaults: { _controller: AppBundle:App:userDelete }
+    requirements:
+        id: \d+
+
+admin_passobs_user:
+    path: /admin/{id}/passObs
+    defaults: { _controller: AppBundle:App:toObs }
+    requirements:
+        id: \d+
+
+contact:
+    path: /contact
+    defaults: { _controller: AppBundle:App:contact }
+
+mentions:
+    path: /Mentions_Legales
+    defaults: { _controller: AppBundle:App:mentions }
+
+edit_user_profile:
+    path:     /user/{id}/edit
+    defaults: { _controller: AppBundle:Security:editUser }

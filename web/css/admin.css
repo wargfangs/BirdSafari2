@@ -1,0 +1,30 @@
+body {
+    background-image: url("../web/img/backgrounds/fond_administration_bureau.jpg");
+    background-attachment: fixed;
+
+}
+@media screen and (max-width:375px)
+{
+    body {
+        background-image: url("../web/img/backgrounds/fond_administration_mobile.jpg");
+        background-attachment: fixed;
+
+    }
+
+}
+
+
+@media screen and (max-width: 767px) {
+
+}
+
+.global-marg-up
+{
+    margin-top: 10%;
+}
+
+.user td
+{
+    border: none !important;
+    text-align: left;
+}

@@ -1,0 +1,257 @@
+<?php
+
+namespace Birds\ObservationsBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Birds
+ *
+ * @ORM\Table(name="birds")
+ * @ORM\Entity
+ */
+class Birds
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="REGNE", type="string", length=8, nullable=true)
+     */
+    private $regne;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="PHYLUM", type="string", length=8, nullable=true)
+     */
+    private $phylum;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="CLASSE", type="string", length=4, nullable=true)
+     */
+    private $classe;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ORDRE", type="string", length=19, nullable=true)
+     */
+    private $ordre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="FAMILLE", type="string", length=17, nullable=true)
+     */
+    private $famille;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="CD_NOM", type="integer", nullable=true)
+     */
+    private $cdNom;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="CD_TAXSUP", type="integer", nullable=true)
+     */
+    private $cdTaxsup;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="CD_REF", type="integer", nullable=true)
+     */
+    private $cdRef;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="RANG", type="string", length=4, nullable=true)
+     */
+    private $rang;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="LB_NOM", type="string", length=47, nullable=true)
+     */
+    private $lbNom;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="LB_AUTEUR", type="string", length=51, nullable=true)
+     */
+    private $lbAuteur;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="NOM_COMPLET", type="string", length=83, nullable=true)
+     */
+    private $nomComplet;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="NOM_VALIDE", type="string", length=83, nullable=true)
+     */
+    private $nomValide;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="NOM_VERN", type="string", length=95, nullable=true)
+     */
+    private $nomVern;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="NOM_VERN_ENG", type="string", length=120, nullable=true)
+     */
+    private $nomVernEng;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="HABITAT", type="string", length=1, nullable=true)
+     */
+    private $habitat;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="FR", type="string", length=1, nullable=true)
+     */
+    private $fr;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="GF", type="string", length=1, nullable=true)
+     */
+    private $gf;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="MAR", type="string", length=1, nullable=true)
+     */
+    private $mar;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="GUA", type="string", length=1, nullable=true)
+     */
+    private $gua;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="SM", type="string", length=1, nullable=true)
+     */
+    private $sm;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="SB", type="string", length=1, nullable=true)
+     */
+    private $sb;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="SPM", type="string", length=1, nullable=true)
+     */
+    private $spm;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="MAY", type="string", length=1, nullable=true)
+     */
+    private $may;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="EPA", type="string", length=1, nullable=true)
+     */
+    private $epa;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="REU", type="string", length=1, nullable=true)
+     */
+    private $reu;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="SA", type="string", length=1, nullable=true)
+     */
+    private $sa;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="TA", type="string", length=1, nullable=true)
+     */
+    private $ta;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="TAAF", type="string", length=1, nullable=true)
+     */
+    private $taaf;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="NC", type="string", length=1, nullable=true)
+     */
+    private $nc;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="WF", type="string", length=1, nullable=true)
+     */
+    private $wf;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="PF", type="string", length=1, nullable=true)
+     */
+    private $pf;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="CLI", type="string", length=1, nullable=true)
+     */
+    private $cli;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+
+}
+

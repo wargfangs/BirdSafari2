@@ -1,0 +1,173 @@
+{% extends "@BirdsObservations/observationLayout.html.twig" %}
+
+
+
+{% block content %}
+	<div class="row">
+		<h1>Validation</h1>
+
+        {{ parent() }}
+	</div>
+	<div class="row"><h4>Toutes les observations en attente de validation {{  param.nbrRes }}</h4></div>
+		<p class="col-xs-12">
+			En tant que naturaliste, vous devez vérifier les observations des utilisateurs non professionnels.
+			Vous pouvez les valider directement depuis cette page, ou dans le détail de l'observation d'oiseau.
+		</p>
+
+		{% if observations %}
+			<div class="row "> <!-- Limit -->
+				<ul class="list-inline col-xs-6">
+					<li><a href={{ path("birds_my_observations", {
+                            "page" : 1,
+                            "limit": param.limit,
+                            "orderBy": param.orderBy
+                        }) }}><span class="glyphicon glyphicon-arrow-left"></span></a></li>
+
+
+                    {% if param.page-2 > 0 %}
+						<li><a href={{ path("birds_my_observations", {
+                                "page" : param.page-2,
+                                "limit": param.limit,
+                                "orderBy": param.orderBy
+                            }) }}>{{ param.page-2 }}</a></li>
+
+                    {% endif %}
+
+                    {% if param.page-1 > 0 %}			<!--Page -1 -->
+						<li><a href="{{ path("birds_my_observations", {
+                                "page" : param.page-1,
+                                "limit": param.limit,
+                                "orderBy": param.orderBy
+                            }) }}">	{{ param.page-1 }}</a></li>
+                    {% endif %}
+
+					<li>{{ param.page }}</li>			<!--Page actuelle -->
+
+                    {% if param.page+1 <= param.nPages %} <!--Page +1 -->
+						<li><a href="{{ path("birds_my_observations", {
+                                "page" : param.page+1,
+                                "limit": param.limit,
+                                "orderBy": param.orderBy
+                            }) }}">{{ param.page+1 }}</a></li>
+                    {% endif %}
+
+                    {% if param.page+2 <= param.nPages %} <!--Page +2 -->
+						<li><a href={{ path("birds_my_observations", {
+                                "page" : param.page+2,
+                                "limit": param.limit,
+                                "orderBy": param.orderBy
+                            }) }}>{{ param.page+2 }}</a></li>
+                    {% endif %}
+
+                    {% if param.page+2 < param.nPages %} <!--Page ++ beyond -->
+						<li>...</li>
+                    {% endif %}
+
+
+					<li><a href={{ path("birds_my_observations", {
+                            "page" : param.nPages,
+                            "limit": param.limit,
+                            "orderBy": param.orderBy
+                        }) }}><span class="glyphicon glyphicon-arrow-right"></span></a></li>
+
+				</ul>
+
+				<ul class="list-inline text-right col-xs-6">
+					<li>Afficher:</li>
+					<li><a href={{ path("birds_my_observations", {
+							"page" : 1,
+							"limit": 10,
+							"orderBy": param.orderBy
+
+						}) }}>10</a>
+					</li>
+					<li><a href={{ path("birds_my_observations", {
+							"page" : 1,
+							"limit": 25,
+							"orderBy": param.orderBy
+						}) }}>25</a>
+					</li>
+					<li><a href={{ path("birds_my_observations", {
+							"page" : 1,
+							"limit": 50,
+							"orderBy": param.orderBy
+						}) }}>50</a>
+					</li>
+					<li><a href={{ path("birds_my_observations", {
+							"page" : 1,
+							"limit": 100,
+							"orderBy": param.orderBy
+						}) }}>100</a>
+					</li>
+
+
+				</ul>
+			</div>
+			<div class="row" >
+				<table class="table-striped table-bordered text-center col-sm-12">
+					<thead>
+					<tr>
+						<th>Lieu</th>
+						<th><a href="{{ path("birds_my_observations", {
+								"page" : 1,
+								"limit": param.limit,
+								"orderBy": 1
+							}) }}">Date <span class="glyphicon glyphicon glyphicon-chevron-{% if param.orderBy == 1 %}down{% else %}right{% endif %}"></span></a></th>
+						<th><a href="{{ path("birds_my_observations", {
+								"page" : 1,
+								"limit": param.limit,
+								"orderBy": 2
+							}) }}">Heure<span class="glyphicon glyphicon glyphicon-chevron-{% if param.orderBy == 2 %}down{% else %}right{% endif %}"></span></a></th>
+						<th><a href="{{ path("birds_my_observations", {
+								"page" : 1,
+								"limit": param.limit,
+								"orderBy": 5
+							}) }}">Auteur<span class="glyphicon glyphicon glyphicon-chevron-{% if param.orderBy == 5 %}down{% else %}right{% endif %}"></span></a></th>
+						<th><a href="{{ path("birds_my_observations", {
+								"page" : 1,
+								"limit": param.limit,
+								"orderBy": 0
+							}) }}">Espèce<span class="glyphicon glyphicon glyphicon-chevron-{% if param.orderBy == 0 %}down{% else %}right{% endif %}"></span></a></th>
+						<th>Actions</th>
+					</tr>
+					</thead>
+					<tbody>
+					{%  for obs in observations %}
+						<tr class="observationLine" id="line-{{ obs.id }}">
+							<td>{{ obs.place }}</td>
+							<td>{{ obs.date | date('d/m/Y',"Europe/Paris") }}</td>
+							<td>{{ obs.hour }}h</td>
+							<td>{{ obs.user.username }}</td>
+							<td><a href={{ path("birds_observation", {"id": obs.id }) }}>{{ obs.birdname }} </a></td>
+							<td>
+								<a class="btn btn-xs btn-block btn-success" href="{{ path("birds_validate", {"id": obs.id}) }}">Valider</a>
+								<a class="btn btn-xs btn-default btn-block" href="{{ path("birds_observations_update", {"id": obs.id}) }}">Modifier</a>
+                                {% if is_granted('ROLE_NATURALIST') %}
+									<a class="btn btn-xs btn-warning btn-block" href="{{ path("birds_observations_remove", {"id" : obs.id }) }}">Supprimer</a>
+								{% endif %}
+							</td>
+							<div class="coords" hidden>{{ obs.latitude }};{{ obs.longitude }};{{ obs.id }}</div>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+
+			</div>
+
+
+
+
+
+	{% else %}
+		<p>Vous n'avez pas encore d'observations validées par un professionnel. </p>
+		<button class="btn btn-default"><a href={{ path("birds_observations_add") }}>Ajouter une observation d'oiseau</a></button>
+	{% endif %}
+
+{% endblock %}
+
+{% block js %}
+	<script>var page="wait"</script>
+	{{ parent() }}
+	<script src="{{ asset('js/observations/MapDispatcher.js') }}"></script>
+
+{% endblock %}
