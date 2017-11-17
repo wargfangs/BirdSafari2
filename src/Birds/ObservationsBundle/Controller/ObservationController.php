@@ -523,7 +523,7 @@ class ObservationController extends Controller
             if(!$this->isGranted("ROLE_NATURALIST"))
                 $observation->setValid(false);
             $observation->setBirdname($request->request->get("bird")); // Attribution de l'oiseau, traitement de sécurité dans la classe
-            $em = $this->getDoctrine()->getManager();
+            $em =  $this->getDoctrine()->getManager();
             $bird= $em->getRepository('BirdsObservationsBundle:Birds')->findOneByNomVern($observation->getBirdname());
 
             if($bird == null)
