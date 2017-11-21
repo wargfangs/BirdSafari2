@@ -61,13 +61,6 @@ class Image
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\User", mappedBy="image", cascade={"persist"})
      */
     private $users; // Notez le « s », une image est liée à plusieurs users
-
-    /**
-     * @var String
-     * 
-     * @ORM\OneToMany(targetEntity="Birds\ObservationsBundle\Entity\Observation", mappedBy="image", cascade={"persist"})
-     */
-    private $observations; // Notez le « s », une image est liée à plusieurs observations
     
     /**
      * Get id
@@ -142,60 +135,8 @@ class Image
     {
         $this->file = $file;
 
-        // On vérifie si on avait déjà un fichier pour cette entité
-        if (null !== $this->src) {
+        return $this;
 
-            $this->tempFilename = $this->src;
-            $this->src = null;
-            $this->alt = null;
-        }
-
-        $this->preUpload();
-
-    }
-
-    /**
-     *  PreUpdate ne sert à rien, l'objet est détruit après le persist de la classe possédante. Doit être fait avant.
-     *
-     */
-    public function preUpload()
-    {
-        if (null === $this->file) {
-            return;
-        }
-
-        $this->src = $this->file->guessExtension();
-        $this->alt = $this->file->getClientOriginalName();
-
-        $this->file->move($this->getUploadRootDir(),$this->alt);
-        file_put_contents("log.txt", "src = ".$this->src . " ... alt = ". $this->alt);
-    }
-
-    /**
-     * @ORM\PostPersist()
-     * @ORM\PostUpdate()
-     */
-    public function upload()
-    {
-        // Si jamais il n'y a pas de fichier (champ facultatif), on ne fait rien
-        if (null === $this->file) {
-            return;
-        }
-
-        // Supprimer toutes les versions d'image qu'on a créé associé à cette image.
-        if (null !== $this->tempFilename) {
-            $oldFile = $this->getUploadRootDir().'/'.$this->id.'.'.$this->tempFilename;
-            if (file_exists($oldFile)) {
-                unlink($oldFile);
-            }
-
-        }
-
-        // On déplace le fichier envoyé dans le répertoire de notre choix
-        $this->file->move(
-            $this->getUploadRootDir(), // Le répertoire de destination
-            $this->id.'.'.$this->src   // Le nom du fichier à créer, ici « id.extension »
-        );
     }
 
     /**
@@ -307,39 +248,5 @@ class Image
     public function getUsers()
     {
         return $this->users;
-    }
-
-    /**
-     * Add observation
-     *
-     * @param \Birds\ObservationsBundle\Entity\Observation $observation
-     *
-     * @return Image
-     */
-    public function addObservation(\Birds\ObservationsBundle\Entity\Observation $observation)
-    {
-        $this->observations[] = $observation;
-
-        return $this;
-    }
-
-    /**
-     * Remove observation
-     *
-     * @param \Birds\ObservationsBundle\Entity\Observation $observation
-     */
-    public function removeObservation(\Birds\ObservationsBundle\Entity\Observation $observation)
-    {
-        $this->observations->removeElement($observation);
-    }
-
-    /**
-     * Get observations
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getObservations()
-    {
-        return $this->observations;
     }
 }
