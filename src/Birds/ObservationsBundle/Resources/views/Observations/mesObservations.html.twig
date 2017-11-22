@@ -147,22 +147,7 @@
                                 "limit2": paramW.limit,
                                 "orderBy2": 1
                             }) }}">Date <span class="glyphicon glyphicon glyphicon-chevron-{% if paramW.orderBy == 1 %}down{% else %}right{% endif %}"></span></a></th>
-						<th><a href="{{ path("birds_my_observations", {
-                                "page" : paramV.page,
-                                "limit": paramV.limit,
-                                "orderBy": paramV.orderBy,
-                                "page2" : 1,
-                                "limit2": paramW.limit,
-                                "orderBy2": 2
-                            }) }}">Heure<span class="glyphicon glyphicon-chevron-{% if paramW.orderBy == 2 %}down{% else %}right{% endif %}"></span></a></th>
-						<th><a href="{{ path("birds_my_observations", {
-                                "page" : paramV.page,
-                                "limit": paramV.limit,
-                                "orderBy": paramV.orderBy,
-                                "page2" : 1,
-                                "limit2": paramW.limit,
-                                "orderBy2": 3
-                            }) }}">Titre<span class="titreTab glyphicon glyphicon glyphicon-chevron-{% if paramW.orderBy == 3 %}down{% else %}right{% endif %}"></span></a></th>
+
 						<th><a href="{{ path("birds_my_observations", {
                                 "page" : paramV.page,
                                 "limit": paramV.limit,
@@ -179,8 +164,6 @@
 						<tr class="observationLine" id="line-{{ obs.id }}">
 							<td>{{ obs.place }}</td>
 							<td>{{ obs.date | date('d/m/Y',"Europe/Paris") }}</td>
-							<td>{{ obs.hour }}h</td>
-							<td>{{ obs.title }}</td>
 							<td><a  href={{ path("birds_observation", {"id": obs.id }) }}>{{ obs.birdname }} </a></td>
 							<td><a class="btn btn-xs btn-default btn-block" href="{{ path("birds_observations_update", {"id": obs.id}) }}">Modifier</a>
 								<a class="btn btn-xs btn-warning btn-block" href="{{ path("birds_observations_remove", {"id" : obs.id }) }}">Supprimer</a></td>
@@ -345,22 +328,6 @@
 						<th><a href="{{ path("birds_my_observations", {
 								"page" : 1,
 								"limit": paramV.limit,
-								"orderBy": 2,
-								"page2" : paramW.page,
-								"limit2": paramW.limit,
-								"orderBy2": paramW.orderBy
-							}) }}">Heure<span class="glyphicon glyphicon glyphicon-chevron-{% if paramV.orderBy == 2 %}down{% else %}right{% endif %}"></span></a></th>
-						<th><a href="{{ path("birds_my_observations", {
-								"page" : 1,
-								"limit": paramV.limit,
-								"orderBy": 3,
-								"page2" : paramW.page,
-								"limit2": paramW.limit,
-								"orderBy2": paramW.orderBy
-							}) }}">Titre<span class="titreTab glyphicon glyphicon glyphicon-chevron-{% if paramV.orderBy == 3 %}down{% else %}right{% endif %}"></span></a></th>
-						<th><a href="{{ path("birds_my_observations", {
-								"page" : 1,
-								"limit": paramV.limit,
 								"orderBy": 0,
 								"page2" : paramW.page,
 								"limit2": paramW.limit,
@@ -374,8 +341,6 @@
 						<tr class="observationLine" id="line-{{ obs.id }}">
 							<td>{{ obs.place }}</td>
 							<td>{{ obs.date | date('d/m/Y',"Europe/Paris") }}</td>
-							<td>{{ obs.hour }}h</td>
-							<td >{{ obs.title }}</td>
 							<td><a href={{ path("birds_observation", {"id": obs.id }) }}>{{ obs.birdname }} </a></td>
 							<td>
 								<a class="btn btn-xs btn-default btn-block" href="{{ path("birds_observations_update", {"id": obs.id}) }}">Modifier</a>

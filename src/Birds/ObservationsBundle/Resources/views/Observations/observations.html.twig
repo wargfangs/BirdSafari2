@@ -229,32 +229,7 @@
                                 "radius": param.rad,
 						"orderBy": 1
                             }) }}">Date <span class="glyphicon glyphicon glyphicon-chevron-{% if param.orderBy == 1 %}down{% else %}right{% endif %}"></span></a></th>
-						<th><a href="{{ path("birds_observations", {
-                                "research" : param.research,
-                                "espece" : param.espece, "page" :1,
-                                "limit":param.limit,
-                                "minDate":param.minDate,
-                                "maxDate":param.maxDate,
-                                "minHours":param.minHours,
-                                "maxHours":param.maxHours,
-                                "latitude":param.lat,
-                                "longitude": param.lng,
-                                "radius": param.rad,
-						"orderBy": 2
-                            }) }}">Heure<span class="glyphicon glyphicon glyphicon-chevron-{% if param.orderBy == 2 %}down{% else %}right{% endif %}"></span></a></th>
-						<th><a href="{{ path("birds_observations", {
-                                "research" : param.research,
-                                "espece" : param.espece, "page" :1,
-                                "limit":param.limit,
-                                "minDate":param.minDate,
-                                "maxDate":param.maxDate,
-                                "minHours":param.minHours,
-                                "maxHours":param.maxHours,
-                                "latitude":param.lat,
-                                "longitude": param.lng,
-                                "radius": param.rad,
-						"orderBy": 3
-                            }) }}">Titre<span class="titreTab glyphicon glyphicon glyphicon-chevron-{% if param.orderBy == 3 %}down{% else %}right{% endif %}"></span></a></th>
+
 						<th><a href="{{ path("birds_observations", {
                                 "research" : param.research,
                                 "espece" : param.espece, "page" :1,
@@ -275,8 +250,6 @@
 						<tr class="observationLine" id="line-{{ obs.id }}">
 							<td>{{ obs.place }}</td>
 							<td>{{ obs.date | date('d/m/Y',"Europe/Paris") }}</td>
-							<td>{{ obs.hour }}h</td>
-							<td>{{ obs.title }}</td>
 							<td><a href={{ path("birds_observation", {"id": obs.id }) }}>{{ obs.birdname }} </a></td>
 							<div class="coords" hidden>{{ obs.latitude }};{{ obs.longitude }};{{ obs.id }}</div>
 						</tr>

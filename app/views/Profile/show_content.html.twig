@@ -1,0 +1,10 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="col-sm-5">
+    <h1>Vos Informations</h1>
+    <div>
+        <p>{{ 'profile.show.username'|trans }}: {{ user.username }}</p>
+        <p>{{ 'profile.show.email'|trans }}: {{ user.email }}</p>
+        <input type="submit" value="{{ 'Change password'|trans }}" class="btn btn-default"/>
+    </div>
+</div>

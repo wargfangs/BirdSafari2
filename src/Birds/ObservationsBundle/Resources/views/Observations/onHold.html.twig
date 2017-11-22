@@ -104,20 +104,14 @@
 				</ul>
 			</div>
 			<div class="row" >
-				<table class="table-striped table-bordered text-center col-sm-12">
+				<table class="table-hover  text-center col-sm-12">
 					<thead>
 					<tr>
-						<th>Lieu</th>
 						<th><a href="{{ path("birds_my_observations", {
 								"page" : 1,
 								"limit": param.limit,
 								"orderBy": 1
 							}) }}">Date <span class="glyphicon glyphicon glyphicon-chevron-{% if param.orderBy == 1 %}down{% else %}right{% endif %}"></span></a></th>
-						<th><a href="{{ path("birds_my_observations", {
-								"page" : 1,
-								"limit": param.limit,
-								"orderBy": 2
-							}) }}">Heure<span class="glyphicon glyphicon glyphicon-chevron-{% if param.orderBy == 2 %}down{% else %}right{% endif %}"></span></a></th>
 						<th><a href="{{ path("birds_my_observations", {
 								"page" : 1,
 								"limit": param.limit,
@@ -134,9 +128,7 @@
 					<tbody>
 					{%  for obs in observations %}
 						<tr class="observationLine" id="line-{{ obs.id }}">
-							<td>{{ obs.place }}</td>
 							<td>{{ obs.date | date('d/m/Y',"Europe/Paris") }}</td>
-							<td>{{ obs.hour }}h</td>
 							<td>{{ obs.user.username }}</td>
 							<td><a href={{ path("birds_observation", {"id": obs.id }) }}>{{ obs.birdname }} </a></td>
 							<td>

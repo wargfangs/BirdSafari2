@@ -11,7 +11,7 @@
 		
 			<form action="{{ path("fos_user_security_check") }}" method="post" class="form-signin">
 				<input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-				<img src="../img/fake_logo.svg" alt="fake_logo" height="50" class="fake_logo">
+				<img src="{{ absolute_url(asset('img/logo_bureau.png')) }}" alt="logo" height="50" class="fake_logo">
 				<h1>Bienvenue</h1><br>
 				
 					<p>Entrez un email ou un identifiant valide pour vous connecter.</p>
@@ -23,7 +23,6 @@
 						<input type="password" id="password" name="_password" required="required" />
 						<input type="checkbox" id="remember_me" name="_remember_me" value="on" />
 						<label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
-						<div class="g-recaptcha" data-sitekey="6LeivjIUAAAAANwUBcnp6aM0tsjlua6jPsYoJPZn"></div>
 						<input type="submit" class="login login-submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
 					</form>
 												{# User Help buttons #}

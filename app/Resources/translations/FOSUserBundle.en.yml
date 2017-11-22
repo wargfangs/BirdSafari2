@@ -16,7 +16,7 @@ security:
         password: Password
         remember_me: 'Remember me'
         submit: 'Log in'
-		reset_password: 'Reset your password'
+        reset_password: 'Reset your password'
 		register: 'Not register yet?'
 
 profile:

@@ -642,7 +642,7 @@ class ObservationController extends Controller
 
 
             $minDate= $ask['DateDebut']->format("Y-m-d");
-            var_dump($ask);
+
             $maxDate= $ask['DateFin']->format("Y-m-d");
             $minHour= $ask['HeureDebut'];
             $maxHour= $ask['HeureFin'];
@@ -696,7 +696,7 @@ class ObservationController extends Controller
         $picData = getimagesize($file->getPathname());
         $ratio = $picData[0]/$picData[1]; //Width/height
 
-        if($ratio> 1.2 && $ratio < 1.8 && $file->getSize()>2000) // Si l'image est entre 1.2 et 1.8fois plus large que haute
+        if($ratio> 1.2 && $ratio < 1.8 && $file->getSize()>2000 ) // Si l'image est entre 1.2 et 1.8fois plus large que haute
         {
             $observation->setHasValidPictureForShow(true);  //Valid for page "Accueil"
         }
