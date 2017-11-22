@@ -130,3 +130,10 @@ easy_admin:
             form:
                 fields:
                     - { property: 'avatar', type: 'file' }
+
+services:
+    twig.extension.text:
+        class: Twig_Extensions_Extension_Text
+        tags:
+            - { name: twig.extension }
+
