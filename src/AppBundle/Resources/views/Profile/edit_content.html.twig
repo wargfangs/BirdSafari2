@@ -1,7 +1,7 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 <div class="login-container">
-	<img src="{{ absolute_url(asset('img/fake_logo.svg')) }}" alt="fake_logo" height="50" class="fake_logo">
+	<img src="{{ absolute_url(asset('img/logo_bureau.png')) }}" alt="logo" height="50" class="fake_logo">
 	<h3>Modifier vos informations</h3><br>
 
 	{{ form_start(form, {'method': 'post', 'action': path('fos_user_profile_edit'), 'attr': {'class': 'fos_user_profile_edit'}}) }}

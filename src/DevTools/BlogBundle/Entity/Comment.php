@@ -40,11 +40,13 @@ class Comment
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="\AppBundle\Entity\User", inversedBy="comments", cascade={"persist"})
+     * @ORM\JoinColumn(referencedColumnName="id", unique=false)
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity="DevTools\BlogBundle\Entity\Article", inversedBy="comments", cascade={"persist"})
+     * @ORM\joinColumn(referencedColumnName="id", nullable=true, onDelete="SET NULL") 
      */
     private $article;
 

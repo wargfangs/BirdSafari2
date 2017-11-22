@@ -3,14 +3,20 @@ body {
     background-attachment: fixed;
 }
 
-@media screen and (max-width:375px)
+
+
+@media screen and (max-width: 992px)
 {
-    body {
-        background-image: url("../img/backgrounds/fond_mission_mobile.jpg");
-        background-attachment: fixed;
+
+
+    #textWrapMobile
+    {
+        min-height : 400px;
+        margin-top: 30px;
 
     }
 }
+
 
 
 #videoPop
@@ -28,4 +34,23 @@ body {
     .videoPlace
     {margin-bottom: 100px;
     }
+}
+
+
+
+#textWrapMobile
+{
+    min-height : 400px;
+
+}
+
+#textWrapMobile div div
+{
+    min-height: 120px;
+}
+
+.carousel img
+{
+    height: 200px;
+    width: 375px;
 }

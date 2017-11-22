@@ -2,7 +2,9 @@
 {
     height: 150px;
 
-    background-image: url("../img/backgrounds/fond_articles_bureau.jpg");
+    background-image: url("../img/backgrounds/fond_header_bureau.png");
+    background-position:  center top;
+
     background-attachment: fixed;
     background-repeat: no-repeat;
     border-bottom: solid white 1.5px;
@@ -25,6 +27,9 @@ body{
     background-repeat: no-repeat;
 
 }
+
+
+
 .mainHeaderText
 {
     font-family: fantasy;
@@ -53,11 +58,9 @@ body{
 }
 #logoDuSite
 {
-    width: 60x;
-    height: 60px;
-    position: relative;
-    top: -60px;
-    left: -130px;
+
+    height: 150px;
+
 }
 @media screen and (max-width: 991px)
 {

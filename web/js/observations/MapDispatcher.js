@@ -59,17 +59,9 @@ function positionnerSurCarte(map,latitude,longitude, coordElt, id)
             $(this).css('color','#889547');
             infoWin.open(map,marker);
 
-            $(this).on('mouseleave',function(e){ // Put closing event
-                $(this).css('color','#000000');
-                infoWin.close();
-            });
-        });
-        $(tabLigne).on('click',function(e){ // On click: info window stays
 
-            $(this).css('color','#889547');
-            infoWin.open(map,marker);
-            $(this).off('mouseleave');
         });
+
         $(tabLigne).on('mouseleave',function(e){
 
             $(this).css('color','#000000');
@@ -82,22 +74,14 @@ function positionnerSurCarte(map,latitude,longitude, coordElt, id)
             $(tabLigne).css('color','#889547');
             infoWin.open(map,marker);
 
-            this.addListener('mouseout',function(e){ // Put closing event
-                $(tabLigne).css('color','#000000');
-                infoWin.close();
-            });
+
         });
         marker.addListener('mouseout',function(e){
 
             $(tabLigne).css('color','#000000');
             infoWin.close();
         });
-        marker.addListener('click',function(e){ // On click: info window stays
 
-            $(tabLigne).css('color','#889547');
-            infoWin.open(map,marker);
-            google.maps.event.clearListeners(marker, 'mouseout');
-        });
 
 
     }
@@ -140,17 +124,13 @@ function repositionnerCarte(map, lats,lngs)
         map.setZoom(9);
     else if(ecart< 1.6 && ecart >= 1)
         map.setZoom(8);
-    else if(ecart >= 1.6 && ecart < 2 )
+    else if(ecart >= 1.6 && ecart < 2)
         map.setZoom(7);
-    else if(ecart >= 2 && ecart < 4 )
+    else if(ecart >= 2 && ecart < 4)
         map.setZoom(6);
-    else if(ecart >= 4 && ecart < 10 )
+    else if(ecart >= 4 && ecart < 10)
         map.setZoom(5);
     else
         map.setZoom(5);
 }
 
-function connectLineAndMarker(lines, marker)
-{
-    //
-}

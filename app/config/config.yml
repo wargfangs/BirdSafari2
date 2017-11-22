@@ -30,7 +30,10 @@ framework:
         save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
     fragments: ~
     http_method_override: true
-    assets: ~
+    assets:
+        packages:
+            avatar:
+                base_path: /uploads/avatar/
     php_errors:
         log: true
 
@@ -127,3 +130,10 @@ easy_admin:
             form:
                 fields:
                     - { property: 'avatar', type: 'file' }
+
+services:
+    twig.extension.text:
+        class: Twig_Extensions_Extension_Text
+        tags:
+            - { name: twig.extension }
+

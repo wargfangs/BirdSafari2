@@ -18,10 +18,9 @@
     <div class="row banderole">
         <div class="container">
             <div class="col-sm-6 col-sm-offset-3 text-center mainHeaderText">
-                <h1>NOS AMIS LES OISEAUX</h1>
-                <h5>France</h5>
-                <p>Depuis 1993</p>
-                <img id="logoDuSite" src="{{ asset('img/logo_bureau.png') }}" alt = "Logo du site: Bird Safari"/>
+
+
+                <a href="{{ path('home') }}"><img id="logoDuSite" src="{{ asset('img/titre_header_bureauC.png') }}" alt = "Logo du site: Bird Safari"/></a>
 
             </div>
             {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
@@ -56,7 +55,6 @@
                 </li>
 
 
-
                 <li class="{% if is_granted('IS_AUTHENTICATED_FULLY') %}col-sm-3{% else %}col-sm-3{% endif %} text-center">
                     <a href="{{ path('mission') }}" class="text-center">
                         Notre mission
@@ -67,6 +65,8 @@
                         Articles
                     </a>
                 </li>
+
+
 
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     <li class="dropdown col-sm-2">
@@ -123,18 +123,32 @@
                     </a>
                 </li>
 
-
-
+                {% if is_granted('ROLE_ADMIN') %}
                 <li class="col-sm-3 text-center">
-                    {% if is_granted('ROLE_ADMIN') %}
+
                     <a href="{{ path('admin') }}" class="text-center">
                         Administration
                     </a>
-                    {% endif %}
-                </li>
-                <li class="col-sm-3 text-center">
 
                 </li>
+                {% endif %}
+
+
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <li class="col-sm-3 text-center">
+
+                        <a id="newsletterInscription" href="{{ path('fos_user_profile_edit') }}" >
+                            Recevoir la newsletter
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="col-sm-3 text-center">
+
+                        <a id="newsletterInscription" href="{{ path('fos_user_registration_register') }}" >
+                            Recevoir la newsletter
+                        </a>
+                    </li>
+                {% endif %}
             </ul>
         {% endblock %}
     </footer>

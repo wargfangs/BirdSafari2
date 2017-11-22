@@ -1,68 +1,97 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}{{ parent() }} - Articles{% endblock %}
+{% block css %}{{ parent() }}
+	<link href="{{ asset('css/articles.css') }}" rel="stylesheet">
+{% endblock %}
+
 {% block body %}
-    <h1>Article</h1>
 
     <table>
         <tbody>
             <tr>
-                <th>Titre</th>
-                <td>{{ article.title }}</td>
+                <td><h2><a href="{{ path('article_show', { 'id': article.id }) }}">{{ article.title }}</a></h2></td>
             </tr>
-            <tr>
-                <th>Date</th>
-                <td>{% if article.creationDate %}{{ article.creationDate|date('d/m/Y - H:i') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <td><img src="{{ article.image.src }}" alt="" /></td>
-            </tr>
-            <tr>
-                <th>Contenu</th>
-                <td>{{ article.content }}</td>
+            <tr class="flex-center">
+                <td class="user">{{ article.user }}</td>
+                <td>{% if article.creationDate %}{{ article.creationDate|date('d/m/Y') }}{% endif %}</td>
             </tr>
         </tbody>
     </table>     
-
-    <h3>Ajoutez un commentaire</h3>
+    {% if article.image %}
+        <img src="{{ asset(article.image.src) }}" alt="{{ article.image.alt }}" class="size col-xs-12 col-sm-12"/>
+    {% else %}
+        <img src="{{ asset('img/noPic.png') }}" alt="no_image" class="size"/>
+    {% endif %}
+    <p class="list-content clearfix">{{ article.content }}</p>
+    
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    {# Champ ajout de commentaire #}
     {{ form_start(commentForm) }}
-     <div class="form-group">
+     <div class="form-group margin-comment">
       {{ form_errors(commentForm.content) }}
       {{ form_widget(commentForm.content, { 'attr':  {
        'rows': '4',
-       'class': 'form-control',
+       'class': 'form-control round-textarea',
        'placeholder': 'Ecrivez votre commentaire'
       }}) }}
      </div>
     <div class="form-group">
-      <input type="submit" class="btn btn-primary" value="Publier le commentaire" />
+      <input type="submit" class="round-xs" value="Ajouter un commentaire" />
     </div>
     {{ form_end(commentForm) }}
-            
-    <h3>Commentaires</h3>
-    {% for com in showcomment %}
-{#        <p>{{ com.user }}</p> #}
-        <p>Date : {{ com.date|date('d/m/Y - H:i') }}</p>
-        <p>Commentaire : {{ com.content }}</p>
-{#        <p>{{ form_start(deletecom_form) }}
-                <input type="submit" value="Supprimer">
-            {{ form_end(deletecom_form) }}
-        </p>#}
-    {% else %}
-        Pas de commentaires pour l'instant.
-    {% endfor %}
+    {% endif %}        
     
+    <h3 class="">Commentaires</h3>
+      <table>
+        {% set i = 0 %}
+        {% for com in showcomment %}
+            <tr class="flex-between">
+            <td>{{ com.user }}</td> 
+            <td>{{ com.date|date('d/m/Y ' ~ 'H:i') }}</td>
+            <td>{{ com.content }}</td>
+            <td>{{ form_start(deletecom_form[i]) }}
+                <button type="submit" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#myModal" value="Supprimer"><span class="glyphicon glyphicon-remove"></span></button>
+                {{ form_end(deletecom_form[i]) }}
+            </td>
+            </tr>
+        {% if i < comnumber - 1 %}
+            {% set i = i + 1 %}
+        {% endif %}
+    <!-- Modal -->
+{#    <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Besoin de confirmation</h4>
+        </div>
+        <div class="modal-body">
+            <p>Voulez-vous vraiment supprimer ce commentaire ?</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>     
+           <a class="btn btn-danger" href="{{ path('comment_delete', { 'id': com.id }) }}" >Confirmer</a>
+        </div>
+    </div>
+    </div>
+    </div>#}
+        {% else %}
+            <tr class="">
+                <td class="align">Pas de commentaires pour l'instant.</td>
+            </tr>
+        {% endfor %}
+      </table>
     
-    <ul>
-        <li>
-            <a href="{{ path('article_index') }}">Retour à la liste d'articles</a>
-        </li>
-        <li>
-            <a href="{{ path('article_edit', { 'id': article.id }) }}">Modifier</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Supprimer">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+<div class="article_buttons">
+    <a href="{{ path('article_edit', { 'id': article.id }) }}"><button class="round-xs margin-button">Modifier l'article</button></a>            
+    {{ form_start(delete_form) }}
+        <input type="submit" class="round-xs" value="Supprimer l'article">
+    {{ form_end(delete_form) }}
+</div>
+{% endif %}        
+    
 {% endblock %}

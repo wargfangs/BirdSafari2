@@ -3,7 +3,7 @@
 
 
 <div class="login-container">
-    <img src="{{ absolute_url(asset('img/fake_logo.svg')) }}" alt="fake_logo" height="50" class="fake_logo">
+    <img src="{{ absolute_url(asset('img/logo_bureau.png')) }}" alt="logo" height="50" class="fake_logo">
 	<h3>Vos informations</h3><br>
   
     												{# User Role display #}
@@ -20,11 +20,10 @@
 	<div class="profile">
 	
 													{# User profile picture #}
-		
 		{% if user.avatar is not null %}
-			<img class="avatar" src="{{ absolute_url(vich_uploader_asset(user, 'avatar')) }}" alt="{{ user.avatarName }}" style="width: 100px; height: 100px;"/>
+			<img class="avatar" src="{{ asset(user.avatarName, 'avatar') }}" alt="{{ user.avatarName }}" style="width: 100px; height: 100px;"/>
 		{% else %}
-			<img class="avatar" src="{{ absolute_url(asset('img/nopic.jpg')) }}" alt="Avatar vide" style="width: 100px; height: 100px;"/>
+			<img class="avatar" src="{{ asset('img/NoPic.png') }}" alt="Avatar vide" style="width: 100px; height: 100px;"/>
 		{% endif %}
 		
 		<div class="infos_profile" style="text-align:left;">

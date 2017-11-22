@@ -1,8 +1,12 @@
 article_index:
-    path:     /
-    defaults: { _controller: "DevToolsBlogBundle:Article:index" }
+    path:     /{page}
+    defaults: 
+        _controller: "DevToolsBlogBundle:Article:index"
+        page : 1
     methods:  GET
-
+    requirements:
+        page: \d+
+        
 article_show:
     path:     /{id}/show
     defaults: { _controller: "DevToolsBlogBundle:Article:show" }
@@ -19,13 +23,13 @@ article_edit:
     methods:  [GET, POST]
 
 article_delete:
-    path:     /{id}/delete
+    path:     /article/{id}/delete
     defaults: { _controller: "DevToolsBlogBundle:Article:delete" }
     methods:  DELETE
 
 comment_delete:
-    path:     /{id}/deletecomment
-    defaults: { _controller: "DevToolsBlogBundle:Comment:delete" }
+    path:     /comment/{id}/delete
+    defaults: { _controller: "DevToolsBlogBundle:Article:deletecom" }
     methods:  DELETE
     
 article_myarticles:

@@ -2,7 +2,7 @@
 <div class="login-container">
 
 	{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
-		<img src="{{ absolute_url(asset('img/fake_logo.svg')) }}" alt="fake_logo" height="50" class="fake_logo">
+		<img src="{{ absolute_url(asset('img/logo_bureau.png')) }}" alt="logo" height="50" class="fake_logo">
 		<h1>Inscription</h1><br>
 											{# User Informations Fields #}
 			{{ form_row(form.email) }}
@@ -21,7 +21,6 @@
 				{{ form_row(form.institution, {'label':'form.institution'|trans}) }}
 			</div>
 			
-			<div class="g-recaptcha" data-sitekey="6LeivjIUAAAAANwUBcnp6aM0tsjlua6jPsYoJPZn"></div>
 			<div class="form-group" id="registrationSubmit">
 				<input  type="submit" value="{{ 'registration.submit'|trans }}"  class="login login-submit"/>
 			</div>
