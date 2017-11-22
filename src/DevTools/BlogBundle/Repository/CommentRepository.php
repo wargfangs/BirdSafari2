@@ -37,5 +37,11 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
                 return $comments;
 
     }
+    
+    // Delete the comment
+    public function findCommentById($id) {
+        
+     $this->getDb()->delete('t_comment', array('com_id' => $id));
+    }
 
 }

@@ -58,14 +58,14 @@ class Image
 
     /**
      * @var String
-     * 
+     *
      * @ORM\OneToMany(targetEntity="DevTools\BlogBundle\Entity\Article", mappedBy="image", cascade={"persist"})
      */
     private $articles; // Notez le « s », une image est liée à plusieurs articles
-	
+
     /**
      * @var String
-     * 
+     *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\User", mappedBy="image", cascade={"persist"})
      */
     private $users; // Notez le « s », une image est liée à plusieurs users
@@ -145,13 +145,8 @@ class Image
     {
         $this->file = $file;
 
-       return $this;
+        return $this;
     }
-
-
-
-
-
 
 
     public function preRemoveUpload()
@@ -181,9 +176,9 @@ class Image
     {
         // On retourne le chemin relatif vers l'image pour notre code PHP
 
-        return __DIR__.'/../../../web/'.$this->getUploadDir();
+        return __DIR__ . '/../../../web/' . $this->getUploadDir();
     }
-    
+
     /**
      * Constructor
      */
@@ -192,7 +187,7 @@ class Image
         $this->articles = new \Doctrine\Common\Collections\ArrayCollection();
         $this->users = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Add article
      *
@@ -260,7 +255,5 @@ class Image
     {
         return $this->users;
     }
-
-
 
 }

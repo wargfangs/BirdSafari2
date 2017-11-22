@@ -1,0 +1,181 @@
+body {
+    background-image: url("/BirdSafari/web/img/backgrounds/fond_articles_bureau.jpg");
+    background-attachment: fixed;
+
+}
+table{
+    display: block;
+}
+tbody{
+    display: block;
+}
+.article-show{
+    display: block;
+    margin-bottom: 40px;
+}
+tr{
+    display: block;
+   
+}
+td{
+    display: block;
+}
+
+#content{
+    margin-left: 60px;
+    margin-right: 60px;
+}
+
+.content-align{
+    text-align: center;
+}
+
+.round-textarea{
+    border-radius: 11px;
+    width: 35%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.form-group{
+    text-align: center;
+}
+
+.round-xs{
+    border-radius: 11px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+a{
+    color: #5E6062;
+}
+
+td h2{
+    text-align: center;
+}
+
+h3{
+    text-align: center;
+}
+
+.ajout{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+}
+
+.flex-between{
+    display: flex;
+    justify-content: space-between;
+}
+
+.flex-center{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.block-center{
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.user{
+    margin-right: 20px;
+}
+
+.size{
+    max-width: 300px;
+    max-height: 211px;
+    min-width: 300px;
+    min-height: 211px;
+    float: left;
+    margin-right: 30px;
+    margin-bottom: 10px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.align{
+    text-align: center;
+}
+
+ul .list-inline{
+    text-align: center;
+}
+
+.list-articles{
+    display: flex;
+}
+
+.list-content{
+    text-align: justify;
+}
+
+.article_buttons{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.margin-comment{
+    margin-top: 60px;
+}
+.clearfix {
+  /*overflow: auto;*/
+}
+
+.margin-button{
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+@media screen and (max-width:375px)
+{
+    body {
+        background-image: url("/BirdSafari/web/img/backgrounds/fond_articles_mobile.jpg");
+        background-attachment: fixed;
+    }
+    
+    #content{
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+    
+    .size{
+        max-width: 300px;   
+        max-height: 211px;
+        min-width: 0;
+        min-height: 0;
+        float: left;
+        margin-right: 0;
+        margin-bottom: 10px;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+    
+    .round-textarea{
+        border-radius: 11px;
+        width: 75%;
+        display: block;
+        margin-left: auto;
+        margin-right: auto
+    }
+    
+}
+
+@media screen and (max-width: 767px) {
+   .round-textarea{
+    border-radius: 11px;
+    width: 75%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+
+   
+}

@@ -55,7 +55,6 @@
                 </li>
 
 
-
                 <li class="{% if is_granted('IS_AUTHENTICATED_FULLY') %}col-sm-3{% else %}col-sm-3{% endif %} text-center">
                     <a href="{{ path('mission') }}" class="text-center">
                         Notre mission
@@ -66,6 +65,8 @@
                         Articles
                     </a>
                 </li>
+
+
 
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     <li class="dropdown col-sm-2">

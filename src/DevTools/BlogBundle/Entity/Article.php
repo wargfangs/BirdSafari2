@@ -26,14 +26,14 @@ class Article
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="modificationDate", type="datetime")
+     * @ORM\Column(name="modificationDate", nullable=true, type="datetime")
      */
     private $modificationDate;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="creationDate", type="datetime")
+     * @ORM\Column(name="creationDate", nullable=true, type="datetime")
      */
     private $creationDate;
 
@@ -54,7 +54,9 @@ class Article
     /**
      * @var Image
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Image", inversedBy="articles", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Image", inversedBy="articles", cascade={"persist"})
+     * @ORM\JoinColumn(name="image_id", referencedColumnName="id", nullable=true)
+     *
      */
     private $image;
 
@@ -189,7 +191,7 @@ class Article
      *
      * @return Article
      */
-    public function setImage(\AppBundle\Entity\Image $image = null)
+    public function setImage(\AppBundle\Entity\Image $image)
     {
         $this->image = $image;
 
@@ -274,4 +276,8 @@ class Article
         return $this->comments;
     }
     
+    public function removeImageReference()
+    {
+        $this->image = null;
+    }
 }
