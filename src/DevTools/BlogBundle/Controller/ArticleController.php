@@ -15,21 +15,6 @@ use Doctrine\ORM\EntityManager;
  */
 class ArticleController extends Controller
 {
-    /**
-     * Lists all article entities.
-     *
-     */
-//    public function indexAction()
-//    {
-//        $em = $this->getDoctrine()->getManager();
-//
-//        $articles = $em->getRepository('DevToolsBlogBundle:Article')->findAll();
-//
-//        return $this->render('DevToolsBlogBundle:article:index.html.twig', array(
-//            'articles' => $articles,
-//     
-//        ));
-//    }
     
     public function indexAction($page)
     {        
@@ -74,13 +59,10 @@ class ArticleController extends Controller
                 $article = $r['art'];
                 $image = $r['image'];
             }
-//            var_dump($article);
             $em->persist($article);
-//            var_dump($article);
             if(isset($image))
              
             $article->setImage($image);
-//                        var_dump($article);
             $em->flush();
 
             return $this->redirectToRoute('article_show', array('id' => $article->getId()));
@@ -109,9 +91,8 @@ class ArticleController extends Controller
         $deletecomForm = array();
         
         foreach($showcomment as $com)
-        {
-            
-        $deletecomForm []= $this->createDeletecomForm($com->getId())->createView();
+        {       
+          $deletecomForm []= $this->createDeletecomForm($com->getId())->createView();
         }
         
         $comnumber = count($deletecomForm);
@@ -123,15 +104,14 @@ class ArticleController extends Controller
         $commentForm = $this->createForm('DevTools\BlogBundle\Form\CommentType', $comment);
         $commentForm->handleRequest($request);
         
-            if ($commentForm->isSubmitted() && $commentForm->isValid()) {
+            if ($commentForm->isSubmitted() && $commentForm->isValid()) 
+            {
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($article);
                 $em->flush();
 
                 return $this->redirectToRoute('article_show', array('id' => $article->getId()));
             }
-
-//        var_dump($showcomment->getValues());
 
             return $this->render('DevToolsBlogBundle:article:show.html.twig', array(
                 'article' => $article,
@@ -162,7 +142,7 @@ class ArticleController extends Controller
         $deleteForm = $this->createDeleteForm($article);
         $editForm = $this->createForm('DevTools\BlogBundle\Form\ArticleType', $article);
         $editForm->handleRequest($request);
-//        var_dump($article);
+        
         if($this->get('security.authorization_checker')->isGranted('ROLE_NATURALIST') && !$this->isGranted("ROLE_ADMIN") && $article->getUser() == $this->getUser() || $this->isGranted("ROLE_ADMIN") && $article->getUser() == $this->getUser())
         {
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -180,7 +160,6 @@ class ArticleController extends Controller
                 if ($oldPic->getFile() != null) // upload new image (On garde la même)
                 {
                     $r = $this->uploadImage($article, $em);
-//                    $article = $r['article'];
                     $image = $r['image'];
                 } else // No new picture. We can delete reference of image in observation.
                 {
@@ -226,32 +205,12 @@ class ArticleController extends Controller
            return $this->redirectToRoute('article_show', array('id' => $article->getId()));
         }
     }
-
-    /**
-     * Deletes a article entity.
-     *
-     */
-//    public function deleteAction(Request $request, Article $article)
-//    {
-//        
-//        $form = $this->createDeleteForm($article);
-//        $form->handleRequest($request);
-//
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $em = $this->getDoctrine()->getManager();
-//            $em->remove($article);
-//            $em->flush();
-//        }
-//
-//        return $this->redirectToRoute('article_index');
-//    }
     
     public function deleteAction(Request $request, $id)
     {
         $article = $this->getDoctrine()->getRepository("DevToolsBlogBundle:Article")->find($id);
         if($article == null)
         {
-//            $request->getSession()->getFlashBag()->add("error","Vous avez été redirigé car vous essayiez d'accéder à un article inconnu.");
             return $this->redirectToRoute('article_index');
         }
         $authorizedCommand = false;
@@ -343,7 +302,6 @@ class ArticleController extends Controller
         $comment = $this->getDoctrine()->getRepository("DevToolsBlogBundle:Comment")->findOneById($id);
         if($comment == null)
         {
-//            $request->getSession()->getFlashBag()->add("error","Vous avez été redirigé car vous essayiez d'accéder à un commentaire inconnu.");
             return $this->redirectToRoute('article_index');
         }
         $authorizedCommand = false;
@@ -383,7 +341,6 @@ class ArticleController extends Controller
 
         }
              return $this->redirectToRoute('article_index');
-//           return $this->redirectToRoute('article_show', array('id' => $article->getId()));
     }
     
     /**
@@ -395,7 +352,6 @@ class ArticleController extends Controller
      */
     private function createDeletecomForm($id)
     {
-//        var_dump($id);
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('comment_delete', array('id' => $id)))
             ->setMethod('DELETE')

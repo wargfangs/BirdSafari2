@@ -60,7 +60,7 @@
                         <ul class="dropdown-menu">
                             <li><a href="{{ path('fos_user_profile_show') }}" class="text-right">Profil</a></li>
                             {% if not is_granted("ROLE_ADMIN") %}<li><a href="{{ path('birds_en_attente') }}" class="text-right">En attente</a></li>{% endif %}
-                            {% if is_granted("ROLE_NATURALIST") %}<li><a href="#" class="text-right"> Mes articles</a></li>{% endif %}
+                            {% if is_granted("ROLE_NATURALIST") %}<li><a href="{{ path('article_myarticles') }}" class="text-right"> Mes articles</a></li>{% endif %}
                             <li><a href="{{ path('fos_user_security_logout') }}" class="text-right">Déconnexion</a></li>
                             {% if is_granted("ROLE_ADMIN") %} <li><a href="{{ path('admin') }}" class="text-center">Administration</a></li> {% endif %}
                         </ul>

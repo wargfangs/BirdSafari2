@@ -6,45 +6,6 @@
 {% endblock %}
 
 {% block body %}
-    {#<h1>Ma liste d'articles</h1>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Titre</th>
-                <th>Date</th>
-                <th>Contenu</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for article in articles %}
-            <tr>
-                <td><a href="{{ path('article_show', { 'id': article.id }) }}">{{ article.id }}</a></td>
-                <td>{{ article.title }}</td>
-                <td>{% if article.creationDate %}{{ article.creationDate|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ article.content }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('article_show', { 'id': article.id }) }}">voir</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('article_edit', { 'id': article.id }) }}">modifier</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    {% include '@App/paginationTemplate.html.twig' with {'pathOfPage':'article_myarticles'} %}
-    <ul>
-        <li>
-            <a href="{{ path('article_new') }}"><button>Créer un article</button></a>
-        </li>
-    </ul>#}
     <table>
         <tbody>
         {% for article in articles %}
