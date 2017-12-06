@@ -4,12 +4,17 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle;
 
 /**
  * User
  *
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ * @ORM\HasLifecycleCallbacks
+ * @Vich\Uploadable
  */
 class User extends BaseUser
 {
@@ -56,6 +61,19 @@ class User extends BaseUser
      * @ORM\Column(name="status", type="boolean")
      */
     private $confirmationStatus;
+	
+	/**
+     * @var boolean
+     *
+     * Attribut non persisté en base de donnée
+     */
+    private $acceptCgu;
+	
+	/**
+     * @var boolean
+	 *Attribut non persisté en base de donnée
+     */ 
+    private $newsletterSubscriber;
 
     /**
      * @var Image
@@ -76,7 +94,29 @@ class User extends BaseUser
      */
     private $comments; // Notez le « s », un user est lié à plusieurs commentaires
 
+    /**
+	 * @Vich\UploadableField(mapping="avatar", fileNameProperty="avatarName")
+	 * 
+	 * @var File
+	 */
+	private $avatar;
 
+	/**
+	 * @ORM\Column(type="string", length=255, nullable=true)
+	 *
+	 * @var string
+	 */
+	private $avatarName;
+
+	/**
+	 * @ORM\Column(type="datetime", nullable=true)
+	 *
+	 * @var \DateTime
+	*/
+	private $updatedAt;
+
+	
+	
     /**
      * Constructor
      */
@@ -87,8 +127,7 @@ class User extends BaseUser
     }
 
 
-
-
+	
 
 
     /**
@@ -224,6 +263,31 @@ class User extends BaseUser
         return $this->confirmationStatus;
     }
 
+	
+	/**
+     * Set acceptCgu
+     *
+     * @param boolean $acceptCgu
+     *
+     * @return User
+     */
+    public function setAcceptCgu($acceptCgu)
+    {
+        $this->acceptCgu = $acceptCgu;
+
+        return $this;
+    }
+
+    /**
+     * Get acceptCgu
+     *
+     * @return boolean
+     */
+    public function getAcceptCgu()
+    {
+        return $this->acceptCgu;
+    }
+	
     /**
      * Set image
      *
@@ -314,5 +378,98 @@ class User extends BaseUser
     public function getComments()
     {
         return $this->comments;
+    }
+	
+	/**
+ * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
+ *
+ * @return User
+*/
+public function setAvatar(File $image = null)
+{
+   
+    if ($image) {
+		
+		$this->avatar = $image;
+        $this->updatedAt = new \DateTimeImmutable();
+	}
+    return $this;
+}
+
+	/**
+	 * @return File|null
+	 */
+	public function getAvatar()
+	{
+		return $this->avatar;
+	}
+
+	/**
+	 * @param string $avatarName
+	 *
+	 * @return User
+	 */
+	public function setAvatarName($avatarName)
+	{
+		$this->avatarName = $avatarName;
+
+		return $this;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getAvatarName()
+	{
+		return $this->avatarName;
+	}
+	
+	 /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return User
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime|null
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+	
+	
+	/**
+     * Set newsletterSubscriber
+     *
+     * @param \DateTime $newsletterSubscriber
+     *
+     * @return User
+     */
+    public function setNewsletterSubscriber($newsletterSubscriber)
+    {
+        $this->newsletterSubscriber = $newsletterSubscriber;
+
+        return $this;
+    }
+
+    /**
+     * Get newsletterSubscriber
+     *
+     * @return \DateTime
+     */
+    public function getNewsletterSubscriber()
+    {
+        return $this->newsletterSubscriber;
     }
 }

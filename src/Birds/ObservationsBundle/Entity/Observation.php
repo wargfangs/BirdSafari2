@@ -5,6 +5,7 @@ namespace Birds\ObservationsBundle\Entity;
 use AppBundle\Entity\Image;
 use AppBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Observation
@@ -88,11 +89,17 @@ class Observation
 
     /**
      * @var Image
-     * @ORM\Column(name="imageId",nullable=true)
-     * @ORM\ManyToOne(targetEntity="\AppBundle\Entity\Image", inversedBy="observations", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Image", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="image_id", referencedColumnName="id", nullable=true)
+     *
      */
     private $image;
+
+    /**
+     * @ORM\Column(name="valid_pic", type="boolean",nullable =false)
+     * @var boolean
+     */
+    private $hasValidPictureForShow=false;
 
     /**
      * @var string
@@ -249,10 +256,12 @@ class Observation
      *
      * @return Image
      */
-    public function setImage(\AppBundle\Entity\Image $image = null)
+    public function setImage(\AppBundle\Entity\Image $image)
     {
         $this->image = $image;
-        file_put_contents("image.txt", "Created instance: src:". $image->getSrc(). " alt:" . $image->getAlt(). " Id:" . $image->getId()  );
+        //file_put_contents("image.txt", "Created instance: src:". $image->getSrc(). " alt:" . $image->getAlt(). " Id:" . $image->getId()  );
+
+
         return $this;
     }
 
@@ -425,5 +434,37 @@ class Observation
     public function getPlace()
     {
         return $this->place;
+    }
+
+    /**
+     * Set hasValidPictureForShow
+     *
+     * @param boolean $hasValidPictureForShow
+     *
+     * @return Observation
+     */
+    public function setHasValidPictureForShow($hasValidPictureForShow)
+    {
+        $this->hasValidPictureForShow = $hasValidPictureForShow;
+
+        return $this;
+    }
+
+    /**
+     * Get hasValidPictureForShow
+     *
+     * @return boolean
+     */
+    public function getHasValidPictureForShow()
+    {
+        return $this->hasValidPictureForShow;
+    }
+
+    /**
+     * Removes reference from database. Do not suppress
+     */
+    public function removeImageReference()
+    {
+        $this->image = null;
     }
 }

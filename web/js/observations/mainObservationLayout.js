@@ -26,21 +26,27 @@ $(function(){
     //button : jqueryObj bouton surlequel on a appuyé.
     function smartClose(button)
     {
-        console.log("Contient c6 "+ button.parent().hasClass("col-md-6"));
+        //console.log("Contient c6 "+ button.parent().hasClass("col-lg-6"));
         if(button.attr("id") === 'obsLayout')
         {
             //écouter les événements de redimensionnement de la carte pour retirer le bug d'affichage.
 
 
-            $('#mapLayout').parent().toggleClass("col-md-6");
-            $('#mapLayout').parent().toggleClass("col-md-11");
+            $('#mapLayout').parent().toggleClass("col-lg-6");
+            $('#mapLayout').parent().toggleClass("col-lg-11");
 
         }
         else if(button.attr("id") === 'mapLayout')
         {
 
-            $('#obsLayout').parent().toggleClass("col-md-6");
-            $('#obsLayout').parent().toggleClass("col-md-11");
+            $('#obsLayout').parent().toggleClass("col-lg-6");
+            $('#obsLayout').parent().toggleClass("col-lg-11");
         }
 
     }
+
+   /* function OnMapReady(map)
+    {
+        console.log("Called");
+
+    }*/

@@ -60,12 +60,116 @@
 
     {% if observations %} <!--Tableau-->
 
-		<div class="row text-right"> <!-- Limit -->
-			<ul class="list-inline ">
+		<div class="row"> <!-- Limit -->
+
+			<ul class="list-inline col-xs-6">
+				<li><a href={{ path("birds_observations", {
+                        "research" : param.research,
+                        "espece" : param.espece, "page" :1,
+                        "limit":param.limit,
+                        "minDate":param.minDate,
+                        "maxDate":param.maxDate,
+                        "minHours":param.minHours,
+                        "maxHours":param.maxHours,
+                        "latitude":param.lat,
+                        "longitude": param.lng,
+                        "radius": param.rad,
+                        "orderBy": param.orderBy
+                    }) }}><span class="glyphicon glyphicon-arrow-left"></span></a></li>
+
+
+                {% if param.page-2 > 0 %}
+					<li><a href={{ path("birds_observations", {
+                            "research" : param.research,
+                            "espece" : param.espece, "page" :param.page-2,
+                            "limit":param.limit,
+                            "minDate":param.minDate,
+                            "maxDate":param.maxDate,
+                            "minHours":param.minHours,
+                            "maxHours":param.maxHours,
+                            "latitude":param.lat,
+                            "longitude": param.lng,
+                            "radius": param.rad,
+                            "orderBy": param.orderBy
+                        }) }}>{{ param.page - 2 }}</a></li>
+
+                {% endif %}
+
+                {% if param.page-1 > 0 %}			<!--Page -1 -->
+					<li><a href="{{ path("birds_observations", {
+                            "research" : param.research,
+                            "espece" : param.espece, "page" :param.page-1,
+                            "limit":param.limit,
+                            "minDate":param.minDate,
+                            "maxDate":param.maxDate,
+                            "minHours":param.minHours,
+                            "maxHours":param.maxHours,
+                            "latitude":param.lat,
+                            "longitude": param.lng,
+                            "radius": param.rad,
+                            "orderBy": param.orderBy
+                        }) }}">	{{ param.page - 1 }}</a></li>
+                {% endif %}
+
+				<li>{{ param.page }}</li>			<!--Page actuelle -->
+
+                {% if param.page+1 <= nombrePage %} <!--Page +1 -->
+					<li><a href="{{ path("birds_observations", {
+                            "research" : param.research,
+                            "espece" : param.espece, "page" :param.page+1,
+                            "limit":param.limit,
+                            "minDate":param.minDate,
+                            "maxDate":param.maxDate,
+                            "minHours":param.minHours,
+                            "maxHours":param.maxHours,
+                            "latitude":param.lat,
+                            "longitude": param.lng,
+                            "radius": param.rad,
+                            "orderBy": param.orderBy
+                        }) }}">{{ param.page +1 }}</a></li>
+                {% endif %}
+
+                {% if param.page+2 <= nombrePage %} <!--Page +2 -->
+					<li><a href={{ path("birds_observations", {
+                            "research" : param.research,
+                            "espece" : param.espece, "page" :param.page+2,
+                            "limit":param.limit,
+                            "minDate":param.minDate,
+                            "maxDate":param.maxDate,
+                            "minHours":param.minHours,
+                            "maxHours":param.maxHours,
+                            "latitude":param.lat,
+                            "longitude": param.lng,
+                            "radius": param.rad,
+                            "orderBy": param.orderBy
+                        }) }}>{{ param.page +2 }}</a></li>
+                {% endif %}
+
+                {% if param.page+2 < nombrePage %} <!--Page ++ beyond -->
+					<li>...</li>
+                {% endif %}
+
+
+				<li><a href={{ path("birds_observations", {
+                        "research" : param.research,
+                        "espece" : param.espece, "page" :nombrePage,
+                        "limit":param.limit,
+                        "minDate":param.minDate,
+                        "maxDate":param.maxDate,
+                        "minHours":param.minHours,
+                        "maxHours":param.maxHours,
+                        "latitude":param.lat,
+                        "longitude": param.lng,
+                        "radius": param.rad,
+                        "orderBy": param.orderBy
+                    }) }}><span class="glyphicon glyphicon-arrow-right"></span></a></li>
+
+			</ul>
+			<ul class="list-inline text-right col-xs-6">
 				<li>Afficher:</li>
 				<li><a href={{ path("birds_observations", {
                         "research" : param.research,
-                        "page" :1,
+                        "espece" : param.espece, "page" :1,
                         "limit": 10,
                         "minDate":param.minDate,"maxDate":param.maxDate,
                         "minHours":param.minHours,"maxHours":param.maxHours,
@@ -75,7 +179,7 @@
 				</li>
 				<li><a href={{ path("birds_observations", {
                         "research" : param.research,
-                        "page" :1,
+                        "espece" : param.espece, "page" :1,
                         "limit": 25,
                         "minDate":param.minDate,"maxDate":param.maxDate,
                         "minHours":param.minHours,"maxHours":param.maxHours,
@@ -85,7 +189,7 @@
 				</li>
 				<li><a href={{ path("birds_observations", {
                         "research" : param.research,
-                        "page" :1,
+                        "espece" : param.espece, "page" :1,
                         "limit": 50,
                         "minDate":param.minDate,"maxDate":param.maxDate,
                         "minHours":param.minHours,"maxHours":param.maxHours,
@@ -95,7 +199,7 @@
 				</li>
 				<li><a href={{ path("birds_observations", {
                         "research" : param.research,
-                        "page" :1,
+                        "espece" : param.espece, "page" :1,
                         "limit": 100,
                         "minDate":param.minDate,"maxDate":param.maxDate,
                         "minHours":param.minHours,"maxHours":param.maxHours,
@@ -108,13 +212,13 @@
 			</ul>
 		</div>
 		<div class="row" >
-			<table class="table-striped table-bordered text-center col-sm-12">
+			<table class="table-hover  text-center col-sm-12">
 				<thead>
 					<tr>
 						<th>Lieu</th>
 						<th><a href="{{ path("birds_observations", {
                                 "research" : param.research,
-                                "page" :1,
+                                "espece" : param.espece, "page" :1,
                                 "limit":param.limit,
                                 "minDate":param.minDate,
                                 "maxDate":param.maxDate,
@@ -125,35 +229,10 @@
                                 "radius": param.rad,
 						"orderBy": 1
                             }) }}">Date <span class="glyphicon glyphicon glyphicon-chevron-{% if param.orderBy == 1 %}down{% else %}right{% endif %}"></span></a></th>
+
 						<th><a href="{{ path("birds_observations", {
                                 "research" : param.research,
-                                "page" :1,
-                                "limit":param.limit,
-                                "minDate":param.minDate,
-                                "maxDate":param.maxDate,
-                                "minHours":param.minHours,
-                                "maxHours":param.maxHours,
-                                "latitude":param.lat,
-                                "longitude": param.lng,
-                                "radius": param.rad,
-						"orderBy": 2
-                            }) }}">Heure<span class="glyphicon glyphicon glyphicon-chevron-{% if param.orderBy == 2 %}down{% else %}right{% endif %}"></span></a></th>
-						<th><a href="{{ path("birds_observations", {
-                                "research" : param.research,
-                                "page" :1,
-                                "limit":param.limit,
-                                "minDate":param.minDate,
-                                "maxDate":param.maxDate,
-                                "minHours":param.minHours,
-                                "maxHours":param.maxHours,
-                                "latitude":param.lat,
-                                "longitude": param.lng,
-                                "radius": param.rad,
-						"orderBy": 3
-                            }) }}">Titre<span class="glyphicon glyphicon glyphicon-chevron-{% if param.orderBy == 3 %}down{% else %}right{% endif %}"></span></a></th>
-						<th><a href="{{ path("birds_observations", {
-                                "research" : param.research,
-                                "page" :1,
+                                "espece" : param.espece, "page" :1,
                                 "limit":param.limit,
                                 "minDate":param.minDate,
                                 "maxDate":param.maxDate,
@@ -168,13 +247,11 @@
 				</thead>
 				<tbody>
         			{%  for obs in observations %}
-						<tr>
+						<tr class="observationLine" id="line-{{ obs.id }}">
 							<td>{{ obs.place }}</td>
-							<td>{{ obs.date | date('d m Y',"Europe/Paris") }}</td>
-							<td>{{ obs.hour }}h</td>
-							<td>{{ obs.title }}</td>
+							<td>{{ obs.date | date('d/m/Y',"Europe/Paris") }}</td>
 							<td><a href={{ path("birds_observation", {"id": obs.id }) }}>{{ obs.birdname }} </a></td>
-							<div class="coords" hidden>{{ obs.latitude }};{{ obs.longitude }}</div>
+							<div class="coords" hidden>{{ obs.latitude }};{{ obs.longitude }};{{ obs.id }}</div>
 						</tr>
                     {% endfor %}
 				</tbody>
@@ -183,114 +260,7 @@
 		</div>
 
 
-		<ul class="list-inline">
-				<li><a href={{ path("birds_observations", {
-						"research" : param.research,
-						"page" :1,
-						"limit":param.limit,
-						"minDate":param.minDate,
-						"maxDate":param.maxDate,
-						"minHours":param.minHours,
-						"maxHours":param.maxHours,
-						"latitude":param.lat,
-						"longitude": param.lng,
-						"radius": param.rad,
-						"orderBy": param.orderBy
-					}) }}>Première page</a></li>
 
-                {% if param.page-2 > 1 %}
-					<li>...</li>
-                {% endif %}
-
-                {% if param.page-2 > 0 %}
-						<li><a href={{ path("birds_observations", {
-                                "research" : param.research,
-                                "page" :param.page-2,
-                                "limit":param.limit,
-                                "minDate":param.minDate,
-                                "maxDate":param.maxDate,
-                                "minHours":param.minHours,
-                                "maxHours":param.maxHours,
-                                "latitude":param.lat,
-                                "longitude": param.lng,
-                                "radius": param.rad,
-						"orderBy": param.orderBy
-                            }) }}>{{ param.page - 2 }}</a></li>
-
-                {% endif %}
-
-                {% if param.page-1 > 0 %}			<!--Page -1 -->
-					<li><a href="{{ path("birds_observations", {
-							"research" : param.research,
-							"page" :param.page-1,
-							"limit":param.limit,
-							"minDate":param.minDate,
-							"maxDate":param.maxDate,
-							"minHours":param.minHours,
-							"maxHours":param.maxHours,
-							"latitude":param.lat,
-							"longitude": param.lng,
-							"radius": param.rad,
-						"orderBy": param.orderBy
-						}) }}">	{{ param.page - 1 }}</a></li>
-                {% endif %}
-
-				<li>{{ param.page }}</li>			<!--Page actuelle -->
-
-                {% if param.page+1 <= nombrePage %} <!--Page +1 -->
-					<li><a href="{{ path("birds_observations", {
-                            "research" : param.research,
-                            "page" :param.page+1,
-                            "limit":param.limit,
-                            "minDate":param.minDate,
-                            "maxDate":param.maxDate,
-                            "minHours":param.minHours,
-                            "maxHours":param.maxHours,
-                            "latitude":param.lat,
-                            "longitude": param.lng,
-                            "radius": param.rad,
-						"orderBy": param.orderBy
-                        }) }}">{{ param.page +1 }}</a></li>
-                {% endif %}
-
-                {% if param.page+2 <= nombrePage %} <!--Page +2 -->
-					<li><a href={{ path("birds_observations", {
-                            "research" : param.research,
-                            "page" :param.page+2,
-                            "limit":param.limit,
-                            "minDate":param.minDate,
-                            "maxDate":param.maxDate,
-                            "minHours":param.minHours,
-                            "maxHours":param.maxHours,
-                            "latitude":param.lat,
-                            "longitude": param.lng,
-                            "radius": param.rad,
-						"orderBy": param.orderBy
-                        }) }}>{{ param.page +2 }}</a></li>
-                {% endif %}
-
-                {% if param.page+2 < nombrePage %} <!--Page ++ beyond -->
-					<li>...</li>
-                {% endif %}
-
-
-				<li><a href={{ path("birds_observations", {
-                        "research" : param.research,
-                        "page" :nombrePage,
-                        "limit":param.limit,
-                        "minDate":param.minDate,
-                        "maxDate":param.maxDate,
-                        "minHours":param.minHours,
-                        "maxHours":param.maxHours,
-                        "latitude":param.lat,
-                        "longitude": param.lng,
-                        "radius": param.rad,
-						"orderBy": param.orderBy
-                    }) }}>Dernière page</a></li>
-
-			</ul>
-
-		</ul>
     {% else %}
 		<p class="row">Pas d'oiseaux trouvés pour cette recherche. Essayez avec de nouveaux termes.</p>
     {% endif %}
@@ -300,7 +270,7 @@
 
 {% block js %}
 	<script>var page="all"</script>
-	{{ parent() }}
 	<script src="{{ asset('js/observations/MapDispatcher.js') }}"></script>
+    {{ parent() }}
 
 {% endblock %}

@@ -9,15 +9,8 @@ function initMap()
         streetViewControl: false
     });
 
-    if(navigator.geolocation) //Si pas internet explorer, lol
-    {
-        navigator.geolocation.getCurrentPosition(function(position){
-            map.setCenter(new google.maps.LatLng(position.coords.latitude,position.coords.longitude));
-            map.setZoom(10);
-        });
 
-    }
-    OnMapReady(map); // Toutes les pages du bundle observation doivent implémenter cette fonction. Toutes ont besoin de la carte.
+
 
 
     searchMap = new google.maps.Map(document.getElementById('mapR'), {
@@ -33,7 +26,10 @@ function initMap()
             searchMap.setZoom(10);
         });
 
+
     }
+
+    OnMapReady(map); // Toutes les pages du bundle observation doivent implémenter cette fonction. Toutes ont besoin de la carte.
     OnMapRReady(searchMap);
 
 

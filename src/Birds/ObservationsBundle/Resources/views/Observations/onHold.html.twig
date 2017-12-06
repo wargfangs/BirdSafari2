@@ -15,8 +15,64 @@
 		</p>
 
 		{% if observations %}
-			<div class="row text-right"> <!-- Limit -->
-				<ul class="list-inline">
+			<div class="row "> <!-- Limit -->
+				<ul class="list-inline col-xs-6">
+					<li><a href={{ path("birds_my_observations", {
+                            "page" : 1,
+                            "limit": param.limit,
+                            "orderBy": param.orderBy
+                        }) }}><span class="glyphicon glyphicon-arrow-left"></span></a></li>
+
+
+                    {% if param.page-2 > 0 %}
+						<li><a href={{ path("birds_my_observations", {
+                                "page" : param.page-2,
+                                "limit": param.limit,
+                                "orderBy": param.orderBy
+                            }) }}>{{ param.page-2 }}</a></li>
+
+                    {% endif %}
+
+                    {% if param.page-1 > 0 %}			<!--Page -1 -->
+						<li><a href="{{ path("birds_my_observations", {
+                                "page" : param.page-1,
+                                "limit": param.limit,
+                                "orderBy": param.orderBy
+                            }) }}">	{{ param.page-1 }}</a></li>
+                    {% endif %}
+
+					<li>{{ param.page }}</li>			<!--Page actuelle -->
+
+                    {% if param.page+1 <= param.nPages %} <!--Page +1 -->
+						<li><a href="{{ path("birds_my_observations", {
+                                "page" : param.page+1,
+                                "limit": param.limit,
+                                "orderBy": param.orderBy
+                            }) }}">{{ param.page+1 }}</a></li>
+                    {% endif %}
+
+                    {% if param.page+2 <= param.nPages %} <!--Page +2 -->
+						<li><a href={{ path("birds_my_observations", {
+                                "page" : param.page+2,
+                                "limit": param.limit,
+                                "orderBy": param.orderBy
+                            }) }}>{{ param.page+2 }}</a></li>
+                    {% endif %}
+
+                    {% if param.page+2 < param.nPages %} <!--Page ++ beyond -->
+						<li>...</li>
+                    {% endif %}
+
+
+					<li><a href={{ path("birds_my_observations", {
+                            "page" : param.nPages,
+                            "limit": param.limit,
+                            "orderBy": param.orderBy
+                        }) }}><span class="glyphicon glyphicon-arrow-right"></span></a></li>
+
+				</ul>
+
+				<ul class="list-inline text-right col-xs-6">
 					<li>Afficher:</li>
 					<li><a href={{ path("birds_my_observations", {
 							"page" : 1,
@@ -48,20 +104,14 @@
 				</ul>
 			</div>
 			<div class="row" >
-				<table class="table-striped table-bordered text-center col-sm-12">
+				<table class="table-hover  text-center col-sm-12">
 					<thead>
 					<tr>
-						<th>Lieu</th>
 						<th><a href="{{ path("birds_my_observations", {
 								"page" : 1,
 								"limit": param.limit,
 								"orderBy": 1
 							}) }}">Date <span class="glyphicon glyphicon glyphicon-chevron-{% if param.orderBy == 1 %}down{% else %}right{% endif %}"></span></a></th>
-						<th><a href="{{ path("birds_my_observations", {
-								"page" : 1,
-								"limit": param.limit,
-								"orderBy": 2
-							}) }}">Heure<span class="glyphicon glyphicon glyphicon-chevron-{% if param.orderBy == 2 %}down{% else %}right{% endif %}"></span></a></th>
 						<th><a href="{{ path("birds_my_observations", {
 								"page" : 1,
 								"limit": param.limit,
@@ -77,20 +127,18 @@
 					</thead>
 					<tbody>
 					{%  for obs in observations %}
-						<tr>
-							<td>{{ obs.place }}</td>
-							<td>{{ obs.date | date('d m Y',"Europe/Paris") }}</td>
-							<td>{{ obs.hour }}h</td>
+						<tr class="observationLine" id="line-{{ obs.id }}">
+							<td>{{ obs.date | date('d/m/Y',"Europe/Paris") }}</td>
 							<td>{{ obs.user.username }}</td>
 							<td><a href={{ path("birds_observation", {"id": obs.id }) }}>{{ obs.birdname }} </a></td>
 							<td>
 								<a class="btn btn-xs btn-block btn-success" href="{{ path("birds_validate", {"id": obs.id}) }}">Valider</a>
-								<a class="btn btn-xs btn-info btn-block" href="{{ path("birds_observations_update", {"id": obs.id}) }}">Modifier</a>
+								<a class="btn btn-xs btn-default btn-block" href="{{ path("birds_observations_update", {"id": obs.id}) }}">Modifier</a>
                                 {% if is_granted('ROLE_NATURALIST') %}
 									<a class="btn btn-xs btn-warning btn-block" href="{{ path("birds_observations_remove", {"id" : obs.id }) }}">Supprimer</a>
 								{% endif %}
 							</td>
-							<div class="coords" hidden>{{ obs.latitude }};{{ obs.longitude }}</div>
+							<div class="coords" hidden>{{ obs.latitude }};{{ obs.longitude }};{{ obs.id }}</div>
 						</tr>
 					{% endfor %}
 					</tbody>
@@ -100,68 +148,11 @@
 
 
 
-		<ul class="list-inline">
-			<li><a href={{ path("birds_my_observations", {
-                    "page" : 1,
-                    "limit": param.limit,
-                    "orderBy": param.orderBy
-                }) }}>Première page</a></li>
 
-            {% if param.page-1 > 1 %}
-				<li>...</li>
-            {% endif %}
-
-            {% if param.page-2 > 0 %}
-				<li><a href={{ path("birds_my_observations", {
-                        "page" : param.page-2,
-                        "limit": param.limit,
-                        "orderBy": param.orderBy
-                    }) }}>{{ param.page-2 }}</a></li>
-
-            {% endif %}
-
-            {% if param.page-1 > 0 %}			<!--Page -1 -->
-				<li><a href="{{ path("birds_my_observations", {
-                        "page" : param.page-1,
-                        "limit": param.limit,
-                        "orderBy": param.orderBy
-                    }) }}">	{{ param.page-1 }}</a></li>
-            {% endif %}
-
-			<li>{{ param.page }}</li>			<!--Page actuelle -->
-
-            {% if param.page+1 <= param.nPages %} <!--Page +1 -->
-				<li><a href="{{ path("birds_my_observations", {
-                        "page" : param.page+1,
-                        "limit": param.limit,
-                        "orderBy": param.orderBy
-                    }) }}">{{ param.page+1 }}</a></li>
-            {% endif %}
-
-            {% if param.page+2 <= param.nPages %} <!--Page +2 -->
-				<li><a href={{ path("birds_my_observations", {
-                        "page" : param.page+2,
-                        "limit": param.limit,
-                        "orderBy": param.orderBy
-                    }) }}>{{ param.page+2 }}</a></li>
-            {% endif %}
-
-            {% if param.page+2 < param.nPages %} <!--Page ++ beyond -->
-				<li>...</li>
-            {% endif %}
-
-
-			<li><a href={{ path("birds_my_observations", {
-                    "page" : param.nPages,
-                    "limit": param.limit,
-                    "orderBy": param.orderBy
-                }) }}>Dernière page</a></li>
-
-		</ul>
 
 	{% else %}
 		<p>Vous n'avez pas encore d'observations validées par un professionnel. </p>
-		<button class="btn btn-info"><a href={{ path("birds_observations_add") }}>Ajouter une observation d'oiseau</a></button>
+		<button class="btn btn-default"><a href={{ path("birds_observations_add") }}>Ajouter une observation d'oiseau</a></button>
 	{% endif %}
 
 {% endblock %}

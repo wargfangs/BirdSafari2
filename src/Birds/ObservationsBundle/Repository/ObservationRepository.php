@@ -24,7 +24,9 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
             ->from('BirdsObservationsBundle:Observation','o')
             ->where('o.valid = :val')
             ->setParameter('val',true)
-            ->orderBy('o.id','DESC')
+            ->andWhere('o.hasValidPictureForShow = :vrai')
+            ->setParameter('vrai',true)
+            ->orderBy('o.date','DESC')
             ->setMaxResults($number);
         return $qb->getQuery()->getResult();
 
@@ -36,6 +38,7 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter("1",false);
         return $qb;
     }
+
 
 
     /**
@@ -104,6 +107,19 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
             ->setParameters(array(1 => "%".$content."%", 2 => "%".$content."%", 3 => "%".$content."%"));
         return $qb;
     }
+
+    /**
+     * @param $espece : string
+     * @param QueryBuilder $qb
+     * @return QueryBuilder
+     */
+    public function addFilterBySpecies($espece,QueryBuilder $qb)
+    {
+        $qb->andwhere($qb->expr()->eq("o.birdname", "?12"))
+            ->setParameter("12", $espece);
+        return $qb;
+    }
+
 
 
 
@@ -260,11 +276,9 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
     public function getParameters(QueryBuilder $qb)
     {
         $parameters= array();
-        $i = 1;
         foreach($qb->getQuery()->getParameters() as $param)
         {
-            $parameters['i'] = $param->getValue();
-            $i++;
+            $parameters[] = $param->getValue();
         }
 
 

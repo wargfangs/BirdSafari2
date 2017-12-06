@@ -20,6 +20,8 @@ class AppKernel extends Kernel
             new Birds\ObservationsBundle\BirdsObservationsBundle(),
             new DevTools\BlogBundle\DevToolsBlogBundle(),
             new Exporter\Bridge\Symfony\Bundle\SonataExporterBundle(),
+			new Vich\UploaderBundle\VichUploaderBundle(),
+			new EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle()
 
         ];
@@ -28,6 +30,7 @@ class AppKernel extends Kernel
             $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
+            $bundles[] = new CoreSphere\ConsoleBundle\CoreSphereConsoleBundle();
 
             if ('dev' === $this->getEnvironment()) {
                 $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();

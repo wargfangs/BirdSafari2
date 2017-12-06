@@ -1,0 +1,65 @@
+body {
+    background-image: url("../img/backgrounds/fond_observation_bureau.jpg");
+    background-attachment: fixed;
+
+}
+@media screen and (max-width:375px)
+{
+    body {
+        background-image: url("../img/backgrounds/fond_observation_mobile.jpg");
+        background-attachment: fixed;
+
+    }
+    .searchSpecial, .searchSpecial:hover {
+        background-color: transparent;
+        border: none 0px;
+        position: relative;
+        right: -80% !important;
+        top: -43px !important;
+    }
+}
+
+
+.searchSpecial, .searchSpecial:hover
+{
+    background-color: transparent;
+    border: none 0px;
+    position: relative;
+    right: 43px;
+}
+@media screen and (max-width: 767px) {
+    .searchSpecial, .searchSpecial:hover
+    {
+        background-color: transparent;
+        border: none 0px;
+        position: relative;
+        right: -90% !important;
+        top: -43px !important;
+    }
+    .searchElt
+    {
+        height: 200px !important;
+    }
+}
+
+.searchElt
+{
+    height: 100px;
+}
+.global-marg-up-xs
+{
+    margin-top: 20px;
+}
+
+.xdsoft_datetimepicker table, .xdsoft_datetimepicker td,.xdsoft_datetimepicker th
+{
+    padding: 0px;
+    margin: 0px;
+    min-width: 0px;
+}
+
+@media screen and (max-width:1300px) and (min-width:968px) {
+    .map{
+        padding-left: 40%;
+    }
+}

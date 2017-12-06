@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Image
@@ -44,24 +45,32 @@ class Image
     //private $small; //Image
     //private $normal; //Image
     //private $normal; //Image
-
+    /**
+     * @var UploadedFile
+     * @Assert\Image(
+     *     minWidth = 200,
+     *     maxWidth = 1500,
+     *     minHeight = 200,
+     *     maxHeight = 1500)
+     */
     private $file;
     private $tempFilename;
 
     /**
      * @var String
-     * 
+     *
      * @ORM\OneToMany(targetEntity="DevTools\BlogBundle\Entity\Article", mappedBy="image", cascade={"persist"})
      */
     private $articles; // Notez le « s », une image est liée à plusieurs articles
-	
+
     /**
      * @var String
-     * 
+     *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\User", mappedBy="image", cascade={"persist"})
      */
     private $users; // Notez le « s », une image est liée à plusieurs users
-    
+
+
     /**
      * Get id
      *
@@ -120,39 +129,36 @@ class Image
         return $this->alt;
     }
 
-
+    /**
+     * @return UploadedFile
+     */
     public function getFile()
     {
         return $this->file;
     }
 
-
-
-
-
-    // On modifie le setter de File, pour prendre en compte l'upload d'un fichier lorsqu'il en existe déjà un autre
+    /**
+     * @param UploadedFile $file
+     * @return $this
+     */
     public function setFile(UploadedFile $file)
     {
         $this->file = $file;
 
         return $this;
-
     }
 
-    /**
-     * @ORM\PreRemove()
-     */
+
     public function preRemoveUpload()
     {
         // On sauvegarde temporairement le nom du fichier, car il dépend de l'id
-        $this->tempFilename = $this->getUploadRootDir().'/'.$this->id.'.'.$this->src;
+        $this->tempFilename = $this->src;
     }
 
-    /**
-     * @ORM\PostRemove()
-     */
+
     public function removeUpload()
     {
+        $this->preRemoveUpload();
         // En PostRemove, on n'a pas accès à l'id, on utilise notre nom sauvegardé
         if (file_exists($this->tempFilename)) {
             // On supprime le fichier
@@ -170,9 +176,9 @@ class Image
     {
         // On retourne le chemin relatif vers l'image pour notre code PHP
 
-        return __DIR__.'/../../../web/'.$this->getUploadDir();
+        return __DIR__ . '/../../../web/' . $this->getUploadDir();
     }
-    
+
     /**
      * Constructor
      */
@@ -181,7 +187,7 @@ class Image
         $this->articles = new \Doctrine\Common\Collections\ArrayCollection();
         $this->users = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Add article
      *
@@ -249,4 +255,5 @@ class Image
     {
         return $this->users;
     }
+
 }

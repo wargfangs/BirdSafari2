@@ -1,0 +1,50 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="login-container">
+	<img src="{{ absolute_url(asset('img/logo_bureau.png')) }}" alt="logo" height="50" class="fake_logo">
+	<h3>Modifier vos informations</h3><br>
+
+	{{ form_start(form, {'method': 'post', 'action': path('fos_user_profile_edit'), 'attr': {'class': 'fos_user_profile_edit'}}) }}
+	
+	{# User Avatar #}
+	
+		{% if user.avatar is not null %}
+			<div id="img"><img class="ava" src="{{ vich_uploader_asset(user, 'avatar') }}" alt="{{ user.avatarName }}" style="width: 100px; height: 100px;"/>
+				<button onclick="w3.toggleShow('#newImg')">{{ 'profile.edit.img'|trans }}</button>
+				<div id="newImg" style="display:none;" >{{ form_row(form.avatar, {'label':'form.avatar'|trans}) }}</div>
+			</div>
+		{% else %}
+			{{ form_row(form.avatar, {'label':'form.avatar'|trans}) }}
+		{% endif %}
+		<br/>
+		
+	
+	{# User informations input #}
+	
+		{{ form_row(form.firstName, {'label':'form.first_name'|trans} )}}
+		{{ form_row(form.lastName, {'label':'form.last_name'|trans}) }}
+		
+		<div class="confirmStatus">{{ form_row(form.confirmationStatus,{'label':'form.status'|trans} ) }}	</div>
+		<div class="institution">{{ form_row(form.institution, {'label':'form.institution'|trans}) }}</div>
+			
+		
+		{{ form_row(form.birth, {'label':'form.birth'|trans}) }}
+		{{ form_row(form.email) }}
+		<br/>
+		{{ form_row(form.username) }}
+		{{ form_row(form.plainPassword) }}
+		{% if user.newsletterSubscriber is empty %}
+		 {{ form_row(form.newsletterSubscriber,{'label':'form.newsletter_subscriber'|trans}) }}
+       	{% endif %}
+		
+		{{ form_rest(form) }} 
+		
+		<div class="g-recaptcha" data-sitekey="6LeivjIUAAAAANwUBcnp6aM0tsjlua6jPsYoJPZn"></div>
+		<div>
+			<input type="submit" value="{{ 'profile.edit.submit'|trans }}" class="login login-submit"/>
+		</div>
+	
+</div>
+
+
+
