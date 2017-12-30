@@ -38,7 +38,7 @@ $(function(){
 
     var president3 = " si personne ne s'intéressait aux conséquences des activités de l’homme sur la nature.\n" +
         "\n" +
-        "Et nous sommes nombreux à faire ce constat aujourd’hui et nous nous soutenons.\n" + "En prenant le temps de prendre une photo des oiseaux que nous croisons,nous prenons part au projet de la WWF,le CNRS, les Nations Unies pour aider la nature à reprendre ses droits.\n" +
+        "Et nous sommes nombreux à faire ce constat aujourd’hui et nous nous soutenons.\n" + "<strong> le temps de prendre une photo des oiseaux que nous croisons</strong>,nous prenons part au projet de la WWF,le CNRS, les Nations Unies pour aider la nature à reprendre ses droits.\n" +
         "\n" +
         "Vous aussi participez !";
 
@@ -56,21 +56,21 @@ $(function(){
         //console.log(id);
         if(id == "pres")
         {
-            $("#text1").text(president1);
-            $("#text2").text(president2);
-            $("#text3").text(president3);
+            $("#text1").html(president1);
+            $("#text2").html(president2);
+            $("#text3").html(president3);
         }
         else if(id == "dir")
         {
-            $("#text1").text(drh1);
-            $("#text2").text(drh2);
-            $("#text3").text(drh3);
+            $("#text1").html(drh1);
+            $("#text2").html(drh2);
+            $("#text3").html(drh3);
         }
         else if(id == "mvp")
         {
-            $("#text1").text(MVP1);
-            $("#text2").text(MVP2);
-            $("#text3").text(MVP3);
+            $("#text1").html(MVP1);
+            $("#text2").html(MVP2);
+            $("#text3").html(MVP3);
         }
 
         $("#text1").stop().show();

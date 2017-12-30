@@ -1,14 +1,14 @@
-body {
+body
+{
     background-image: url("../img/backgrounds/fond_accueil_bureau.jpg");
     background-attachment: fixed;
 }
 
-@media screen and (max-width:300px)
+@media screen and (max-width:360px)
 {
     body {
         background-image: url("../img/backgrounds/fond_accueil_mobile.jpg");
         background-attachment: fixed;
-
     }
 }
 
@@ -22,5 +22,3 @@ body {
 {
     margin-bottom: 5%;
 }
-
-

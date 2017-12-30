@@ -38,9 +38,10 @@ class ObservationController extends Controller
         $qb = $repoObs->createQuery();
         $countQb = $repoObs->createCountQuery();
 
+
         //Data to send to view for pagination
         $param = array();
-        $param["research"] = "nd"; // Default null . . .
+        $param["research"] = "nd"; // Default null
         $param["espece"] = "nd";
         $param["minDate"] = "nd";
         $param["maxDate"] = "nd";
@@ -52,6 +53,7 @@ class ObservationController extends Controller
         $param["orderBy"] = "nd";
         $espece= $request->query->get("espece");
 
+        //Si le champs recherche a été remli
         if($research != "nd") //Filling up those values with the correct demands.
         {
             $pageTitle = "Résultat de la recherche";
@@ -60,6 +62,8 @@ class ObservationController extends Controller
             $countQb = $repoObs->searchForString($research, $countQb);
             $param["research"] = $research;
         }
+
+        //si champs espèce est rempli
         if($espece != "nd" && $espece != null && $espece != '0')
         {
 
@@ -68,7 +72,7 @@ class ObservationController extends Controller
             $param["espece"] = $espece;
         }
 
-
+        //Si champs dates sont remplis.
         if($maxDate != "nd" && $maxDate != "nd")
         {
 
@@ -84,6 +88,7 @@ class ObservationController extends Controller
             }
 
         }
+        //Si param d'heures sont remplis.
         if($minHours != "nd" && $maxHours != "nd")
         {
             //Test de valeur
@@ -117,6 +122,9 @@ class ObservationController extends Controller
             }
 
         }
+        $qb = $repoObs->addValid($qb);
+        $countQb = $repoObs->addValid($countQb);
+
         $nombreDeResultats = $repoObs->sendQuery($countQb)[0][1];
 
         //Page, limite et ordre
@@ -269,17 +277,17 @@ class ObservationController extends Controller
     public function myObservationsAction(Request $request, $page, $limit, $orderBy, $page2, $limit2, $orderBy2)
     {
 
-        if(!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY'))
+        if(!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) //Check rights
         {
             $request->getSession()->getFlashBag()->set("error","Vous devez être connecté pour accéder à vos observations.");
             return $this->redirectToRoute('fos_user_security_login');
         }
 
 
-
+        $request->getSession()->set('previousPage',"mesObs"); //Mark previous page
         $repo = $this->getDoctrine()->getManager()->getRepository('BirdsObservationsBundle:Observation');
 
-        // À automatiser dès que possible. 
+        // Get count and content
         $countQb1 = $repo->createCountQuery();
         $countQb2 = $repo->createCountQuery();
         $qb1 = $repo->createQuery();
@@ -299,13 +307,10 @@ class ObservationController extends Controller
         $param2 = $this->get('birdsObservations.pager')->matchPageLimitOrderBy($limit,$page, $orderBy, $nbrResults2, $repo,$qb2);
         $qb2 = $param2["query"];
 
-        unset($param1["query"]);
-        unset($param2["query"]);
+        unset($param1["query"]); unset($param2["query"]); // avoid sending useless data.
         //Récupérer les observations de cet utilisateur
-        $observationsW = $repo->sendQuery($qb1);
-        $observationsV = $repo->sendQuery($qb2);
-
-
+        $observationsW = $repo->sendQuery($qb1); //Wrong observations
+        $observationsV = $repo->sendQuery($qb2); //Valid observations
 
         return $this->render('BirdsObservationsBundle:Observations:mesObservations.html.twig', array(
             'observations' => $observationsV,
@@ -318,21 +323,19 @@ class ObservationController extends Controller
             'pageActuelle' => $page,
 
         ));
-
     }
 
-    public function onHoldAction($page,$limit,$orderBy)
+    public function onHoldAction(Request $request,$page,$limit,$orderBy)
     {
+        $request->request->set("previousPage","valider");
         $em = $this->getDoctrine()->getManager();
         //Récupérer les 5 dernières observations valides.
         $R = $em->getRepository('BirdsObservationsBundle:Observation');
-        $qb= $R->createQuery();
+        $qb= $R->createQuery(); //
         $qb = $R->addNotValid($qb);
-
         $cqb= $R->createCountQuery();
         $cqb = $R->addNotValid($cqb);
         $nbrResults = $R->sendCountQuery($cqb);
-
 
         $param = $this->get('birdsObservations.pager')->matchPageLimitOrderBy($limit,$page, $orderBy, $nbrResults, $R,$qb);
         $qb= $param["query"];
@@ -360,13 +363,14 @@ class ObservationController extends Controller
             $em->flush();
             $rq->getSession()->getFlashBag()->set("success","Vous venez de valider l'observation n° ".$obs->getId().". Elle est désormais visible par tous les utilisateurs.");
         }
-        return $this->redirectToRoute("birds_en_attente");
+        return $this->redirectToPreviousRoute($rq);
     }
 
-    public function seeObservationAction($id)
+    public function seeObservationAction($id, Request $rq)
     {
         //Récupération
         $observation = $this->getDoctrine()->getManager()->getRepository("BirdsObservationsBundle:Observation")->find($id);
+        $rq->getSession()->set("previousPage","lire");
         //Affichage
         return $this->render('BirdsObservationsBundle:Observations:lireObservation.html.twig', array(
             'obs'=>$observation
@@ -434,17 +438,11 @@ class ObservationController extends Controller
                 $request->getSession()->getFlashBag()->add('success', 'Félicitation, Vous avez enregistré une nouvelle observation!!! Après validation par un professionel, vous pourrez la voir sur la carte.' );
             }
 
-
-
-
-
             //$em->persist($image);
 
             $em->persist($observation);
             if(isset($image))
                 $observation->setImage($image); // For some reason image gets to null after persisting observation, whether we have cascade persist or not doesn't change a damn thing.
-            //var_dump($observation);
-
 
             $em->flush();
 
@@ -470,7 +468,7 @@ class ObservationController extends Controller
         if($observation == null)
         {
             $request->getSession()->getFlashBag()->add("error","Vous avez été redirigé car vous essayiez d'accéder à une observation inconnue.");
-            return $this->redirectToRoute('birds_my_observations');
+            return $this->redirectToPreviousRoute($request);
         }
         $authorizedCommand = false;
         if($this->isGranted("IS_AUTHENTICATED_FULLY"))
@@ -499,12 +497,12 @@ class ObservationController extends Controller
         if($authorizedCommand)
         {
             $em = $this->getDoctrine()->getManager();
+            $request->getSession()->getFlashBag()->add("success","Suppression réussie.");
             $em->remove($observation);
             $em->flush();
 
         }
-
-        return $this->redirectToRoute('birds_my_observations');
+        return $this->redirectToPreviousRoute($request);
     }
 
     public function updateObservationAction(Request $request,$id)
@@ -523,11 +521,6 @@ class ObservationController extends Controller
             $observation->setBirdname($request->request->get("bird")); // Attribution de l'oiseau, traitement de sécurité dans la classe
             $em =  $this->getDoctrine()->getManager();
             $bird= $em->getRepository('BirdsObservationsBundle:Birds')->findOneByNomVern($observation->getBirdname());
-
-            if($bird == null)
-            {
-                // Entrée invalide = redirection + message d'erreur.
-            }
 
             $ch= $request->request->get('keep');
             $oldPic = $observation->getImage();
@@ -599,7 +592,6 @@ class ObservationController extends Controller
         else{
             $birdsJSON = $cache->get('birds.names');
         }
-
         return $birdsJSON;
     }
 
@@ -713,5 +705,19 @@ class ObservationController extends Controller
         return array('image'=>$image, 'obs'=>$observation); //Return
     }
 
+    /**
+     * @param Request $request
+     * @return mixed : response
+     */
+    function redirectToPreviousRoute(Request $request)
+    {
+        if($request->getSession()->get('previousPage') == "valider")
+            return $this->redirectToRoute('birds_en_attente');
+        else if($request->getSession()->get('previousPage') == "lire")
+            return $this->redirectToRoute('birds_observation');
+        //else if($request->getSession()->get('previousPage') == "mesObs")
+        return $this->redirectToRoute('birds_my_observations');
 
+
+    }
 }

@@ -96,7 +96,7 @@ class Observation
     private $image;
 
     /**
-     * @ORM\Column(name="valid_pic", type="boolean",nullable =false)
+     * @ORM\Column(name="valid_pic", type="boolean",nullable=false)
      * @var boolean
      */
     private $hasValidPictureForShow=false;

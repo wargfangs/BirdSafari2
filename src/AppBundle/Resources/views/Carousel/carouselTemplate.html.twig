@@ -2,7 +2,7 @@
  slideNumber : Nombre d'éléments envoyés.
  picArray.src : un tableau contenant picsArray['src']
  picArray.alt : un tableau contenant picsArray['alt']
-
+ picArray.href: Lien vers lequel mène l'image. (optionnel)
                 optionnal values
  class:
  picArray.overflow : boolean for picture to high for slide
@@ -22,7 +22,9 @@
         {% set i = 0 %}
         {% for pic in picArray %}
             <div class="item {% if i == 0 %}active{% endif %}" {% if pic.id is defined %}id="{{ pic.id }}"{% endif %} >
-                <img src="{{asset(pic.src)  }}" {% if pic.overflow is defined %}height="1000" {% endif %} alt="{{ asset(pic.alt) }}" overflow>
+                {% if pic.href is defined %}<a href="{{ pic.href }}">{% endif %}
+                    <img src="{{asset(pic.src)  }}" {% if pic.overflow is defined %}height="1000" {% endif %} alt="{{ asset(pic.alt) }}" overflow>
+                {% if pic.href is defined %}</a>{% endif %}
             </div>
             {% set i = 1 %}
         {% endfor %}

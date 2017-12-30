@@ -104,6 +104,17 @@ function OnMapRReady(mapR)//map = élément du dom
         moveCircle(circle,mapR, new google.maps.LatLng($(latIDR).val(), $(longIDR).val()));
 
         //Events ******************************************
+
+        $('#search_bar_form_parametreAvances').click(function(){
+            $('#paramAv').removeClass('collapse');
+            google.maps.event.trigger(mapR, 'resize');
+
+        });
+        $('#search_bar_form_ActiverCarte').click(function(){
+
+            google.maps.event.trigger(mapR, 'resize');
+
+        });
         markerR.addListener('drag', function(){
             $(latIDR).val(markerR.getPosition().lat());
             $(longIDR).val(markerR.getPosition().lng());
@@ -161,4 +172,6 @@ function moveCircle(circle,map,center)
         map: map,
         bounds: map.getBounds()
     });
+
+
 }

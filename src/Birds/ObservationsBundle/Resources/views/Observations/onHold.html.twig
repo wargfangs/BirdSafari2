@@ -17,7 +17,7 @@
 		{% if observations %}
 			<div class="row "> <!-- Limit -->
 				<ul class="list-inline col-xs-6">
-					<li><a href={{ path("birds_my_observations", {
+					<li><a href={{ path("birds_en_attente", {
                             "page" : 1,
                             "limit": param.limit,
                             "orderBy": param.orderBy
@@ -25,7 +25,7 @@
 
 
                     {% if param.page-2 > 0 %}
-						<li><a href={{ path("birds_my_observations", {
+						<li><a href={{ path("birds_en_attente", {
                                 "page" : param.page-2,
                                 "limit": param.limit,
                                 "orderBy": param.orderBy
@@ -34,7 +34,7 @@
                     {% endif %}
 
                     {% if param.page-1 > 0 %}			<!--Page -1 -->
-						<li><a href="{{ path("birds_my_observations", {
+						<li><a href="{{ path("birds_en_attente", {
                                 "page" : param.page-1,
                                 "limit": param.limit,
                                 "orderBy": param.orderBy
@@ -44,7 +44,7 @@
 					<li>{{ param.page }}</li>			<!--Page actuelle -->
 
                     {% if param.page+1 <= param.nPages %} <!--Page +1 -->
-						<li><a href="{{ path("birds_my_observations", {
+						<li><a href="{{ path("birds_en_attente", {
                                 "page" : param.page+1,
                                 "limit": param.limit,
                                 "orderBy": param.orderBy
@@ -52,7 +52,7 @@
                     {% endif %}
 
                     {% if param.page+2 <= param.nPages %} <!--Page +2 -->
-						<li><a href={{ path("birds_my_observations", {
+						<li><a href={{ path("birds_en_attente", {
                                 "page" : param.page+2,
                                 "limit": param.limit,
                                 "orderBy": param.orderBy
@@ -64,7 +64,7 @@
                     {% endif %}
 
 
-					<li><a href={{ path("birds_my_observations", {
+					<li><a href={{ path("birds_en_attente", {
                             "page" : param.nPages,
                             "limit": param.limit,
                             "orderBy": param.orderBy
@@ -74,26 +74,26 @@
 
 				<ul class="list-inline text-right col-xs-6">
 					<li>Afficher:</li>
-					<li><a href={{ path("birds_my_observations", {
+					<li><a href={{ path("birds_en_attente", {
 							"page" : 1,
 							"limit": 10,
 							"orderBy": param.orderBy
 
 						}) }}>10</a>
 					</li>
-					<li><a href={{ path("birds_my_observations", {
+					<li><a href={{ path("birds_en_attente", {
 							"page" : 1,
 							"limit": 25,
 							"orderBy": param.orderBy
 						}) }}>25</a>
 					</li>
-					<li><a href={{ path("birds_my_observations", {
+					<li><a href={{ path("birds_en_attente", {
 							"page" : 1,
 							"limit": 50,
 							"orderBy": param.orderBy
 						}) }}>50</a>
 					</li>
-					<li><a href={{ path("birds_my_observations", {
+					<li><a href={{ path("birds_en_attente", {
 							"page" : 1,
 							"limit": 100,
 							"orderBy": param.orderBy
@@ -107,17 +107,17 @@
 				<table class="table-hover  text-center col-sm-12">
 					<thead>
 					<tr>
-						<th><a href="{{ path("birds_my_observations", {
+						<th><a href="{{ path("birds_en_attente", {
 								"page" : 1,
 								"limit": param.limit,
 								"orderBy": 1
 							}) }}">Date <span class="glyphicon glyphicon glyphicon-chevron-{% if param.orderBy == 1 %}down{% else %}right{% endif %}"></span></a></th>
-						<th><a href="{{ path("birds_my_observations", {
+						<th><a href="{{ path("birds_en_attente", {
 								"page" : 1,
 								"limit": param.limit,
 								"orderBy": 5
 							}) }}">Auteur<span class="glyphicon glyphicon glyphicon-chevron-{% if param.orderBy == 5 %}down{% else %}right{% endif %}"></span></a></th>
-						<th><a href="{{ path("birds_my_observations", {
+						<th><a href="{{ path("birds_en_attente", {
 								"page" : 1,
 								"limit": param.limit,
 								"orderBy": 0
@@ -151,7 +151,7 @@
 
 
 	{% else %}
-		<p>Vous n'avez pas encore d'observations validées par un professionnel. </p>
+		<p>Il n'y a pas encore d'observations d'amateurs à valider. Revenez plus tard! </p>
 		<button class="btn btn-default"><a href={{ path("birds_observations_add") }}>Ajouter une observation d'oiseau</a></button>
 	{% endif %}
 
