@@ -59,7 +59,7 @@ class Image
     /**
      * @var String
      *
-     * @ORM\OneToMany(targetEntity="DevTools\BlogBundle\Entity\Article", mappedBy="image", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Birds\BlogBundle\Entity\Article", mappedBy="image", cascade={"persist"})
      */
     private $articles; // Notez le « s », une image est liée à plusieurs articles
 
@@ -191,11 +191,11 @@ class Image
     /**
      * Add article
      *
-     * @param \DevTools\BlogBundle\Entity\Article $article
+     * @param \Birds\BlogBundle\Entity\Article $article
      *
      * @return Image
      */
-    public function addArticle(\DevTools\BlogBundle\Entity\Article $article)
+    public function addArticle(\Birds\BlogBundle\Entity\Article $article)
     {
         $this->articles[] = $article;
 
@@ -205,9 +205,9 @@ class Image
     /**
      * Remove article
      *
-     * @param \DevTools\BlogBundle\Entity\Article $article
+     * @param \Birds\BlogBundle\Entity\Article $article
      */
-    public function removeArticle(\DevTools\BlogBundle\Entity\Article $article)
+    public function removeArticle(\Birds\BlogBundle\Entity\Article $article)
     {
         $this->articles->removeElement($article);
     }

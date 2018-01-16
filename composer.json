@@ -4,11 +4,9 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-
             "AppBundle\\": "src/AppBundle",
             "Birds\\": "src/Birds",
-            "DevTools\\": "src/DevTools",
-            "":"src"
+            "":"src/"
 
         },
         "classmap": [

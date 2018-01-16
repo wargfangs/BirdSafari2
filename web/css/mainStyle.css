@@ -33,6 +33,7 @@ body{
 .mainHeaderText
 {
     font-family: fantasy;
+    margin-left: 0px;
 }
 .btn-transp
 {
@@ -264,30 +265,30 @@ body{
 
 td, th /*Tous les tableaux sont formatés ainsi*/
 {
-    border-right: solid black 1px;
+/*    border-right: solid black 1px;
     min-width: 70px;
     text-align: center;
     padding-left: 3px;
-    padding-right: 3px;
+    padding-right: 3px;*/
 
 
 }
 table {
-    border-collapse: separate;
-    border-spacing: 0px 10px;
+/*    border-collapse: separate;
+    border-spacing: 0px 10px;*/
 }
 
 td a, th a, td a:hover, th a:hover
 {
-    color:inherit;
+    /*color:inherit;*/
 }
 tr td:last-child, tr th:last-child
 {
-    border-right: none;
+    /*border-right: none;*/
 }
 table
 {
-    border: hidden;
+    /*border: hidden;*/
 
 }
 

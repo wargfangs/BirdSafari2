@@ -6,8 +6,12 @@
     <title>{% block title %}BirdSafari{% endblock %}</title>
     {% block css %}
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+        <!-- include libraries(jQuery, bootstrap) -->
+        <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+        <!-- include summernote css/js-->
+        <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
         <link href="{{ asset('css/mainStyle.css') }}" rel="stylesheet">
-         <link href="{{ asset('css/userStyle.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/userStyle.css') }}" rel="stylesheet">
     {% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('img/logo_bureau.png') }}" />
 
@@ -133,7 +137,6 @@
                 </li>
                 {% endif %}
 
-
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     <li class="col-sm-3 text-center">
 
@@ -154,9 +157,18 @@
     </footer>
 
 {% block js %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://www.w3schools.com/lib/w3.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
+    
+    <script type="text/javascript">
+    $(document).ready(function() {
+    $('#summernote').summernote();
+    });
+    </script>
 {% endblock %}
 
 </body>

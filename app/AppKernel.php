@@ -18,7 +18,7 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new AppBundle\AppBundle(),
             new Birds\ObservationsBundle\BirdsObservationsBundle(),
-            new DevTools\BlogBundle\DevToolsBlogBundle(),
+            new Birds\BlogBundle\BirdsBlogBundle(),
             new Exporter\Bridge\Symfony\Bundle\SonataExporterBundle(),
 			new Vich\UploaderBundle\VichUploaderBundle(),
 			new EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle(),
