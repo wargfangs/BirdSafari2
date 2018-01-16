@@ -8,9 +8,9 @@
 	<div class="container-fluid">
 		<div class="row">
 
-			<div class="row">
+			<div class="row bg-observation-search">
 
-				<div class="col-sm-9 col-sm-offset-3 col-xs-8 col-xs-offset-2 global-marg-up-xs global-marg bg-observation-search ">
+				<div class="col-sm-9 col-sm-offset-3 col-xs-8 col-xs-offset-2 global-marg-up-xs global-marg  ">
 					<div class="col-sm-offset-1">
 						{% block search %}
 							{{ render(controller("BirdsObservationsBundle:Observation:searchBar")) }}
@@ -23,43 +23,8 @@
 
 
 
-			<div class="col-md-3 bg-observation-side">
-				<button class="btn btn-default storing" id="menuLayout"><span class="glyphicon glyphicon-chevron-down"></span> Menu</button>
-				<div>
-                {% block sideMenu %}
 
-					<div class="panel panel-info">
-						<div class="panel-heading text-center">
-							Menu des observations
-						</div>
-						<div class="panel-body ">
-
-
-							<ul class="nav nav-pills text-center">
-
-								<li class="col-sm-12 col-xs-4" id="allObs"><a href={{ path("birds_observations") }}>{{ "Toutes les observations"|trans }}</a></li>
-								<li class="col-sm-12 col-xs-4" id="addObs"><a href={{ path("birds_observations_add") }}>{{ "Ajouter une observation"|trans }}</a></li>
-								<li class="col-sm-12 col-xs-3" id="myObs"><a href={{ path("birds_my_observations") }}>{{ "Mes Observations"|trans }}</a></li>
-							</ul>
-						</div>
-					</div>
-
-					{% if is_granted("ROLE_NATURALIST") %}
-					<div class="panel panel-info">
-						<div class="panel-heading text-center">
-							Naturaliste
-						</div>
-						<div class="panel-body ">
-							<ul class="nav nav-pills text-center">
-								<li class="col-sm-12 col-xs-12" id="waitingObs"><a href={{ path("birds_en_attente") }}>{{ "Observations en attente de validation"|trans }}</a></li>
-							</ul>
-						</div>
-					</div>
-					{% endif  %}
-				{% endblock %}
-				</div>
-			</div>
-			<div class="col-md-9 bg-observation-main">
+			<div class="col-md-12 bg-observation-main">
 				{% block overallContent %}
 					<div class="col-md-12 col-lg-6 global-marg" >
 						<button class="btn btn-default storing" id="obsLayout"><span class="glyphicon glyphicon-chevron-down"></span> Liste</button>

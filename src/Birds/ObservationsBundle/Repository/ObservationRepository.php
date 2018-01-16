@@ -38,6 +38,12 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter("1",false);
         return $qb;
     }
+    public function addValid(QueryBuilder $qb)
+    {
+        $qb->andWhere($qb->expr()->eq('o.valid', "?13"))
+            ->setParameter("13",true);
+        return $qb;
+    }
 
 
 
@@ -115,7 +121,7 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
      */
     public function addFilterBySpecies($espece,QueryBuilder $qb)
     {
-        $qb->andwhere($qb->expr()->eq("o.birdname", "?12"))
+        $qb->andWhere($qb->expr()->eq("o.birdname", "?12"))
             ->setParameter("12", $espece);
         return $qb;
     }

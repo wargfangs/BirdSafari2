@@ -1,6 +1,6 @@
 .banderole
 {
-    height: 150px;
+    height: 242px;
 
     background-image: url("../img/backgrounds/fond_header_bureau.png");
     background-position:  center top;
@@ -9,7 +9,7 @@
     background-repeat: no-repeat;
     border-bottom: solid white 1.5px;
 }
-@media screen and (max-width: 375px) {
+@media screen and (max-width: 360px) {
     .banderole
     {
         height: 280px;
@@ -61,7 +61,7 @@ body{
 {
 
     height: 150px;
-
+    margin-top: 50px;
 }
 @media screen and (max-width: 991px)
 {
@@ -138,11 +138,13 @@ body{
 {
     background-color: #B0413E;
     color: whitesmoke;
+    margin-bottom: 0px;
 }
 .flash-success
 {
     background-color: #789339;
     color: whitesmoke;
+    margin-bottom: 0px; /*Override bootstrap*/
 }
 
 .bg-foot
@@ -258,8 +260,9 @@ body{
     padding-top: 15px;
 }
 
-.missionRow
+@media screen and (max-width:360px)
 {
+<<<<<<< HEAD
     margin-bottom: 5%;
 }
 
@@ -277,9 +280,23 @@ table {
 /*    border-collapse: separate;
     border-spacing: 0px 10px;*/
 }
+=======
+    body {
+        background-image: url("../img/backgrounds/fond_accueil_mobile.jpg");
+        background-attachment: fixed;
+    }
+    #logoDuSite
+    {
+        margin-top: 150px;
+    }
 
-td a, th a, td a:hover, th a:hover
+
+}
+>>>>>>> fdfc40e94d1ad4fdd4c72b71994cbfc50edb5f67
+
+@media screen and (max-width:550px)
 {
+<<<<<<< HEAD
     /*color:inherit;*/
 }
 tr td:last-child, tr th:last-child
@@ -289,8 +306,16 @@ tr td:last-child, tr th:last-child
 table
 {
     /*border: hidden;*/
+=======
+    #logoDuSite
+    {
+        width: 100% !important;
+        height: 100%;
+    }
+>>>>>>> fdfc40e94d1ad4fdd4c72b71994cbfc50edb5f67
 
 }
+
 
 
 .btn, input[type=text], input[type=password],input[type=email],input[type=search]{

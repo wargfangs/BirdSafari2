@@ -17,8 +17,47 @@ body {
         right: -80% !important;
         top: -43px !important;
     }
+
+    .pictureObs
+    {
+        margin-top: 60px;
+    }
+}
+@media screen and (max-width:980px)
+{
+    .pictureObs
+    {
+        margin-top: 180px;
+    }
+}
+td, th /*Tous les tableaux sont formatés ainsi*/
+{
+    border-right: solid black 1px;
+    min-width: 70px;
+    text-align: center;
+    padding-left: 3px;
+    padding-right: 3px;
+
+
+}
+table {
+    border-collapse: separate;
+    border-spacing: 0px 10px;
 }
 
+td a, th a, td a:hover, th a:hover
+{
+    color:inherit;
+}
+tr td:last-child, tr th:last-child
+{
+    border-right: none;
+}
+table
+{
+    border: hidden;
+
+}
 
 .searchSpecial, .searchSpecial:hover
 {
@@ -26,6 +65,22 @@ body {
     border: none 0px;
     position: relative;
     right: 43px;
+}
+.searchElt
+{
+    width: 50%;
+
+}
+#mapSearch
+{
+    max-width: 684px;
+    margin-top: 10px;
+
+}
+.searchElt-little{
+    width: 33%;
+    display: inline;
+
 }
 @media screen and (max-width: 767px) {
     .searchSpecial, .searchSpecial:hover
@@ -36,19 +91,32 @@ body {
         right: -90% !important;
         top: -43px !important;
     }
+
+
     .searchElt
     {
-        height: 200px !important;
+        width: 100%;
     }
 }
-
-.searchElt
+.nav-pills
 {
-    height: 100px;
+    font-size: small;
 }
+.panel
+{
+    box-shadow: 0px 0px 2px 1px #5accd1;
+}
+
 .global-marg-up-xs
 {
     margin-top: 20px;
+}
+.bg-observation-search
+{
+    background-color: #FFFFFF55;
+    margin-bottom: 10px;
+    box-shadow: 0 0 1.5px 1px #313131;
+
 }
 
 .xdsoft_datetimepicker table, .xdsoft_datetimepicker td,.xdsoft_datetimepicker th
@@ -58,8 +126,16 @@ body {
     min-width: 0px;
 }
 
+#map, .pictureObs, .pictureObs img{
+
+}
+#map {
+    height: 400px;
+}
+
 @media screen and (max-width:1300px) and (min-width:968px) {
     .map{
         padding-left: 40%;
     }
 }
+

@@ -43,7 +43,7 @@ class Pager
         $param['limit']= $limit;
 
         //Ordonner
-        if($orderBy > 4 || $orderBy < 0 ) //0 espèces, 1 date, 2 heures, 3 titre, 4 lieu
+        if($orderBy > 5 || $orderBy < 0 ) //0 espèces, 1 date, 2 heures, 3 titre, 4 lieu, 5 auteur
             $orderBy = 0;
         $qb = $repoObs->orderBy($orderBy,$qb);
         $param['orderBy'] = $orderBy;

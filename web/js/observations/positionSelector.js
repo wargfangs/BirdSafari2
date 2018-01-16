@@ -47,10 +47,17 @@ function OnMapReady(map)//map = élément du dom
 
         //marker.setIcon()      //Change marker later
         //Si on a déjà des données d'observation (cas de la page de modification)
-        if($(latID).val()!=0 && $(longID).val()!=0) {
+        if($(".coords") != null)
+        {
+            var latlng = $(".coords").text().split(";"); //obs coords
+
+            $(latID).val(latlng[0]);
+            $(longID).val(latlng[1]);
             marker.setPosition(new google.maps.LatLng($(latID).val(),$(longID).val()));
             map.setCenter(marker.getPosition());
+
         }
+
 
         //map.controls[google.maps.ControlPosition.TOP_LEFT].push(placeBtn);
 
