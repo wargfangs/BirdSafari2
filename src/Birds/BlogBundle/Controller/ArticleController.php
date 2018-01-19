@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Birds\BlogBundle\Entity\Article;
 use Birds\BlogBundle\Entity\Comment;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Birds\BlogBundle\Services\Listcomments;
 
 /**
  * Article controller.
@@ -59,7 +58,7 @@ class ArticleController extends Controller
      * Finds and displays a article entity.
      *
      */
-    public function showAction(Article $article, Request $request, Listcomments $listcomments)
+    public function showAction(Article $article, Request $request)
     {
         
         $deleteForm = $this->createDeleteForm($article);

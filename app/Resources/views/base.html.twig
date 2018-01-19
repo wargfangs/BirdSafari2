@@ -6,10 +6,6 @@
     <title>{% block title %}BirdSafari{% endblock %}</title>
     {% block css %}
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
-        <!-- include libraries(jQuery, bootstrap) -->
-        <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
-        <!-- include summernote css/js-->
-        <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
         <link href="{{ asset('css/mainStyle.css') }}" rel="stylesheet">
         <link href="{{ asset('css/userStyle.css') }}" rel="stylesheet">
     {% endblock %}
@@ -65,7 +61,7 @@
                             <li class="col-sm-12 col-xs-12 text-right" id="myObs"><a href={{ path("birds_my_observations") }}>{{ "Mes Observations"|trans }}</a></li>
                         {% endif %}
                         {% if is_granted("ROLE_NATURALIST") %}
-                            <li class="col-sm-12 col-xs-12 text-right" id="waitingObs"><a href={{ path("birds_en_attente") }}>{{ "Observations en attente de validation"|trans }}</a></li>
+                            <li class="col-sm-12 col-xs-12 text-right" id="waitingObs"><a href={{ path("birds_en_attente") }}>{{ "Observations à valider"|trans }}</a></li>
                         {% endif %}
                     </ul>
                 </li>
@@ -82,8 +78,6 @@
                     </a>
                 </li>
 
-
-
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     <li class="dropdown col-sm-2">
                         <a class="dropdown-toggle text-center" data-toggle="dropdown" href="#">
@@ -92,17 +86,11 @@
                         <ul class="dropdown-menu pull-right">
                             <li><a href="{{ path('fos_user_profile_show') }}" class="text-right">Profil</a></li>
                             {% if not is_granted("ROLE_ADMIN") %}<li><a href="{{ path('birds_en_attente') }}" class="text-right">En attente</a></li>{% endif %}
-<<<<<<< HEAD
-                            {% if is_granted("ROLE_NATURALIST") %}<li><a href="{{ path('article_myarticles') }}" class="text-right"> Mes articles</a></li>{% endif %}
-=======
-                            {% if is_granted("ROLE_NATURALIST") %}<li><a href="{{path('article_myarticles')}}" class="text-right"> Mes articles</a></li>{% endif %}
->>>>>>> fdfc40e94d1ad4fdd4c72b71994cbfc50edb5f67
+                            {% if is_granted("ROLE_NATURALIST") %}<li><a href="{{path('article_myarticles')}}" class="text-right">Mes articles</a></li>{% endif %}
                             <li><a href="{{ path('fos_user_security_logout') }}" class="text-right">Déconnexion</a></li>
                             {% if is_granted("ROLE_ADMIN") %} <li><a href="{{ path('admin') }}" class="text-center">Administration</a></li> {% endif %}
                         </ul>
-
                     </li>
-
                 {% else %}
                     <li class="hide-above-xs">
                         <a href="{{ path('fos_user_security_login') }}" class="text-center">
@@ -110,6 +98,7 @@
                         </a>
                     </li>
                 {% endif %}
+                
             </ul>
         </div>
     </nav>
@@ -153,6 +142,7 @@
                 </li>
                 {% endif %}
 
+
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     <li class="col-sm-3 text-center">
 
@@ -176,9 +166,13 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://www.w3schools.com/lib/w3.js"></script>
+   <!-- include libraries(jQuery, bootstrap) -->
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
+
+<!-- include summernote css/js -->
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>
     
     <script type="text/javascript">
     $(document).ready(function() {

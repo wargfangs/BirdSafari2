@@ -6,8 +6,10 @@ imports:
 #        metadata_cache_driver: apc
 #        result_cache_driver: apc
 #        query_cache_driver: apc
-framework:
-    assets:
+
+
+framework: 
+    assets: 
         base_path: '/web'
 monolog:
     handlers:

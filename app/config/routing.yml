@@ -3,8 +3,8 @@ easy_admin_bundle:
     type:     annotation
     prefix:   /admin
 
-birds_blog:
-    resource: "@BirdsBlogBundle/Resources/config/routing/article.yml"
+dev_tools_blog:
+    resource: "@DevToolsBlogBundle/Resources/config/routing/article.yml"
     prefix:   /Blog
 
 birds_observations:
