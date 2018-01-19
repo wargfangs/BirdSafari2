@@ -73,7 +73,7 @@ class AppController extends Controller
             if($mailpopForm->handleRequest($r)->isValid())
             {
                 $mail = $mailpopForm->getData();
-                $message = new \Swift_Message($mail['subject']);
+                $message = new \Swift_Message($mail['subject']);  // FAIRE UN SERVICE DE CECI.
                 $message->setFrom($this->getParameter('mailer_user'))
                     ->setTo($mail['to'])
                     ->setBody($this->renderView('AppBundle:Mails:observationMail.html.twig', array('message'=>$mail['message'])), 'text/html');
@@ -113,17 +113,12 @@ class AppController extends Controller
             $em->persist($user);
             $em->flush();
             $r->getSession()->getFlashBag()->add('success','L\'utilisateur "'. $user->getUsername() .'" a été promu au rang de "Naturaliste".' );
-
         }
-
         else
         {
             $r->getSession()->getFlashBag()->add('error','Cet utilisateur n\'existe pas.' );
         }
         return $this->redirectToRoute('admin_user');
-
-
-
     }
 
     /**

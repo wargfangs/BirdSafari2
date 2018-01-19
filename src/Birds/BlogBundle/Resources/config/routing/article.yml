@@ -1,0 +1,42 @@
+article_index:
+    path:     /{page}
+    defaults: 
+        _controller: "BirdsBlogBundle:Article:index"
+        page : 1
+    methods:  GET
+    requirements:
+        page: \d+
+        
+article_show:
+    path:     /{id}/show
+    defaults: { _controller: "BirdsBlogBundle:Article:show" }
+    methods:  [GET, POST]
+
+article_new:
+    path:     /new
+    defaults: { _controller: "BirdsBlogBundle:Article:new" }
+    methods:  [GET, POST]
+
+article_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BirdsBlogBundle:Article:edit" }
+    methods:  [GET, POST]
+
+article_delete:
+    path:     /article/{id}/delete
+    defaults: { _controller: "BirdsBlogBundle:Article:delete" }
+    methods:  DELETE
+
+comment_delete:
+    path:     /comment/{id}/delete
+    defaults: { _controller: "BirdsBlogBundle:Article:deletecom" }
+    methods:  DELETE
+    
+article_myarticles:
+    path:     /myarticles/{page}
+    defaults: 
+        _controller: "BirdsBlogBundle:Article:myarticles"
+        page: 1
+    methods:  GET
+    requirements:
+        page: \d+

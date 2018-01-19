@@ -4,3 +4,6 @@ services:
 
     birdsObservations.pager:
         class: Birds\ObservationsBundle\Pager\Pager
+
+    birds.map:
+        class: Birds\ObservationsBundle\Services\Mapper\Mapper

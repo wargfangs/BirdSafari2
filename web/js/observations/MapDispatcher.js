@@ -1,5 +1,5 @@
 //Les données sont envoyées dans la vue dans une balise marquée par "coords". et séparée par un ';'
-//On ajoute les interactions entre carte et liste des observations ici.
+// Utilisé par toute vue ayant à disposer des coordonnées sur la carte.
 
 function OnMapReady(map)
 {
@@ -7,21 +7,29 @@ function OnMapReady(map)
     $(function(){
         var lats = [];
         var lngs = [];
+
+        //Pour chaque balise ayant la classe .coords dans la page.
        $('.coords').each(function(ind)
        {
-
+           //Les données sont séparées ainsi:  (lat;lng;id)
           var data = $(this).text().split(";");
 
+          //On positionne la coordonnée sur la carte avec un marqueur.
           positionnerSurCarte(map,data[0],data[1], $(this), data[2]);
+
+          //Garder en mémoire ces coordonnées:
           lats.push(data[0]);
           lngs.push(data[1]);
+
        });
+
+       //Dézommer / en fonction du nombre et de l'écart des marqueurs.
        if(lats.length != 0)
        {
            repositionnerCarte(map,lats,lngs);
        }
         /* Events *********************/
-        $('.storing').click(function(){
+        $('.storing').click(function(){ // Corrige le bug de la carte chargée à moitié.
             google.maps.event.trigger(map, 'resize');
 
         });

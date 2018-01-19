@@ -1,5 +1,4 @@
-.banderole
-{
+.banderole {
     height: 150px;
 
     background-image: url("../img/backgrounds/fond_header_bureau.png");
@@ -16,20 +15,14 @@
         background-image: url("../img/backgrounds/fond_header_mobile.jpg");
         background-attachment: fixed;
         border-bottom: solid white 1.5px;
-
     }
-
 }
-
 body{
     background-image: url("../img/backgrounds/fond_accueil_bureau.jpg");
     background-attachment: fixed;
     background-repeat: no-repeat;
 
 }
-
-
-
 .mainHeaderText
 {
     font-family: fantasy;
@@ -58,7 +51,6 @@ body{
 }
 #logoDuSite
 {
-
     height: 150px;
 
 }
@@ -87,19 +79,38 @@ body{
         background-color: transparent !important;
         margin-top: -70px;
         margin-bottom: -15px !important;
-
-
     }
-
     .navbar-center
     {
-
         font-size: large;
     }
-
     .navbar-collapse
     {
         border-top: hidden;
+    }
+}
+@media screen and (max-width: 454px){
+    #logoDuSite
+    {
+        height: 150px;
+        width: 250px;
+    }
+    .navbar-nav li a
+    {
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+}
+@media screen and (max-width: 300px){
+    #logoDuSite
+    {
+        height: 150px;
+        width: 200px;
+    }
+    .navbar-nav li a
+    {
+        padding-top: 50px;
+        padding-bottom: 50px;
     }
 }
 .navbar-toggle:hover
@@ -107,7 +118,6 @@ body{
     background-color: transparent !important;
     border: white solid 1px;
 }
-
 .navbar {
     padding-top: 15px;
     padding-bottom: 15px;
@@ -116,23 +126,18 @@ body{
     margin-bottom: 0;
     font-size: 12px;
     letter-spacing: 4px;
-
 }
 .navbar-nav li a:hover {
 
     text-decoration: underline solid black;
-
-
 }
 .navbar-nav li a {
     color:black !important;
 }
-
 #menuPrincipal .navbar-nav, bg-foot .navbar-nav
 {
     margin: 0px 0px;
 }
-
 .flash-error
 {
     background-color: #B0413E;
@@ -143,7 +148,6 @@ body{
     background-color: #789339;
     color: whitesmoke;
 }
-
 .bg-foot
 {
     background-color: white;
@@ -157,39 +161,37 @@ body{
 #map {
     height: 500px;
 }
-
 #mapR {
     display: block;
     height: 300px;
 }
-
 /*Accueil*/
 .carousel-inner img {
     width: 100%; /* Set width to 100% */
     margin: auto;
-    min-height:200px;
+    min-height: 570px;
+    max-height: 570px;
 }
-
 /* Hide the carousel text when the screen is less than 600 pixels wide */
 @media (max-width: 600px) {
     .carousel-caption {
         display: none;
     }
+    .carousel-inner img {
+        width: 100%; /* Set width to 100% */
+        margin: auto;
+        min-height: 270px;
+        max-height: 270px;
+    }
 }
-
-
 .bg-observation-search
 {
     font-family: "Adobe Garamond Pro";
 }
-
-
-
 .panel
 {
     margin-top: 20px;
 }
-
 .observationCointainer
 {
     padding-top: 10px;
@@ -199,7 +201,6 @@ body{
 
     background-color: #666666;
 }
-
 .observationCointainer :hover
 {
 
@@ -207,8 +208,6 @@ body{
 
     background-color: #999999;
 }
-
-
 .slider{
     -webkit-appearance: none;
     width: 100%;
@@ -237,7 +236,6 @@ body{
     background: #4CAF50;
     cursor: pointer;
 }
-
 #distanceFromPoint
 {
     color:black;
@@ -245,53 +243,18 @@ body{
     text-align: right;
 
 }
-
-
 .glyphicon-lg
 {
     font-size: 3em;
 }
-
 .isole
 {
     padding-top: 15px;
 }
-
 .missionRow
 {
     margin-bottom: 5%;
 }
-
-td, th /*Tous les tableaux sont formatés ainsi*/
-{
-    border-right: solid black 1px;
-    min-width: 70px;
-    text-align: center;
-    padding-left: 3px;
-    padding-right: 3px;
-
-
-}
-table {
-    border-collapse: separate;
-    border-spacing: 0px 10px;
-}
-
-td a, th a, td a:hover, th a:hover
-{
-    color:inherit;
-}
-tr td:last-child, tr th:last-child
-{
-    border-right: none;
-}
-table
-{
-    border: hidden;
-
-}
-
-
 .btn, input[type=text], input[type=password],input[type=email],input[type=search]{
     border-radius: 50px;
 }
@@ -302,11 +265,9 @@ textarea[disabled]
 {
     background-color: white;
 }
-
 .global-marg{
 margin-bottom: 5%;
 }
-
 .global-marg-up{
     margin-top: 50px;
 }
@@ -323,14 +284,15 @@ margin-bottom: 30px;
         margin-bottom: 15px;
     }
 }
-
 [type="checkbox"], [type="checkbox"]:hover
 {
     border:none;
-
 }
 input[type=checkbox]
 {
     background-color: deepskyblue;
     color: white;
+}
+.navbar-nav .open .dropdown-menu {
+    position: relative !important;
 }

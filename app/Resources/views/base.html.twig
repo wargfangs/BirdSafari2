@@ -7,7 +7,7 @@
     {% block css %}
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
         <link href="{{ asset('css/mainStyle.css') }}" rel="stylesheet">
-         <link href="{{ asset('css/userStyle.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/userStyle.css') }}" rel="stylesheet">
     {% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('img/logo_bureau.png') }}" />
 
@@ -17,7 +17,7 @@
 
     <div class="row banderole">
         <div class="container">
-            <div class="col-sm-6 col-sm-offset-3 text-center mainHeaderText">
+            <div id="logoImage" class="col-sm-6 col-sm-offset-3  text-center mainHeaderText">
 
 
                 <a href="{{ path('home') }}"><img id="logoDuSite" src="{{ asset('img/titre_header_bureauC.png') }}" alt = "Logo du site: Bird Safari"/></a>
@@ -48,10 +48,22 @@
                         Accueil
                     </a>
                 </li>
-                <li class="{% if is_granted('IS_AUTHENTICATED_FULLY') %}col-sm-3{% else %}col-sm-3{% endif %} text-center">
-                    <a href="{{ path('birds_observations') }}" class="text-center"> <!---->
+                <li class="{% if is_granted('IS_AUTHENTICATED_FULLY') %}col-sm-3{% else %}col-sm-3{% endif %} text-center dropdown">
+                    <a href="#" class="dropdown-toggle text-center" data-toggle="dropdown"> <!---->
                         Observations
+
                     </a>
+                    <ul class="dropdown-menu text-center">
+
+                        <li class="col-sm-12 col-xs-12 text-right" id="allObs"><a href={{ path("birds_observations") }}>{{ "Toutes les observations"|trans }}</a></li>
+                        <li class="col-sm-12 col-xs-12 text-right" id="addObs"><a href={{ path("birds_observations_add") }}>{{ "Ajouter une observation"|trans }}</a></li>
+                        {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+                            <li class="col-sm-12 col-xs-12 text-right" id="myObs"><a href={{ path("birds_my_observations") }}>{{ "Mes Observations"|trans }}</a></li>
+                        {% endif %}
+                        {% if is_granted("ROLE_NATURALIST") %}
+                            <li class="col-sm-12 col-xs-12 text-right" id="waitingObs"><a href={{ path("birds_en_attente") }}>{{ "Observations à valider"|trans }}</a></li>
+                        {% endif %}
+                    </ul>
                 </li>
 
 
@@ -66,8 +78,6 @@
                     </a>
                 </li>
 
-
-
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     <li class="dropdown col-sm-2">
                         <a class="dropdown-toggle text-center" data-toggle="dropdown" href="#">
@@ -76,13 +86,11 @@
                         <ul class="dropdown-menu pull-right">
                             <li><a href="{{ path('fos_user_profile_show') }}" class="text-right">Profil</a></li>
                             {% if not is_granted("ROLE_ADMIN") %}<li><a href="{{ path('birds_en_attente') }}" class="text-right">En attente</a></li>{% endif %}
-                            {% if is_granted("ROLE_NATURALIST") %}<li><a href="#" class="text-right"> Mes articles</a></li>{% endif %}
+                            {% if is_granted("ROLE_NATURALIST") %}<li><a href="{{path('article_myarticles')}}" class="text-right">Mes articles</a></li>{% endif %}
                             <li><a href="{{ path('fos_user_security_logout') }}" class="text-right">Déconnexion</a></li>
                             {% if is_granted("ROLE_ADMIN") %} <li><a href="{{ path('admin') }}" class="text-center">Administration</a></li> {% endif %}
                         </ul>
-
                     </li>
-
                 {% else %}
                     <li class="hide-above-xs">
                         <a href="{{ path('fos_user_security_login') }}" class="text-center">
@@ -90,6 +98,7 @@
                         </a>
                     </li>
                 {% endif %}
+                
             </ul>
         </div>
     </nav>
@@ -154,9 +163,22 @@
     </footer>
 
 {% block js %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://www.w3schools.com/lib/w3.js"></script>
+   <!-- include libraries(jQuery, bootstrap) -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
+
+<!-- include summernote css/js -->
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>
+    
+    <script type="text/javascript">
+    $(document).ready(function() {
+    $('#summernote').summernote();
+    });
+    </script>
 {% endblock %}
 
 </body>

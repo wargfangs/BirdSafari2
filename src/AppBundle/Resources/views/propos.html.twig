@@ -12,7 +12,7 @@
             <div class="col-md-12">
                 <h2 class="text-center">Notre mission</h2>
                 <div class="col-md-3 videoPlace"> <div class="col-md-12">
-                        <video class="col-md-12 col-sm-8 col-sm-offset-2 col-xs-12 text-center" width="300"  controls>
+                        <video id="placementVid"  width="360"  controls> <!--class="col-md-12 col-sm-8 col-sm-offset-2 col-xs-12 text-center"-->
                             <source src="{{ asset('video/Le changement climatique menace l\'avifaune en Inde.mp4') }}" type="video/mp4">
                             Your browser doesn't support this kind of video.
                         </video>
@@ -29,7 +29,7 @@
                         <p>
                             il a aussi la faculté de réparer.
                             Ce même homme qui a l’humilité de réparer peut également avoir le courage de défendre.
-                            Pour faire partie du projet, il suffit de regarder le ciel et de photographier les oiseaux que vous voyez. Avec ce geste simple, vous nous aiderez à localiser les espèces de la région.
+                            <strong>Pour faire partie du projet, il suffit de regarder le ciel et de photographier les oiseaux que vous voyez. Avec ce geste simple, vous nous aiderez à localiser les espèces de la région.</strong>
                         </p>
                     </div></div>
                 <div class="col-md-3"> <div class="col-md-offset-1 col-md-10">
@@ -39,11 +39,19 @@
 
                         </p>
                     </div></div>
-            </div>
-        </div>
-        <div class="row text-center global-marg">
 
-            <a href="{{ path("birds_observations_add") }}" class="btn btn-lg btn-info">Ajoutez une observation d'oiseau</a>
+
+            </div>
+            <div class="row text-center global-marg">
+                <div class="row global-marg-xs">
+
+                    <img  src="{{ asset("img/notreMission/promotion.png") }}" alt="Promotion de mission"/>
+                </div>
+                <div class="row">
+                    <a href="{{ path("birds_observations_add") }}" class="btn btn-lg btn-info">Ajoutez une observation d'oiseau</a>
+
+                </div>
+            </div>
         </div>
 
         <div class="row missionRow">
@@ -68,7 +76,7 @@
                 <div class="col-md-3"> <div class="col-md-offset-1 col-md-10">
                         <p>
                             en cliquant sur les photos que vous trouverez sur notre site
-                            et en vous inscrivant à notre journal hebdomadaire pour y retrouver chaque semaine une sélection préparée par nos soins.
+                            et <strong>en vous inscrivant à notre newsletter mensuelle</strong> pour y retrouver chaque semaine une sélection préparée par nos soins.
                             Construisons ensemble un avenir durable et respectueux de l’environnement.
                         </p>
                     </div></div>
@@ -77,9 +85,9 @@
                         'idCar':'1',
                         'slideNumber' : '3',
                         'picArray':[
-                            {'src':"img/notreMission/notre_mission_carrousel_bureau_1.jpg",'alt':"BlueBees"},
-                            {'src':"img/notreMission/notre_mission_carrousel_bureau_2.jpg",'alt':"care"},
-                            {'src':"img/notreMission/notre_mission_carrousel_bureau_3.jpg",'alt':"A.v.s.f."}
+                            {'src':"img/notreMission/notre_mission_carrousel_bureau_1.jpg",'alt':"BlueBees", 'href':"https://bluebees.fr/fr/"},
+                            {'src':"img/notreMission/notre_mission_carrousel_bureau_2.jpg",'alt':"care", 'href':"https://www.carefrance.org"},
+                            {'src':"img/notreMission/notre_mission_carrousel_bureau_3.jpg",'alt':"A.v.s.f.", 'href':"https://www.avsf.org/"}
                         ],
                         'class':'carousel-little'
                     } %}
@@ -123,11 +131,11 @@
                     'idCar':'2',
                     'slideNumber' : '5',
                     'picArray':[
-                    {'src':"img/notreMission/nos_partenaires_bureau_1.jpg",'alt':"CNRS"},
-                    {'src':"img/notreMission/nos_partenaires_bureau_5.jpg",'alt':"care"},
-                    {'src':"img/notreMission/nos_partenaires_bureau_2.jpg",'alt':"Muséum national d'histoire naturelle"},
-                    {'src':"img/notreMission/nos_partenaires_bureau_4.jpg",'alt':"ONU"},
-                    {'src':"img/notreMission/nos_partenaires_bureau_3.jpg",'alt':"WWF"}
+                    {'src':"img/notreMission/nos_partenaires_bureau_1.jpg",'alt':"CNRS", 'href':"http://www.cnrs.fr/"},
+                    {'src':"img/notreMission/nos_partenaires_bureau_5.jpg",'alt':"care", 'href':"https://www.avsf.org/"},
+                    {'src':"img/notreMission/nos_partenaires_bureau_2.jpg",'alt':"Muséum national d'histoire naturelle", 'href':"http://www.mnhn.fr/"},
+                    {'src':"img/notreMission/nos_partenaires_bureau_4.jpg",'alt':"ONU", 'href':"http://www.un.org/fr/index.html"},
+                    {'src':"img/notreMission/nos_partenaires_bureau_3.jpg",'alt':"WWF",'href':"https://www.wwf.fr/"}
                     ],
                     'class':'carousel-little'} %}
                 </div>
@@ -164,12 +172,12 @@
                                 des actions coordonnées transatlantiques.
                                 Les temps ont changé, mais les conséquences sont tous les jours un peu plus visibles.
                                 C’est là que l'idée de Nicolas Dujardin est devenue plus pertinente que jamais.
-                                En alliant nos forces avec Nos Amis les Oiseaux, nous avons la possibilité d’obtenir la plus grande base de données jamais
+                                <strong>En alliant nos forces avec Nos Amis les Oiseaux, nous avons la possibilité d’obtenir la plus grande base de données jamais</strong>
                             </p>
                         </div></div>
                     <div class="col-md-3"> <div class="col-md-offset-1 col-md-10">
                             <p id="text3">
-                                établie au monde sur les conséquences du réchauffement climatique sur les animaux.
+                                <strong>établie au monde</strong> sur les conséquences du réchauffement climatique sur les animaux.
                                 Si l'expérience s'avère concluante, nous globaliserons l’action.
                                 Tous ensemble nous pouvons construire un monde plus durable et plus respectueux de l’environnement.”
                                 Catherine Decker, Directrice de Recherche.
@@ -188,17 +196,16 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Ne partez pas tout de suite !!!</h4>
+                        <h4 class="modal-title text-center">Ne partez pas tout de suite !!!</h4>
                     </div>
-                    <div class="modal-body">
-                        <video class="text-center" width="400" height='240' controls>
-                            <source src="{{ asset('video/Le changement climatique menace l\'avifaune en Inde.mp4') }}" type="video/mp4">
+                    <div class="modal-body text-center">
+                        <video id="videoInPop" class="text-center" width="400" height='240' controls>
+                            <source src="{{ asset('video/BirdSafariVideoBySimonPDG.mp4') }}" type="video/mp4">
                             Your browser doesn't support this kind of video.
                         </video>
+                        <img id="propPopUp" src="{{ asset("img/notreMission/promotion.png") }}" alt="Promotion de mission"/>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                    </div>
+
                 </div>
 
             </div>

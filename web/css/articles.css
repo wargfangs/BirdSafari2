@@ -1,5 +1,5 @@
 body {
-    background-image: url("/BirdSafari/web/img/backgrounds/fond_articles_bureau.jpg");
+    background-image: url("../img/backgrounds/fond_articles_bureau.jpg");
     background-attachment: fixed;
 
 }

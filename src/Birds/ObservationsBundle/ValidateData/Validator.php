@@ -6,7 +6,7 @@ class Validator
 {
     /**
      * Test fonction to avoid bad data
-     * @param $date
+     * @param $date :string
      * @return bool|\DateTime|null
      */
     function matchDate($date)

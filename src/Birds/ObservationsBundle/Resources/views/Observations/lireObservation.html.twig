@@ -10,7 +10,7 @@
                 <div class="col-md-3 global-marg-xs">
 
                     <div class="global-marg-xs text-center">Auteur: {{ obs.user.username }}</div>
-                    <div class="global-marg-xs text-center">Titre: "{% if obs.description == "" %}Sans titre{% else %}{{ obs.description }}{% endif %}"
+                    <div class="global-marg-xs text-center">Titre: "{% if obs.title == "" %}Sans titre{% else %}{{ obs.title }}{% endif %}"
                     </div>
                     <div class="global-marg-xs text-center">Nom de l'oiseau: "{{ obs.birdname }}" </div>
                     <div class="global-marg-xs text-center">
@@ -20,14 +20,14 @@
 
                     </div>
                 </div>
-                <div class="col-md-5 global-marg-xs">
+                <div class="col-md-5 global-marg-xs pictureObs thumbnail">
 
 
                     {% if obs.image %}
                         <img class="col-xs-12" src="{{ asset(obs.image.src) }}" alt={{ obs.image.alt }}/>
                     {% else %}
                         <div class="row text-center">
-                            <img class="col-xs-5 col-md-12" src="{{ asset('img/noPic.png') }}" alt="No image"/>
+                            <img class="col-xs-12 col-md-12" src="{{ asset('img/noPic.png') }}" alt="No image"/>
                         </div>
                     {% endif %}
 

@@ -84,13 +84,13 @@ class User extends BaseUser
     
     /**
      * 
-     * @ORM\OneToMany(targetEntity="DevTools\BlogBundle\Entity\Article", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Birds\BlogBundle\Entity\Article", mappedBy="user", cascade={"persist", "remove"})
      */
     private $articles; // Notez le « s », un user est lié à plusieurs articles
     
     /**
      * 
-     * @ORM\OneToMany(targetEntity="DevTools\BlogBundle\Entity\Comment", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Birds\BlogBundle\Entity\Comment", mappedBy="user", cascade={"persist", "remove"})
      */
     private $comments; // Notez le « s », un user est lié à plusieurs commentaires
 
@@ -315,11 +315,11 @@ class User extends BaseUser
     /**
      * Add article
      *
-     * @param \DevTools\BlogBundle\Entity\Article $article
+     * @param \Birds\BlogBundle\Entity\Article $article
      *
      * @return User
      */
-    public function addArticle(\DevTools\BlogBundle\Entity\Article $article)
+    public function addArticle(\Birds\BlogBundle\Entity\Article $article)
     {
         $this->articles[] = $article;
 
@@ -329,9 +329,9 @@ class User extends BaseUser
     /**
      * Remove article
      *
-     * @param \DevTools\BlogBundle\Entity\Article $article
+     * @param \Birds\BlogBundle\Entity\Article $article
      */
-    public function removeArticle(\DevTools\BlogBundle\Entity\Article $article)
+    public function removeArticle(\Birds\BlogBundle\Entity\Article $article)
     {
         $this->articles->removeElement($article);
     }
@@ -349,11 +349,11 @@ class User extends BaseUser
     /**
      * Add comment
      *
-     * @param \DevTools\BlogBundle\Entity\Comment $comment
+     * @param \Birds\BlogBundle\Entity\Comment $comment
      *
      * @return User
      */
-    public function addComment(\DevTools\BlogBundle\Entity\Comment $comment)
+    public function addComment(\Birds\BlogBundle\Entity\Comment $comment)
     {
         $this->comments[] = $comment;
 
@@ -363,9 +363,9 @@ class User extends BaseUser
     /**
      * Remove comment
      *
-     * @param \DevTools\BlogBundle\Entity\Comment $comment
+     * @param \Birds\BlogBundle\Entity\Comment $comment
      */
-    public function removeComment(\DevTools\BlogBundle\Entity\Comment $comment)
+    public function removeComment(\Birds\BlogBundle\Entity\Comment $comment)
     {
         $this->comments->removeElement($comment);
     }

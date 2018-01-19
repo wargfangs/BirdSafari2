@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - Articles{% endblock %}
+{% block css %}{{ parent() }}
+    <link href="{{ asset('css/articles.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <h1>Créer un article</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.title) }}
+        {{ form_row(form.content, {'id': 'summernote'}) }}
+        <input type="submit" value="Valider" />
+    {{ form_end(form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('article_index') }}">Retour à la liste des articles</a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block javascripts %}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+    $('#summernote').summernote();
+    });
+ </script>
+
+{% endblock %}
+
